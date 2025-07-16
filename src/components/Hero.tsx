@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { ArrowRight, Heart } from 'lucide-react';
-import heroBackground from '@/assets/hero-background.jpg';
+import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 const Hero = () => {
   const [email, setEmail] = useState('');
@@ -15,24 +15,15 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-cream to-background">
-      {/* Gentle abstract maternal shapes */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Abstract mother-baby silhouettes */}
-        <div className="absolute top-20 left-1/4 w-40 h-60 mother-baby-silhouette opacity-20 animate-float" />
-        <div className="absolute bottom-32 right-1/3 w-32 h-48 embrace-silhouette opacity-15 animate-float" style={{ animationDelay: '3s' }} />
-        
-        {/* Organic flowing shapes */}
-        <div className="absolute top-1/3 right-20 w-24 h-36 flowing-form opacity-25 animate-float" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute bottom-20 left-16 w-28 h-40 nurturing-curve opacity-20 animate-float" style={{ animationDelay: '4s' }} />
-        
-        {/* Gentle circular forms */}
-        <div className="absolute top-40 right-1/4 w-16 h-16 gentle-circle opacity-30 animate-float" style={{ animationDelay: '2.5s' }} />
-        <div className="absolute bottom-40 left-1/3 w-20 h-20 soft-orb opacity-25 animate-float" style={{ animationDelay: '5s' }} />
-        
-        {/* Test element to verify CSS is loading */}
-        <div className="absolute top-10 left-10 w-8 h-8 bg-red-500 opacity-50" />
-      </div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Watercolor background */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
+        style={{ backgroundImage: `url(${watercolorBg})` }}
+      />
+      
+      {/* Gradient overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/30" />
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">
