@@ -1,4 +1,4 @@
-import { Heart, Moon, Users, Sparkles, Leaf, Baby } from 'lucide-react';
+import { Heart, Moon, Users, Sparkles, Shield, Baby } from 'lucide-react';
 import { Card } from './ui/card';
 
 const features = [
@@ -23,7 +23,7 @@ const features = [
     description: "Flexible, intuitive approaches to daily rhythms that honor your baby's natural patterns and your needs."
   },
   {
-    icon: Leaf,
+    icon: Shield,
     title: "Natural Care",
     description: "Holistic approaches to hygiene, nutrition, and wellness that align with your values and instincts."
   },
