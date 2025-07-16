@@ -31,11 +31,13 @@ const Hero = () => {
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">
         {/* Logo/Brand Name */}
         <div className="mb-8">
-          {/* Spiral Symbol */}
+          {/* MomWise Logo */}
           <div className="mx-auto w-20 h-20 mb-6 relative">
-            <div className="absolute inset-0 spiral-element opacity-80" />
-            <div className="absolute inset-2 spiral-element opacity-60" />
-            <div className="absolute inset-4 spiral-element opacity-40" />
+            <img 
+              src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
+              alt="MomWise Logo" 
+              className="w-full h-full object-contain opacity-90"
+            />
           </div>
           
           <h1 className="font-playfair text-7xl md:text-8xl font-semibold text-foreground mb-4">
