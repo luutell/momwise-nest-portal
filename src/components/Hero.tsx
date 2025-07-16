@@ -22,8 +22,7 @@ const Hero = () => {
         style={{ backgroundImage: `url(${heroBackground})` }}
       />
       
-      {/* Minimal organic floating elements */}
-      <div className="absolute bottom-20 right-10 w-16 h-16 spiral-element animate-float opacity-20" style={{ animationDelay: '4s' }} />
+      {/* Clean design without decorative elements */}
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">
