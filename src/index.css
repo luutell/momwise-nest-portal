@@ -156,8 +156,12 @@ All colors MUST be HSL.
   
   /* Button variants */
   .btn-organic {
-    @apply bg-primary text-primary-foreground px-8 py-4 rounded-full hover:shadow-warm transition-all duration-300 hover:scale-105;
+    @apply bg-primary text-primary-foreground px-8 py-4 rounded-full transition-all duration-300 hover:scale-105;
     box-shadow: var(--shadow-soft);
+  }
+  
+  .btn-organic:hover {
+    box-shadow: var(--shadow-warm);
   }
   
   .btn-ghost {

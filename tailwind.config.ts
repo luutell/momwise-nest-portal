@@ -82,6 +82,11 @@ export default {
 				'playfair': ['Playfair Display', 'serif'],
 				'mono-space': ['Space Mono', 'monospace'],
 			},
+			boxShadow: {
+				'soft': '0 4px 20px hsl(var(--sage) / 0.1)',
+				'warm': '0 8px 30px hsl(var(--terracotta) / 0.15)',
+				'organic': '0 10px 40px hsl(var(--sage) / 0.08)',
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
