@@ -30,7 +30,7 @@ const Hero = () => {
         {/* Logo/Brand Name */}
         <div className="mb-8">
           {/* MomWise Logo */}
-          <div className="mx-auto w-32 h-32 mb-4 relative">
+          <div className="mx-auto w-32 h-32 mb-1 relative">
             <img 
               src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
               alt="MomWise Logo" 
@@ -39,7 +39,7 @@ const Hero = () => {
           </div>
           
           <h1 className="font-playfair text-7xl md:text-8xl font-semibold mb-4">
-            <span className="text-terracotta">Mom</span><span className="text-foreground">Wise</span>
+            <span className="text-terracotta">mom</span><span className="text-foreground">wise</span>
           </h1>
         </div>
         
