@@ -39,7 +39,7 @@ const Hero = () => {
           </div>
           
           <h1 className="font-playfair text-7xl md:text-8xl font-semibold text-foreground mb-4">
-            momwise
+            MomWise
           </h1>
         </div>
         
