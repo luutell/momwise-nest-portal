@@ -143,33 +143,40 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Organic shapes and animations */
-  .organic-blob {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    background: var(--gradient-organic);
-    position: relative;
+  /* Abstract maternal shapes - gentle and non-cliché */
+  .mother-baby-silhouette {
+    background: radial-gradient(ellipse 70% 80% at 30% 40%, hsl(var(--sage) / 0.15), transparent 60%),
+                radial-gradient(ellipse 40% 50% at 65% 70%, hsl(var(--terracotta) / 0.08), transparent 70%);
+    border-radius: 45% 55% 60% 40% / 50% 70% 30% 50%;
+    transform: rotate(-10deg);
   }
   
-  .organic-blob::before {
-    content: '';
-    position: absolute;
-    top: 20%;
-    left: 15%;
-    width: 40%;
-    height: 60%;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='1.5'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
-    opacity: 0.6;
+  .embrace-silhouette {
+    background: linear-gradient(135deg, hsl(var(--sage) / 0.12), transparent 70%);
+    border-radius: 60% 40% 70% 30% / 40% 60% 40% 60%;
+    transform: rotate(15deg);
   }
   
-  .organic-blob:nth-child(odd)::before {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='1.5'%3E%3Cpath d='M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z'/%3E%3Cpath d='m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9'/%3E%3Cpath d='M12 3v6'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
+  .flowing-form {
+    background: radial-gradient(ellipse at top, hsl(var(--terracotta) / 0.08), transparent 80%);
+    border-radius: 30% 70% 70% 30% / 60% 40% 60% 40%;
+    transform: rotate(-25deg);
   }
   
-  .spiral-element {
-    background: conic-gradient(from 0deg, transparent, hsl(var(--sage) / 0.2), transparent);
+  .nurturing-curve {
+    background: conic-gradient(from 45deg, transparent, hsl(var(--sage) / 0.1), transparent 70%);
+    border-radius: 70% 30% 40% 60% / 50% 50% 50% 50%;
+    transform: rotate(20deg);
+  }
+  
+  .gentle-circle {
+    background: radial-gradient(circle, hsl(var(--sage) / 0.15), transparent 70%);
     border-radius: 50%;
+  }
+  
+  .soft-orb {
+    background: radial-gradient(ellipse, hsl(var(--terracotta) / 0.1), transparent 60%);
+    border-radius: 60% 40% 50% 50% / 70% 70% 30% 30%;
   }
   
    /* Button variants */
