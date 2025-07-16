@@ -172,9 +172,9 @@ All colors MUST be HSL.
     border-radius: 50%;
   }
   
-  /* Button variants */
+   /* Button variants */
   .btn-organic {
-    @apply bg-primary text-primary-foreground px-8 py-4 rounded-full transition-all duration-300 hover:scale-105;
+    @apply bg-terracotta text-cream px-8 py-4 rounded-full transition-all duration-300 hover:scale-105;
     box-shadow: var(--shadow-soft);
   }
   

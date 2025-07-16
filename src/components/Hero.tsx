@@ -22,17 +22,15 @@ const Hero = () => {
         style={{ backgroundImage: `url(${heroBackground})` }}
       />
       
-      {/* Organic floating elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 organic-blob animate-float opacity-30" />
-      <div className="absolute bottom-20 right-10 w-24 h-24 spiral-element animate-float opacity-40" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-1/3 right-1/4 w-16 h-16 organic-blob animate-float opacity-20" style={{ animationDelay: '4s' }} />
+      {/* Minimal organic floating elements */}
+      <div className="absolute bottom-20 right-10 w-16 h-16 spiral-element animate-float opacity-20" style={{ animationDelay: '4s' }} />
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">
         {/* Logo/Brand Name */}
         <div className="mb-8">
           {/* MomWise Logo */}
-          <div className="mx-auto w-20 h-20 mb-6 relative">
+          <div className="mx-auto w-32 h-32 mb-4 relative">
             <img 
               src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
               alt="MomWise Logo" 
@@ -40,8 +38,8 @@ const Hero = () => {
             />
           </div>
           
-          <h1 className="font-playfair text-7xl md:text-8xl font-semibold text-foreground mb-4">
-            MomWise
+          <h1 className="font-playfair text-7xl md:text-8xl font-semibold mb-4">
+            <span className="text-terracotta">Mom</span><span className="text-foreground">Wise</span>
           </h1>
         </div>
         
