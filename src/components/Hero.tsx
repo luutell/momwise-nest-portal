@@ -19,16 +19,19 @@ const Hero = () => {
       {/* Gentle abstract maternal shapes */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Abstract mother-baby silhouettes */}
-        <div className="absolute top-20 left-1/4 w-40 h-60 mother-baby-silhouette opacity-5 animate-float" />
-        <div className="absolute bottom-32 right-1/3 w-32 h-48 embrace-silhouette opacity-4 animate-float" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-20 left-1/4 w-40 h-60 mother-baby-silhouette opacity-20 animate-float" />
+        <div className="absolute bottom-32 right-1/3 w-32 h-48 embrace-silhouette opacity-15 animate-float" style={{ animationDelay: '3s' }} />
         
         {/* Organic flowing shapes */}
-        <div className="absolute top-1/3 right-20 w-24 h-36 flowing-form opacity-6 animate-float" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute bottom-20 left-16 w-28 h-40 nurturing-curve opacity-5 animate-float" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/3 right-20 w-24 h-36 flowing-form opacity-25 animate-float" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute bottom-20 left-16 w-28 h-40 nurturing-curve opacity-20 animate-float" style={{ animationDelay: '4s' }} />
         
         {/* Gentle circular forms */}
-        <div className="absolute top-40 right-1/4 w-16 h-16 gentle-circle opacity-8 animate-float" style={{ animationDelay: '2.5s' }} />
-        <div className="absolute bottom-40 left-1/3 w-20 h-20 soft-orb opacity-6 animate-float" style={{ animationDelay: '5s' }} />
+        <div className="absolute top-40 right-1/4 w-16 h-16 gentle-circle opacity-30 animate-float" style={{ animationDelay: '2.5s' }} />
+        <div className="absolute bottom-40 left-1/3 w-20 h-20 soft-orb opacity-25 animate-float" style={{ animationDelay: '5s' }} />
+        
+        {/* Test element to verify CSS is loading */}
+        <div className="absolute top-10 left-10 w-8 h-8 bg-red-500 opacity-50" />
       </div>
       
       {/* Content */}
