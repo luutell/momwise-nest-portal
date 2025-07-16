@@ -61,7 +61,26 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// MomWise brand colors
+				terracotta: {
+					DEFAULT: 'hsl(var(--terracotta))',
+					light: 'hsl(var(--terracotta-light))',
+					dark: 'hsl(var(--terracotta-dark))'
+				},
+				sage: {
+					DEFAULT: 'hsl(var(--sage))',
+					light: 'hsl(var(--sage-light))',
+					dark: 'hsl(var(--sage-dark))'
+				},
+				cream: {
+					DEFAULT: 'hsl(var(--cream))',
+					warm: 'hsl(var(--cream-warm))'
 				}
+			},
+			fontFamily: {
+				'playfair': ['Playfair Display', 'serif'],
+				'mono-space': ['Space Mono', 'monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

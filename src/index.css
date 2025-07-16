@@ -2,41 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* MomWise Design System - Maternal warmth and natural aesthetics
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core MomWise Color Palette */
+    --background: 36 33% 95%; /* Soft off-white with warm undertones */
+    --foreground: 25 40% 20%; /* Deep warm brown for text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 36 33% 97%;
+    --card-foreground: 25 40% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 36 33% 97%;
+    --popover-foreground: 25 40% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Deep terracotta as primary */
+    --primary: 16 65% 45%; /* Deep terracotta */
+    --primary-foreground: 36 33% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Sage green as secondary */
+    --secondary: 110 25% 55%; /* Sage green */
+    --secondary-foreground: 25 40% 20%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 110 15% 85%; /* Soft sage for muted elements */
+    --muted-foreground: 25 25% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 36 45% 85%; /* Warm cream accent */
+    --accent-foreground: 25 40% 20%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 36 33% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 110 15% 80%;
+    --input: 110 15% 85%;
+    --ring: 16 65% 45%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+    
+    /* MomWise Custom Colors */
+    --terracotta: 16 65% 45%;
+    --terracotta-light: 16 65% 65%;
+    --terracotta-dark: 16 65% 35%;
+    
+    --sage: 110 25% 55%;
+    --sage-light: 110 25% 75%;
+    --sage-dark: 110 25% 35%;
+    
+    --cream: 36 33% 95%;
+    --cream-warm: 36 45% 90%;
+    
+    /* Gradients */
+    --gradient-warm: linear-gradient(135deg, hsl(var(--terracotta)) 0%, hsl(var(--sage)) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--cream-warm)) 100%);
+    --gradient-organic: radial-gradient(ellipse at top, hsl(var(--sage-light) / 0.1) 0%, transparent 70%);
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px hsl(var(--sage) / 0.1);
+    --shadow-warm: 0 8px 30px hsl(var(--terracotta) / 0.15);
+    --shadow-organic: 0 10px 40px hsl(var(--sage) / 0.08);
+    
+    /* Animations */
+    --transition-organic: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-gentle: all 0.3s ease-out;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +129,71 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  
+  /* Custom typography */
+  .font-playfair {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .font-mono-space {
+    font-family: 'Space Mono', monospace;
+  }
+}
+
+@layer components {
+  /* Organic shapes and animations */
+  .organic-blob {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    background: var(--gradient-organic);
+  }
+  
+  .spiral-element {
+    background: conic-gradient(from 0deg, transparent, hsl(var(--sage) / 0.2), transparent);
+    border-radius: 50%;
+  }
+  
+  /* Button variants */
+  .btn-organic {
+    @apply bg-primary text-primary-foreground px-8 py-4 rounded-full hover:shadow-warm transition-all duration-300 hover:scale-105;
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent border border-sage text-sage hover:bg-sage hover:text-background px-6 py-3 rounded-full;
+    transition: var(--transition-gentle);
+  }
+  
+  /* Input styling */
+  .input-organic {
+    @apply bg-cream border-sage/30 rounded-full px-6 py-4 focus:border-sage focus:ring-2 focus:ring-sage/20;
+    box-shadow: var(--shadow-soft);
+  }
+  
+  /* Floating animation */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Gentle fade in */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
