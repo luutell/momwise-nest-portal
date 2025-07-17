@@ -36,7 +36,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-background to-terracotta/20">
+    <section className="py-20 px-6 bg-gradient-to-b from-background to-terracotta/85">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="font-playfair text-4xl md:text-5xl font-semibold text-foreground mb-6">
@@ -56,7 +56,7 @@ const Features = () => {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-sage-light to-sage rounded-full flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-sage to-terracotta rounded-full flex items-center justify-center mb-6">
                   <feature.icon className="h-8 w-8 text-background" />
                 </div>
                 <h3 className="font-playfair text-xl font-semibold text-foreground mb-4">
