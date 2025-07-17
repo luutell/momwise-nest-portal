@@ -4,38 +4,26 @@ import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 const Footer = () => {
   return (
     <>
-      {/* Seamless watercolor transition that flows into footer */}
+      {/* Watercolor background in transition area between testimonials and footer */}
       <div className="relative">
-        {/* Watercolor background that extends seamlessly */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{ 
-            backgroundImage: `url(${watercolorBg})`,
-            backgroundSize: 'cover',
-            height: '150vh' // Extend beyond the visible area
-          }}
-        />
+        {/* Transition section with watercolor */}
+        <div className="h-32 relative overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25"
+            style={{ backgroundImage: `url(${watercolorBg})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-sage/5 via-emerald-900/70 to-emerald-900"></div>
+        </div>
         
-        {/* Gradient overlay for seamless color transition */}
-        <div className="absolute inset-0 bg-gradient-to-b from-sage/5 via-emerald-900/60 to-emerald-900"></div>
-        
-        {/* Transition section */}
-        <div className="h-24 relative z-10"></div>
-        
-        <footer className="py-16 px-6 relative z-10">
+        <footer className="py-16 px-6 bg-emerald-900 relative z-10">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Logo - with watercolor overlay */}
+          {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">
             <div className="mx-auto w-24 h-24 mb-4 relative">
               <img 
                 src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
                 alt="MomWise Logo" 
                 className="w-full h-full object-contain brightness-0 invert opacity-90"
-              />
-              {/* Watercolor overlay on logo */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 rounded-full"
-                style={{ backgroundImage: `url(${watercolorBg})` }}
               />
             </div>
             <h3 className="font-playfair text-5xl font-semibold mb-2">
