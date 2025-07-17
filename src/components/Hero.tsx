@@ -59,29 +59,24 @@ const Hero = () => {
         </div>
         
         {/* Email Signup */}
-        <div className="max-w-md mx-auto mb-8 relative">
-          {/* Gradient beige background */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-sand/60 rounded-2xl -mx-8 -my-6 px-8 py-6"></div>
-          
-          <div className="relative z-10">
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
-              <Input
-                type="email"
-                placeholder={t('hero.email.placeholder')}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="input-organic flex-1 text-center sm:text-left"
-              />
-              <Button type="submit" className="btn-organic group">
-                {t('hero.join.waitlist')}
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </form>
-            <p className="text-sm text-muted-foreground mt-3">
-              {t('hero.email.description')}
-            </p>
-          </div>
+        <div className="max-w-md mx-auto mb-8">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+            <Input
+              type="email"
+              placeholder={t('hero.email.placeholder')}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="input-organic flex-1 text-center sm:text-left"
+            />
+            <Button type="submit" className="btn-organic group">
+              {t('hero.join.waitlist')}
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </form>
+          <p className="text-sm text-muted-foreground mt-3">
+            {t('hero.email.description')}
+          </p>
         </div>
         
         {/* Mobile App Preview */}
