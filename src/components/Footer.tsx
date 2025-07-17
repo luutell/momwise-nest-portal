@@ -4,10 +4,10 @@ import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 const Footer = () => {
   return (
     <>
-      {/* Full watercolor background - same style as header */}
+      {/* Full watercolor from testimonials to just before subtitle */}
       <div className="relative">
-        {/* Large watercolor section covering significant area */}
-        <div className="h-96 relative overflow-hidden">
+        {/* Large watercolor section extending from testimonials */}
+        <div className="h-[600px] relative overflow-hidden">
           <div 
             className="absolute top-0 left-0 right-0 h-full bg-cover bg-center bg-no-repeat opacity-30"
             style={{ backgroundImage: `url(${watercolorBg})` }}
@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-emerald-900/90"></div>
         </div>
         
-        <footer className="py-16 px-6 bg-emerald-900 relative z-10 -mt-64">
+        <footer className="py-16 px-6 bg-emerald-900 relative z-10 -mt-[200px]">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">
