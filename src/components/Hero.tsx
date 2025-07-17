@@ -16,9 +16,9 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Watercolor background - positioned to show until subtitle */}
+      {/* Watercolor background - positioned between logo and subtitle */}
       <div 
-        className="absolute top-0 left-0 right-0 h-3/5 bg-cover bg-center bg-no-repeat opacity-30"
+        className="absolute top-1/4 left-0 right-0 h-1/3 bg-cover bg-center bg-no-repeat opacity-[18%]"
         style={{ backgroundImage: `url(${watercolorBg})` }}
       />
       
