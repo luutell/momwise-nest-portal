@@ -20,7 +20,7 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Watercolor background - barely touching manifesto */}
       <div 
-        className="absolute top-0 left-0 right-0 h-3/5 bg-cover bg-center bg-no-repeat opacity-30"
+        className="absolute top-0 left-0 right-0 h-3/5 bg-cover bg-top bg-no-repeat opacity-60"
         style={{ backgroundImage: `url(${watercolorBg})` }}
       />
       

@@ -13,7 +13,7 @@ const Footer = () => {
         {/* Watercolor section with smooth fade-out */}
         <div className="h-[500px] relative overflow-hidden">
           <div 
-            className="absolute top-0 left-0 right-0 h-full bg-cover bg-center bg-no-repeat opacity-30"
+            className="absolute top-0 left-0 right-0 h-full bg-cover bg-top bg-no-repeat opacity-60"
             style={{ backgroundImage: `url(${watercolorBg})` }}
           />
           {/* Gradient that fades watercolor to completely transparent */}
