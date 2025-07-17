@@ -52,10 +52,10 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Watercolor background - 15% more translucent, positioned higher */}
       <div 
-        className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-70"
+        className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-55"
         style={{ 
           backgroundImage: `url(${watercolorBg})`,
-          backgroundPosition: 'center top',
+          backgroundPosition: 'center 20%',
           backgroundSize: 'cover'
         }}
       />
