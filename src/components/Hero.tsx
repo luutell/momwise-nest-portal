@@ -1,62 +1,31 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { ArrowRight, Heart, CheckCircle } from 'lucide-react';
+import { ArrowRight, Heart } from 'lucide-react';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
 
 const Hero = () => {
   const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const { t } = useLanguage();
-  const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const { data, error } = await supabase
-        .from('waitlist_emails')
-        .insert([{ email }]);
-
-      if (error) throw error;
-
-      setEmail('');
-      setIsSubmitted(true);
-      toast({
-        title: "Email cadastrado com sucesso!",
-        description: "Você será notificado quando o MomWise estiver disponível.",
-      });
-
-      // Reset success state after 5 seconds
-      setTimeout(() => setIsSubmitted(false), 5000);
-    } catch (error: any) {
-      console.error('Error saving email:', error);
-      toast({
-        title: "Erro ao cadastrar email",
-        description: error.message.includes('duplicate') 
-          ? "Este email já está em nossa lista de espera."
-          : "Tente novamente em alguns momentos.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Handle email submission
+    console.log('Email submitted:', email);
+    setEmail('');
   };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Watercolor background positioned at top with increased translucency */}
+      {/* Watercolor background - barely touching manifesto */}
       <div 
-        className="absolute inset-0 bg-cover bg-top bg-no-repeat opacity-45"
+        className="absolute top-0 left-0 right-0 h-3/5 bg-cover bg-center bg-no-repeat opacity-30"
         style={{ backgroundImage: `url(${watercolorBg})` }}
       />
-      {/* Smooth gradient transition to next section */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
+      
+      {/* Gradient overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/10" />
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">
@@ -99,23 +68,9 @@ const Hero = () => {
               required
               className="input-organic flex-1 text-center sm:text-left"
             />
-            <Button 
-              type="submit" 
-              className="btn-organic group" 
-              disabled={isSubmitting || isSubmitted}
-            >
-              {isSubmitting ? 'Cadastrando...' : 
-               isSubmitted ? (
-                 <>
-                   <CheckCircle className="mr-2 h-4 w-4" />
-                   Cadastrado!
-                 </>
-               ) : (
-                 <>
-                   {t('hero.join.waitlist')}
-                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                 </>
-               )}
+            <Button type="submit" className="btn-organic group">
+              {t('hero.join.waitlist')}
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </form>
           <p className="text-sm text-muted-foreground mt-3">
