@@ -50,18 +50,18 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Watercolor background - 15% more translucent, positioned higher */}
+      {/* Watercolor background - same design, 15% more translucent, positioned higher */}
       <div 
-        className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-55"
+        className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-60"
         style={{ 
           backgroundImage: `url(${watercolorBg})`,
-          backgroundPosition: 'center 20%',
+          backgroundPosition: 'center 15%',
           backgroundSize: 'cover'
         }}
       />
       
-      {/* Gradient overlay for smooth transition to next section */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60 z-5" />
+      {/* Smooth gradient transition to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background/80 via-background/40 to-transparent z-5" />
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">

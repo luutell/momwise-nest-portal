@@ -9,12 +9,12 @@ const Footer = () => {
   return (
     <>
       <footer className="py-16 px-6 relative overflow-hidden">
-        {/* Watercolor background - 15% more translucent, positioned higher */}
+        {/* Watercolor background - same design, 15% more translucent, positioned higher */}
         <div 
-          className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-55"
+          className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-60"
           style={{ 
             backgroundImage: `url(${watercolorBg})`,
-            backgroundPosition: 'center 20%',
+            backgroundPosition: 'center 15%',
             backgroundSize: 'cover'
           }}
         />
@@ -22,8 +22,8 @@ const Footer = () => {
         {/* Dark overlay for footer contrast */}
         <div className="absolute inset-0 bg-emerald-900/40 backdrop-blur-sm z-5" />
         
-        {/* Gradient overlay for smooth transition from previous section */}
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-background/60 z-5" />
+        {/* Smooth gradient transition from previous section */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background/80 via-background/40 to-transparent z-5" />
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
