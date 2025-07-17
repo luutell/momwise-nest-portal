@@ -24,7 +24,7 @@ const features = [
   },
   {
     icon: Shield,
-    title: "Natural Care",
+    title: "Holistic Wellness",
     description: "Holistic approaches to hygiene, nutrition, and wellness that align with your values and instincts."
   },
   {
