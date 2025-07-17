@@ -51,8 +51,8 @@ const Hero = () => {
         {/* Manifesto */}
         <div className="max-w-2xl mx-auto mb-12">
           <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light">
-            A sacred space for mothers seeking gentle guidance, ancestral wisdom, and modern expertise. 
-            Where intuition meets knowledge, and every mother's journey is honored with warmth and understanding.
+            MomWise combines the wisdom of generations with modern expertise, creating 
+            a nurturing and non-judgmental space where every mother's journey is honored with warmth and understanding.
           </p>
         </div>
         
