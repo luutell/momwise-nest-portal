@@ -115,36 +115,36 @@ const Features = () => {
                         <div className="bg-sage/10 rounded-xl p-4 border-l-4 border-sage">
                           <h4 className="font-semibold text-foreground mb-2">Week 8</h4>
                           <div className="flex flex-wrap gap-2">
-                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Sleep</span>
-                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Self Routine</span>
-                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Emotional Support</span>
+                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Breastfeeding</span>
+                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Baby Sleep</span>
+                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Bonding</span>
                           </div>
                         </div>
                         
                         <div className="bg-terracotta/10 rounded-xl p-4 border-l-4 border-terracotta">
                           <h4 className="font-semibold text-foreground mb-2">Week 12</h4>
                           <div className="flex flex-wrap gap-2">
-                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Feeding</span>
-                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Growth Tracking</span>
-                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Wellness</span>
+                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Baby Handling</span>
+                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Natural Hygiene</span>
+                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Routine</span>
                           </div>
                         </div>
                         
                         <div className="bg-sage/10 rounded-xl p-4 border-l-4 border-sage">
                           <h4 className="font-semibold text-foreground mb-2">Week 16</h4>
                           <div className="flex flex-wrap gap-2">
-                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Playtime</span>
-                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Development</span>
-                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Community</span>
+                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Food Introduction</span>
+                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Age Activities</span>
+                            <span className="bg-sage/20 text-sage text-xs px-2 py-1 rounded-full">Mental Health</span>
                           </div>
                         </div>
                         
                         <div className="bg-terracotta/10 rounded-xl p-4 border-l-4 border-terracotta">
                           <h4 className="font-semibold text-foreground mb-2">Week 20</h4>
                           <div className="flex flex-wrap gap-2">
-                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Milestones</span>
-                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Self Care</span>
-                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Nutrition</span>
+                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Holistic Wellness</span>
+                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Myth Busting</span>
+                            <span className="bg-terracotta/20 text-terracotta text-xs px-2 py-1 rounded-full">Postpartum</span>
                           </div>
                         </div>
                       </div>
