@@ -10,7 +10,10 @@ const Index = () => {
       {/* Global watercolor background */}
       <div 
         className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0"
-        style={{ backgroundImage: `url(${watercolorBg})` }}
+        style={{ 
+          backgroundImage: `url(${watercolorBg})`,
+          backgroundColor: '#f5f5f0' // Fallback color
+        }}
       />
       
       {/* Content with translucent backgrounds */}
