@@ -4,22 +4,25 @@ import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 const Footer = () => {
   return (
     <>
-      {/* Watercolor as elegant transition */}
-      <div className="relative h-24 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
-          style={{ backgroundImage: `url(${watercolorBg})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-sage/5 via-sage/10 to-emerald-900"></div>
-      </div>
-      
-      <footer className="py-16 px-6 bg-emerald-900 text-background relative">
-        {/* Watercolor background overlay */}
+      {/* Seamless watercolor transition that flows into footer */}
+      <div className="relative">
+        {/* Watercolor background that extends seamlessly */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{ backgroundImage: `url(${watercolorBg})` }}
+          style={{ 
+            backgroundImage: `url(${watercolorBg})`,
+            backgroundSize: 'cover',
+            height: '150vh' // Extend beyond the visible area
+          }}
         />
         
+        {/* Gradient overlay for seamless color transition */}
+        <div className="absolute inset-0 bg-gradient-to-b from-sage/5 via-emerald-900/60 to-emerald-900"></div>
+        
+        {/* Transition section */}
+        <div className="h-24 relative z-10"></div>
+        
+        <footer className="py-16 px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - matching header style */}
           <div className="mb-8">
@@ -86,7 +89,8 @@ const Footer = () => {
             </p>
           </div>
         </div>
-      </footer>
+        </footer>
+      </div>
     </>
   );
 };
