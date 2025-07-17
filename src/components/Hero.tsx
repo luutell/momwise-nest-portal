@@ -16,9 +16,9 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Watercolor background - positioned from top to touch manifesto */}
+      {/* Watercolor background - barely touching manifesto */}
       <div 
-        className="absolute top-0 left-0 right-0 h-4/5 bg-cover bg-center bg-no-repeat opacity-30"
+        className="absolute top-0 left-0 right-0 h-3/5 bg-cover bg-center bg-no-repeat opacity-30"
         style={{ backgroundImage: `url(${watercolorBg})` }}
       />
       
@@ -44,7 +44,7 @@ const Hero = () => {
         </div>
         
         {/* Subtitle */}
-        <p className="font-mono-space text-lg md:text-xl text-sage-dark mb-8 tracking-wide">
+        <p className="font-mono-space text-lg md:text-xl text-sage-dark mb-8 tracking-wide -mt-2">
           Where maternal wisdom transcends
         </p>
         
