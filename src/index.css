@@ -253,8 +253,10 @@ All colors MUST be HSL.
   
   /* Input styling */
   .input-organic {
-    @apply bg-cream border-sage/30 rounded-full px-6 py-4 focus:border-sage focus:ring-2 focus:ring-sage/20;
+    @apply bg-transparent border-sage/30 rounded-full px-6 py-4 focus:border-sage focus:ring-2 focus:ring-sage/20;
     box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
   }
   
   /* Floating animation */
