@@ -24,13 +24,18 @@ const Footer = () => {
         
         <footer className="py-16 px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Logo - matching header style */}
+          {/* Logo - with watercolor overlay */}
           <div className="mb-8">
             <div className="mx-auto w-24 h-24 mb-4 relative">
               <img 
                 src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
                 alt="MomWise Logo" 
                 className="w-full h-full object-contain brightness-0 invert opacity-90"
+              />
+              {/* Watercolor overlay on logo */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 rounded-full"
+                style={{ backgroundImage: `url(${watercolorBg})` }}
               />
             </div>
             <h3 className="font-playfair text-5xl font-semibold mb-2">
