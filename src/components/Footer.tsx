@@ -17,7 +17,9 @@ const Footer = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent"></div>
         </div>
         
-        <footer className="py-16 px-6 bg-emerald-900/60 relative z-10 -mt-[100px]">
+        <footer className="py-16 px-6 bg-emerald-900 relative z-10 -mt-[100px]">
+          {/* Gradient overlay to create smooth transition from watercolor */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-900/30 to-emerald-900"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">
