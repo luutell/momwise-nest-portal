@@ -90,17 +90,28 @@ const Features = () => {
                       </div>
                     </div>
                     
-                    {/* App content - Weekly Categories */}
+                    {/* App content - Weekly Categories with Daily Wisdom */}
                     <div className="p-6 h-full bg-background">
-                      <div className="text-center mb-8">
+                      <div className="text-center mb-6">
                         <h3 className="font-playfair text-2xl font-semibold text-foreground mb-2">
                           Your Journey
                         </h3>
                         <p className="text-muted-foreground">Week by week guidance</p>
                       </div>
                       
+                      {/* Daily Wisdom Card */}
+                      <div className="bg-sage/5 rounded-xl p-4 border border-sage/20 mb-6">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Sparkles className="h-5 w-5 text-sage" />
+                          <span className="font-medium text-foreground">Daily Wisdom</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          "Trust your instincts, mama. You know your baby better than anyone else."
+                        </p>
+                      </div>
+                      
                       {/* Weekly Categories */}
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div className="bg-sage/10 rounded-xl p-4 border-l-4 border-sage">
                           <h4 className="font-semibold text-foreground mb-2">Week 8</h4>
                           <div className="flex flex-wrap gap-2">

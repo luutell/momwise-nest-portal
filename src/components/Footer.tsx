@@ -2,7 +2,7 @@ import { Heart, Instagram, Facebook, Twitter } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="py-16 px-6 bg-foreground text-background">
+    <footer className="py-16 px-6 bg-emerald-900 text-background">
       <div className="max-w-4xl mx-auto text-center">
         {/* Logo */}
         <div className="mb-8">
