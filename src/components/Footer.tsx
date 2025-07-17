@@ -10,17 +10,17 @@ const Footer = () => {
     <>
       {/* Watercolor that gradually fades to transparent before subtitle */}
       <div className="relative">
-        {/* Watercolor section with enhanced visibility */}
+        {/* Watercolor section with smooth fade-out */}
         <div className="h-[500px] relative overflow-hidden">
           <div 
-            className="absolute top-0 left-0 right-0 h-full bg-cover bg-top bg-no-repeat opacity-80"
+            className="absolute top-0 left-0 right-0 h-full bg-cover bg-top bg-no-repeat opacity-60"
             style={{ backgroundImage: `url(${watercolorBg})` }}
           />
-          {/* Translucent gradient showing watercolor through */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cream/30 to-cream/50"></div>
+          {/* Gradient that fades watercolor to completely transparent */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent"></div>
         </div>
         
-        <footer className="py-16 px-6 bg-gradient-to-b from-cream/40 via-sage/30 to-sage/60 relative z-10 -mt-[100px]">
+        <footer className="py-16 px-6 bg-gradient-to-b from-transparent via-emerald-900/80 to-emerald-900 relative z-10 -mt-[100px]">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">

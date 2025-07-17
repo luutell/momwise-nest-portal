@@ -19,14 +19,14 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Watercolor background - full coverage */}
+      {/* Watercolor background - barely touching manifesto */}
       <div 
-        className="absolute top-0 left-0 right-0 h-full bg-cover bg-top bg-no-repeat opacity-70"
+        className="absolute top-0 left-0 right-0 h-3/5 bg-cover bg-top bg-no-repeat opacity-60"
         style={{ backgroundImage: `url(${watercolorBg})` }}
       />
       
-      {/* Translucent gradient overlay showing watercolor through beige */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cream/40 via-cream/20 to-cream/60" />
+      {/* Gradient overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/10" />
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">
