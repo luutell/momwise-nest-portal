@@ -1,4 +1,4 @@
-import { Heart, Instagram, Facebook, Twitter, Home } from 'lucide-react';
+import { Heart, Instagram, Facebook, Twitter } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -8,9 +8,13 @@ const Footer = () => {
         <div className="mb-8">
           <div className="flex items-center justify-center gap-3 mb-2">
             <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center">
-              <Home className="h-6 w-6 text-sage-light" />
+              <img 
+                src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
+                alt="MomWise Logo" 
+                className="h-6 w-6"
+              />
             </div>
-            <h3 className="font-playfair text-3xl font-semibold">momwise nest</h3>
+            <h3 className="font-playfair text-3xl font-semibold">momwise</h3>
           </div>
           <p className="font-mono-space text-sage-light tracking-wide">
             Where maternal wisdom transcends
