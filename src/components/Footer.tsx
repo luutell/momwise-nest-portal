@@ -8,7 +8,14 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="py-16 px-6 bg-emerald-900/40 backdrop-blur-sm relative z-10 transition-all duration-1000 ease-in-out">
+      <footer className="py-16 px-6 relative z-10 transition-all duration-1000 ease-in-out">
+        {/* Watercolor background positioned at top with translucency */}
+        <div 
+          className="absolute inset-0 bg-cover bg-top bg-no-repeat opacity-45"
+          style={{ backgroundImage: `url(${watercolorBg})` }}
+        />
+        {/* Smooth gradient transition from previous section */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-emerald-900/40 to-emerald-900/60 backdrop-blur-sm" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">
