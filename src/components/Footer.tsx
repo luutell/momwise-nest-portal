@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">
-            <div className="mx-auto w-24 h-24 mb-0 relative">
+            <div className="mx-auto w-24 h-24 -mb-2 relative">
               <img 
                 src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
                 alt="MomWise Logo" 
