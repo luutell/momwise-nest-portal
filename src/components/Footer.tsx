@@ -1,75 +1,93 @@
 import { Heart, Instagram, Facebook, Twitter } from 'lucide-react';
+import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 const Footer = () => {
   return (
-    <footer className="py-16 px-6 bg-emerald-900 text-background">
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Logo */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center">
+    <>
+      {/* Watercolor transition from testimonials to footer */}
+      <div className="relative h-32 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 rotate-180"
+          style={{ backgroundImage: `url(${watercolorBg})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-sage/5 to-emerald-900" />
+      </div>
+      
+      <footer className="py-16 px-6 bg-emerald-900 text-background relative">
+        {/* Watercolor background overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: `url(${watercolorBg})` }}
+        />
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Logo - matching header style */}
+          <div className="mb-8">
+            <div className="mx-auto w-24 h-24 mb-4 relative">
               <img 
                 src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
                 alt="MomWise Logo" 
-                className="h-6 w-6"
+                className="w-full h-full object-contain brightness-0 invert opacity-90"
               />
             </div>
-            <h3 className="font-playfair text-3xl font-semibold">momwise</h3>
+            <h3 className="font-playfair text-5xl font-semibold mb-2">
+              <span className="text-background">mom</span><span className="text-sage-light">wise</span>
+            </h3>
+            <p className="font-mono-space text-sage-light tracking-wide text-lg">
+              Where maternal wisdom transcends
+            </p>
           </div>
-          <p className="font-mono-space text-sage-light tracking-wide">
-            Where maternal wisdom transcends
-          </p>
-        </div>
-        
-        {/* Message */}
-        <div className="mb-8 max-w-2xl mx-auto">
-          <p className="text-background/80 leading-relaxed">
-            We're crafting something beautiful for mothers everywhere. 
-            A digital sanctuary where wisdom flows freely and every mother's journey is celebrated.
-          </p>
-        </div>
-        
-        {/* Coming Soon */}
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-sage/20 text-sage-light px-6 py-3 rounded-full">
-            <Heart className="h-4 w-4 fill-current" />
-            <span className="font-medium">App launching soon</span>
+          
+          {/* Message */}
+          <div className="mb-8 max-w-2xl mx-auto">
+            <p className="text-background/80 leading-relaxed">
+              We're crafting something beautiful for mothers everywhere. 
+              A digital sanctuary where wisdom flows freely and every mother's journey is celebrated.
+            </p>
+          </div>
+          
+          {/* Coming Soon */}
+          <div className="mb-8">
+            <div className="inline-flex items-center gap-2 bg-sage/20 text-sage-light px-6 py-3 rounded-full">
+              <Heart className="h-4 w-4 fill-current" />
+              <span className="font-medium">App launching soon</span>
+            </div>
+          </div>
+          
+          {/* Social Links */}
+          <div className="flex justify-center gap-6 mb-8">
+            <a 
+              href="#" 
+              className="w-10 h-10 bg-sage/20 rounded-full flex items-center justify-center hover:bg-sage/30 transition-colors"
+              aria-label="Instagram"
+            >
+              <Instagram className="h-5 w-5 text-sage-light" />
+            </a>
+            <a 
+              href="#" 
+              className="w-10 h-10 bg-sage/20 rounded-full flex items-center justify-center hover:bg-sage/30 transition-colors"
+              aria-label="Facebook"
+            >
+              <Facebook className="h-5 w-5 text-sage-light" />
+            </a>
+            <a 
+              href="#" 
+              className="w-10 h-10 bg-sage/20 rounded-full flex items-center justify-center hover:bg-sage/30 transition-colors"
+              aria-label="Twitter"
+            >
+              <Twitter className="h-5 w-5 text-sage-light" />
+            </a>
+          </div>
+          
+          {/* Copyright */}
+          <div className="border-t border-sage/20 pt-8">
+            <p className="text-background/60 text-sm">
+              © 2024 MomWise. Nurturing mothers with wisdom and love.
+            </p>
           </div>
         </div>
-        
-        {/* Social Links */}
-        <div className="flex justify-center gap-6 mb-8">
-          <a 
-            href="#" 
-            className="w-10 h-10 bg-sage/20 rounded-full flex items-center justify-center hover:bg-sage/30 transition-colors"
-            aria-label="Instagram"
-          >
-            <Instagram className="h-5 w-5 text-sage-light" />
-          </a>
-          <a 
-            href="#" 
-            className="w-10 h-10 bg-sage/20 rounded-full flex items-center justify-center hover:bg-sage/30 transition-colors"
-            aria-label="Facebook"
-          >
-            <Facebook className="h-5 w-5 text-sage-light" />
-          </a>
-          <a 
-            href="#" 
-            className="w-10 h-10 bg-sage/20 rounded-full flex items-center justify-center hover:bg-sage/30 transition-colors"
-            aria-label="Twitter"
-          >
-            <Twitter className="h-5 w-5 text-sage-light" />
-          </a>
-        </div>
-        
-        {/* Copyright */}
-        <div className="border-t border-sage/20 pt-8">
-          <p className="text-background/60 text-sm">
-            © 2024 MomWise. Nurturing mothers with wisdom and love.
-          </p>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 
