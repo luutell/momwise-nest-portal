@@ -1,19 +1,51 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { ArrowRight, Heart } from 'lucide-react';
+import { ArrowRight, Heart, CheckCircle } from 'lucide-react';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
 const Hero = () => {
   const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { t } = useLanguage();
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle email submission
-    console.log('Email submitted:', email);
-    setEmail('');
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase
+        .from('waitlist_emails')
+        .insert([{ email }]);
+
+      if (error) throw error;
+
+      setEmail('');
+      setIsSubmitted(true);
+      toast({
+        title: "Email cadastrado com sucesso!",
+        description: "Você será notificado quando o MomWise estiver disponível.",
+      });
+
+      // Reset success state after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (error: any) {
+      console.error('Error saving email:', error);
+      toast({
+        title: "Erro ao cadastrar email",
+        description: error.message.includes('duplicate') 
+          ? "Este email já está em nossa lista de espera."
+          : "Tente novamente em alguns momentos.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -68,9 +100,23 @@ const Hero = () => {
               required
               className="input-organic flex-1 text-center sm:text-left"
             />
-            <Button type="submit" className="btn-organic group">
-              {t('hero.join.waitlist')}
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            <Button 
+              type="submit" 
+              className="btn-organic group" 
+              disabled={isSubmitting || isSubmitted}
+            >
+              {isSubmitting ? 'Cadastrando...' : 
+               isSubmitted ? (
+                 <>
+                   <CheckCircle className="mr-2 h-4 w-4" />
+                   Cadastrado!
+                 </>
+               ) : (
+                 <>
+                   {t('hero.join.waitlist')}
+                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                 </>
+               )}
             </Button>
           </form>
           <p className="text-sm text-muted-foreground mt-3">
