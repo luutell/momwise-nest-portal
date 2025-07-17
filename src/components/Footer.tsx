@@ -1,8 +1,11 @@
 
 import { Heart, Instagram, Facebook, Twitter } from 'lucide-react';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <>
       {/* Watercolor that gradually fades to transparent before subtitle */}
@@ -32,15 +35,14 @@ const Footer = () => {
               <span className="text-background">mom</span><span className="text-sage-light">wise</span>
             </h3>
             <p className="font-mono-space text-sage-light tracking-wide text-sm">
-              where maternal wisdom transcends
+              {t('footer.subtitle')}
             </p>
           </div>
           
           {/* Message */}
           <div className="mb-8 max-w-2xl mx-auto">
             <p className="text-background/80 leading-relaxed">
-              We're crafting something beautiful for mothers everywhere. 
-              A digital sanctuary where wisdom flows freely and every mother's journey is celebrated.
+              {t('footer.message')}
             </p>
           </div>
           
@@ -48,7 +50,7 @@ const Footer = () => {
           <div className="mb-8">
             <div className="inline-flex items-center gap-2 bg-sage/20 text-sage-light px-6 py-3 rounded-full">
               <Heart className="h-4 w-4 fill-current" />
-              <span className="font-medium">App launching soon</span>
+              <span className="font-medium">{t('footer.coming.soon')}</span>
             </div>
           </div>
           
@@ -80,7 +82,7 @@ const Footer = () => {
           {/* Copyright */}
           <div className="border-t border-sage/20 pt-8">
             <p className="text-background/60 text-sm">
-              © 2024 MomWise. Nurturing mothers with wisdom and love.
+              {t('footer.copyright')}
             </p>
           </div>
         </div>

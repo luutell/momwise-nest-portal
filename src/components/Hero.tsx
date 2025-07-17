@@ -3,9 +3,11 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { ArrowRight, Heart } from 'lucide-react';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Hero = () => {
   const [email, setEmail] = useState('');
+  const { t } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,14 +47,13 @@ const Hero = () => {
         
         {/* Subtitle */}
         <p className="font-mono-space text-lg md:text-xl text-sage-dark mb-16 tracking-wide -mt-6">
-          where maternal wisdom transcends
+          {t('hero.subtitle')}
         </p>
         
         {/* Manifesto */}
         <div className="max-w-2xl mx-auto mb-12">
           <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light">
-            MomWise combines the wisdom of generations with modern expertise, creating 
-            a nurturing and non-judgmental space where every mother's journey is honored with warmth and understanding.
+            {t('hero.manifesto')}
           </p>
         </div>
         
@@ -61,26 +62,26 @@ const Hero = () => {
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
             <Input
               type="email"
-              placeholder="Your email address"
+              placeholder={t('hero.email.placeholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               className="input-organic flex-1 text-center sm:text-left"
             />
             <Button type="submit" className="btn-organic group">
-              Join Waitlist
+              {t('hero.join.waitlist')}
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </form>
           <p className="text-sm text-muted-foreground mt-3">
-            Be the first to know when MomWise launches
+            {t('hero.email.description')}
           </p>
         </div>
         
         {/* Trust Badge */}
         <div className="flex items-center justify-center gap-2 text-sage">
           <Heart className="h-5 w-5 fill-current" />
-          <span className="text-sm font-medium">Trusted by mothers worldwide</span>
+          <span className="text-sm font-medium">{t('hero.trust.badge')}</span>
         </div>
       </div>
     </section>

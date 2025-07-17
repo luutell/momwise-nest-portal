@@ -1,5 +1,6 @@
 import { Heart, Moon, Users, Sparkles, Shield, Baby } from 'lucide-react';
 import { Card } from './ui/card';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const features = [
   {
@@ -35,6 +36,41 @@ const features = [
 ];
 
 const Features = () => {
+  const { t } = useLanguage();
+
+  const featuresWithTranslations = [
+    {
+      icon: Heart,
+      title: t('features.emotional.title'),
+      description: t('features.emotional.description')
+    },
+    {
+      icon: Baby,
+      title: t('features.practical.title'),
+      description: t('features.practical.description')
+    },
+    {
+      icon: Users,
+      title: t('features.community.title'),
+      description: t('features.community.description')
+    },
+    {
+      icon: Moon,
+      title: t('features.routines.title'),
+      description: t('features.routines.description')
+    },
+    {
+      icon: Shield,
+      title: t('features.wellness.title'),
+      description: t('features.wellness.description')
+    },
+    {
+      icon: Sparkles,
+      title: t('features.selfcare.title'),
+      description: t('features.selfcare.description')
+    }
+  ];
+
   return (
     <section className="py-20 px-6 bg-background">
       <div className="max-w-7xl mx-auto">
@@ -43,15 +79,14 @@ const Features = () => {
             {/* Left side - Features */}
             <div>
               <h2 className="font-playfair text-4xl md:text-5xl font-semibold text-background mb-6">
-                What You'll Discover
+                {t('features.title')}
               </h2>
               <p className="text-lg text-background/80 mb-12">
-                MomWise combines the wisdom of generations with modern expertise, 
-                creating a nurturing space for conscious motherhood.
+                {t('features.description')}
               </p>
               
               <div className="space-y-8">
-                {features.map((feature, index) => (
+                {featuresWithTranslations.map((feature, index) => (
                   <div 
                     key={index} 
                     className="flex items-start gap-4"
@@ -94,19 +129,19 @@ const Features = () => {
                     <div className="p-6 h-full bg-background">
                       <div className="text-center mb-6">
                         <h3 className="font-playfair text-2xl font-semibold text-foreground mb-2">
-                          Your Journey
+                          {t('features.app.journey')}
                         </h3>
-                        <p className="text-muted-foreground">Week by week guidance</p>
+                        <p className="text-muted-foreground">{t('features.app.weekly')}</p>
                       </div>
                       
                       {/* Daily Wisdom Card */}
                       <div className="bg-sage/5 rounded-xl p-4 border border-sage/20 mb-6">
                         <div className="flex items-center gap-3 mb-3">
                           <Sparkles className="h-5 w-5 text-sage" />
-                          <span className="font-medium text-foreground">Daily Wisdom</span>
+                          <span className="font-medium text-foreground">{t('features.app.daily.wisdom')}</span>
                         </div>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          "Trust your instincts, mama. You know your baby better than anyone else."
+                          "{t('features.app.wisdom.quote')}"
                         </p>
                       </div>
                       

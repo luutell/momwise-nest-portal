@@ -1,5 +1,6 @@
 import { Quote } from 'lucide-react';
 import { Card } from './ui/card';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const testimonials = [
   {
@@ -20,20 +21,40 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+  const { t } = useLanguage();
+
+  const testimonialsWithTranslations = [
+    {
+      quote: t('testimonials.sarah.quote'),
+      author: t('testimonials.sarah.author'),
+      role: t('testimonials.sarah.role')
+    },
+    {
+      quote: t('testimonials.maria.quote'),
+      author: t('testimonials.maria.author'),
+      role: t('testimonials.maria.role')
+    },
+    {
+      quote: t('testimonials.aisha.quote'),
+      author: t('testimonials.aisha.author'),
+      role: t('testimonials.aisha.role')
+    }
+  ];
+
   return (
     <section className="py-20 px-6 bg-sage/5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="font-playfair text-4xl md:text-5xl font-semibold text-foreground mb-6">
-            Voices of Wisdom
+            {t('testimonials.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Hear from mothers who have found their path through gentle guidance and intuitive wisdom.
+            {t('testimonials.description')}
           </p>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+          {testimonialsWithTranslations.map((testimonial, index) => (
             <Card 
               key={index}
               className="p-8 bg-background/80 backdrop-blur-sm border-sage/20 relative hover:shadow-organic transition-all duration-300"
