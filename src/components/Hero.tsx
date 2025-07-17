@@ -23,7 +23,7 @@ const Hero = () => {
       />
       
       {/* Gradient overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/10" />
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6 animate-fade-in-up">
