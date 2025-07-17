@@ -45,7 +45,7 @@ const Hero = () => {
         
         {/* Subtitle */}
         <p className="font-mono-space text-lg md:text-xl text-sage-dark mb-8 tracking-wide -mt-2">
-          Where maternal wisdom transcends
+          where maternal wisdom transcends
         </p>
         
         {/* Manifesto */}
