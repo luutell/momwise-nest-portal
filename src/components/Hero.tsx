@@ -44,7 +44,7 @@ const Hero = () => {
         </div>
         
         {/* Subtitle */}
-        <p className="font-mono-space text-lg md:text-xl text-sage-dark mb-8 tracking-wide -mt-6">
+        <p className="font-mono-space text-lg md:text-xl text-sage-dark mb-16 tracking-wide -mt-6">
           where maternal wisdom transcends
         </p>
         
