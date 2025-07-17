@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">
-            <div className="mx-auto w-24 h-24 mb-4 relative">
+            <div className="mx-auto w-24 h-24 mb-2 relative">
               <img 
                 src="/lovable-uploads/ccbd5038-df1a-4632-9976-d2b053a544c9.png" 
                 alt="MomWise Logo" 
@@ -31,8 +31,8 @@ const Footer = () => {
             <h3 className="font-playfair text-5xl font-semibold mb-2">
               <span className="text-background">mom</span><span className="text-sage-light">wise</span>
             </h3>
-            <p className="font-mono-space text-sage-light tracking-wide text-lg">
-              Where maternal wisdom transcends
+            <p className="font-mono-space text-sage-light tracking-wide text-sm">
+              where maternal wisdom transcends
             </p>
           </div>
           
