@@ -4,7 +4,7 @@ import { Input } from './ui/input';
 import { ArrowRight, Heart, CheckCircle } from 'lucide-react';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const Hero = () => {
