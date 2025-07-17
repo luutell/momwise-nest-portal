@@ -4,15 +4,15 @@ import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 const Footer = () => {
   return (
     <>
-      {/* Watercolor background in transition area between testimonials and footer */}
+      {/* Watercolor background - same style as header */}
       <div className="relative">
-        {/* Transition section with watercolor */}
+        {/* Transition section with full watercolor design */}
         <div className="h-32 relative overflow-hidden">
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
             style={{ backgroundImage: `url(${watercolorBg})` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-sage/5 via-emerald-900/70 to-emerald-900"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-emerald-900/90"></div>
         </div>
         
         <footer className="py-16 px-6 bg-emerald-900 relative z-10">
