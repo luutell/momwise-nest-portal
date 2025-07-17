@@ -4,8 +4,14 @@ import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 const Footer = () => {
   return (
     <>
-      {/* Subtle gradient transition from testimonials to footer */}
-      <div className="h-16 bg-gradient-to-b from-sage/5 via-sage/10 to-emerald-900/80"></div>
+      {/* Watercolor as elegant transition */}
+      <div className="relative h-24 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
+          style={{ backgroundImage: `url(${watercolorBg})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-sage/5 via-sage/10 to-emerald-900"></div>
+      </div>
       
       <footer className="py-16 px-6 bg-emerald-900 text-background relative">
         {/* Watercolor background overlay */}
