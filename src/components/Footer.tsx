@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="py-16 px-6 bg-emerald-900/60 backdrop-blur-sm relative z-10">
+      <footer className="py-16 px-6 bg-emerald-900/40 backdrop-blur-sm relative z-10 transition-all duration-1000 ease-in-out">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo - clean without watercolor overlay */}
           <div className="mb-8">

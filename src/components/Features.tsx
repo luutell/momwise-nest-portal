@@ -72,9 +72,9 @@ const Features = () => {
   ];
 
   return (
-    <section className="py-20 px-6 bg-white/10 backdrop-blur-sm">
+    <section className="py-20 px-6 bg-white/20 backdrop-blur-sm transition-all duration-1000 ease-in-out">
       <div className="max-w-7xl mx-auto">
-        <Card className="bg-terracotta/90 backdrop-blur-sm text-background p-12 shadow-2xl">
+        <Card className="bg-terracotta/85 backdrop-blur-sm text-background p-12 shadow-2xl border-none transition-all duration-1000 ease-in-out">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left side - Features */}
             <div>

@@ -42,7 +42,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-20 px-6 bg-white/5 backdrop-blur-sm">
+    <section className="py-20 px-6 bg-white/15 backdrop-blur-sm transition-all duration-1000 ease-in-out">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="font-playfair text-4xl md:text-5xl font-semibold text-foreground mb-6">
@@ -57,7 +57,7 @@ const Testimonials = () => {
           {testimonialsWithTranslations.map((testimonial, index) => (
             <Card 
               key={index}
-              className="p-8 bg-background/80 backdrop-blur-sm border-sage/20 relative hover:shadow-organic transition-all duration-300"
+              className="p-8 bg-background/60 backdrop-blur-sm border-sage/20 relative hover:shadow-organic hover:bg-background/80 transition-all duration-500 ease-in-out"
             >
               <div className="absolute -top-4 left-8">
                 <div className="w-8 h-8 bg-sage rounded-full flex items-center justify-center">
