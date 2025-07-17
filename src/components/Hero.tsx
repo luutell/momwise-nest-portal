@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { ArrowRight, Heart } from 'lucide-react';
+import { ArrowRight, Heart, Smartphone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -76,6 +77,17 @@ const Hero = () => {
           <p className="text-sm text-muted-foreground mt-3">
             {t('hero.email.description')}
           </p>
+        </div>
+        
+        {/* Mobile App Preview */}
+        <div className="mb-8">
+          <Link to="/app">
+            <Button variant="outline" className="btn-organic-outline group">
+              <Smartphone className="mr-2 h-4 w-4" />
+              Preview Mobile App
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </div>
         
         {/* Trust Badge */}

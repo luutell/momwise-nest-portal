@@ -2,6 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* MomWise Color Palette */
+    --primary: 25 45% 55%; /* Warm terracotta */
+    --primary-foreground: 35 25% 95%;
+    --secondary: 75 25% 65%; /* Sage green */
+    --secondary-foreground: 75 35% 15%;
+    --accent: 35 25% 85%; /* Sand/off-white */
+    --accent-foreground: 25 25% 25%;
+    --muted: 35 15% 90%;
+    --muted-foreground: 25 15% 45%;
+    --background: 35 25% 97%; /* Warm off-white */
+    --foreground: 25 25% 15%;
+    --card: 35 25% 98%;
+    --card-foreground: 25 25% 15%;
+    --border: 35 15% 88%;
+    --input: 35 15% 88%;
+    --ring: 25 45% 55%;
+    
+    /* MomWise specific colors */
+    --terracotta: 25 45% 55%;
+    --sage: 75 25% 65%;
+    --sand: 35 25% 85%;
+    --warm-white: 35 25% 97%;
+    --soft-gray: 25 10% 75%;
+    
+    /* Gradients */
+    --gradient-warm: linear-gradient(135deg, hsl(var(--terracotta)), hsl(var(--primary)));
+    --gradient-nature: linear-gradient(135deg, hsl(var(--sage)), hsl(var(--secondary)));
+    --gradient-soft: linear-gradient(180deg, hsl(var(--warm-white)), hsl(var(--sand)));
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -8px hsl(var(--terracotta) / 0.2);
+    --shadow-gentle: 0 2px 12px -4px hsl(var(--sage) / 0.15);
+    
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 25 15% 8%;
+    --foreground: 35 25% 95%;
+    --card: 25 15% 10%;
+    --card-foreground: 35 25% 95%;
+    --primary: 25 45% 65%;
+    --primary-foreground: 25 15% 8%;
+    --secondary: 75 25% 45%;
+    --secondary-foreground: 35 25% 95%;
+    --muted: 25 10% 15%;
+    --muted-foreground: 35 15% 65%;
+    --accent: 25 15% 15%;
+    --accent-foreground: 35 25% 95%;
+    --border: 25 10% 18%;
+    --input: 25 10% 18%;
+    --ring: 25 45% 65%;
+  }
+}
+
 /* MomWise Design System - Maternal warmth and natural aesthetics
 All colors MUST be HSL.
 */
