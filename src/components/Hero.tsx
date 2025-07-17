@@ -55,7 +55,7 @@ const Hero = () => {
         className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-45"
         style={{ 
           backgroundImage: `url(${watercolorBg})`,
-          backgroundPosition: 'center 10%',
+          backgroundPosition: 'center top',
           backgroundSize: 'cover'
         }}
       />

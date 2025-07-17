@@ -11,10 +11,10 @@ const Footer = () => {
       <footer className="py-16 px-6 relative overflow-hidden">
         {/* Watercolor background - same design, 15% more translucent, positioned higher */}
         <div 
-          className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-45"
+          className="absolute inset-0 bg-cover bg-no-repeat z-0 opacity-60"
           style={{ 
             backgroundImage: `url(${watercolorBg})`,
-            backgroundPosition: 'center 10%',
+            backgroundPosition: 'center top',
             backgroundSize: 'cover'
           }}
         />
