@@ -65,12 +65,7 @@ const Onboarding = ({ onComplete }: OnboardingProps) => {
   const currentStepData = onboardingSteps[currentStep];
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center p-6 overflow-hidden">
-      {/* Watercolor background - same as hero */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
-        style={{ backgroundImage: `url(${watercolorBg})` }}
-      />
+    <div className="relative min-h-screen flex flex-col justify-center items-center p-6 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-sage/10">
       
       {/* Content */}
       <div className="relative z-10 w-full max-w-md space-y-8">
@@ -87,8 +82,16 @@ const Onboarding = ({ onComplete }: OnboardingProps) => {
         </div>
 
         {/* Main content card */}
-        <Card className={`border-0 shadow-2xl bg-gradient-to-br ${currentStepData.gradient} backdrop-blur-sm`}>
-          <CardContent className="p-8 text-center space-y-6">
+        <Card className="border-0 shadow-2xl backdrop-blur-sm relative overflow-hidden">
+          {/* Watercolor background inside card */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+            style={{ backgroundImage: `url(${watercolorBg})` }}
+          />
+          {/* Gradient overlay for readability */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${currentStepData.gradient}`} />
+          
+          <CardContent className="relative z-10 p-8 text-center space-y-6">
             {/* Icon */}
             <div className="flex justify-center">
               <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
