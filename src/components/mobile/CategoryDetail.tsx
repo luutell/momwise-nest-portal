@@ -28,7 +28,7 @@ const ritmoLeveThemes = [
     emoji: '💤',
     title: 'Entendendo o Sono',
     description: 'Aprenda a ler os sinais e respeitar as janelas naturais',
-    gradient: 'from-indigo-500/20 via-purple-400/15 to-blue-500/20',
+    gradient: 'bg-indigo-300',
     accent: 'text-indigo-600'
   },
   {
@@ -37,7 +37,7 @@ const ritmoLeveThemes = [
     emoji: '⏳',
     title: 'Rotina Leve',
     description: 'Organização com flexibilidade e acolhimento',
-    gradient: 'from-emerald-500/20 via-teal-400/15 to-green-500/20',
+    gradient: 'bg-emerald-300',
     accent: 'text-emerald-600'
   },
   {
@@ -46,7 +46,7 @@ const ritmoLeveThemes = [
     emoji: '🌙',
     title: 'Ambiente e Sonecas',
     description: 'Dicas para tornar os cochilos mais tranquilos',
-    gradient: 'from-slate-500/20 via-gray-400/15 to-zinc-500/20',
+    gradient: 'bg-slate-300',
     accent: 'text-slate-600'
   },
   {
@@ -55,7 +55,7 @@ const ritmoLeveThemes = [
     emoji: '🌊',
     title: 'Saltos e Regressões',
     description: 'O que são e como lidar com mais leveza',
-    gradient: 'from-cyan-500/20 via-blue-400/15 to-sky-500/20',
+    gradient: 'bg-cyan-300',
     accent: 'text-cyan-600'
   },
   {
@@ -64,7 +64,7 @@ const ritmoLeveThemes = [
     emoji: '📋',
     title: 'Planejamento do Dia',
     description: 'Crie uma rotina afetiva com o bebê no centro',
-    gradient: 'from-amber-500/20 via-yellow-400/15 to-orange-500/20',
+    gradient: 'bg-amber-300',
     accent: 'text-amber-600'
   },
   {
@@ -73,7 +73,7 @@ const ritmoLeveThemes = [
     emoji: '📖',
     title: 'Diário de Ritmos',
     description: 'Registre e reflita sobre o que está funcionando',
-    gradient: 'from-rose-500/20 via-pink-400/15 to-red-500/20',
+    gradient: 'bg-rose-300',
     accent: 'text-rose-600'
   }
 ];
@@ -169,23 +169,23 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
             {ritmoLeveThemes.map((theme) => {
               const Icon = theme.icon;
               return (
-                <Card key={theme.id} className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group bg-gray-800/60 backdrop-blur-sm border border-gray-700">
-                  <div className={`bg-gradient-to-r ${theme.gradient} relative`}>
+                <Card key={theme.id} className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group">
+                  <div className={`${theme.gradient} relative`}>
                     <div className="absolute top-4 right-4 text-3xl opacity-30">{theme.emoji}</div>
                     <CardContent className="p-6 relative">
                       <div className="flex items-center space-x-5">
-                        <div className="w-16 h-16 bg-gray-700/60 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300 border border-gray-600">
-                          <Icon className="w-8 h-8 text-gray-200" />
+                        <div className="w-16 h-16 bg-white/90 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <Icon className={`w-8 h-8 ${theme.accent}`} />
                         </div>
                         <div className="space-y-2 flex-1">
                           <h3 className="font-playfair text-lg font-bold text-white">{theme.title}</h3>
-                          <p className="text-gray-300 text-sm">{theme.description}</p>
-                          <div className="flex items-center space-x-2 text-xs text-gray-400">
+                          <p className="text-white/90 text-sm">{theme.description}</p>
+                          <div className="flex items-center space-x-2 text-xs text-white/80">
                             <Play className="w-3 h-3" />
                             <span>Vídeo • Texto • Dica prática</span>
                           </div>
                         </div>
-                        <ArrowLeft className="w-5 h-5 text-gray-400 rotate-180 group-hover:translate-x-1 transition-transform" />
+                        <ArrowLeft className="w-5 h-5 text-white/70 rotate-180 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </CardContent>
                   </div>
