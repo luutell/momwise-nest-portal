@@ -115,41 +115,41 @@ const interactiveTools = [
 
 const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDetailProps) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-teal-50/50 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-900 relative overflow-hidden">
       {/* Elementos decorativos de fundo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-10 w-32 h-32 bg-emerald-200/20 rounded-full blur-xl"></div>
-        <div className="absolute top-40 left-5 w-24 h-24 bg-teal-200/20 rounded-full blur-lg"></div>
-        <div className="absolute bottom-32 right-20 w-40 h-40 bg-cyan-200/20 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-10 left-10 text-6xl opacity-10">🌿</div>
-        <div className="absolute top-32 right-5 text-4xl opacity-10">🍃</div>
-        <div className="absolute bottom-40 left-20 text-5xl opacity-10">💫</div>
+        <div className="absolute top-20 right-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-xl"></div>
+        <div className="absolute top-40 left-5 w-24 h-24 bg-teal-500/10 rounded-full blur-lg"></div>
+        <div className="absolute bottom-32 right-20 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-10 left-10 text-6xl opacity-5 text-gray-600">🌿</div>
+        <div className="absolute top-32 right-5 text-4xl opacity-5 text-gray-600">🍃</div>
+        <div className="absolute bottom-40 left-20 text-5xl opacity-5 text-gray-600">💫</div>
       </div>
 
       {/* 🟤 1. TOPO FIXO - Hero Section Renovado */}
       <div className="relative z-10">
-        <div className="bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-cyan-400/20 backdrop-blur-sm border-b border-emerald-100/50 shadow-sm">
+        <div className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 shadow-sm">
           <div className="p-6 pb-8">
             <div className="flex items-center mb-6">
               <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={onBack}
-                className="hover:bg-emerald-100 text-emerald-700 mr-3"
+                className="hover:bg-gray-700 text-emerald-400 mr-3"
               >
                 <ArrowLeft className="w-5 h-5" />
               </Button>
               <div className="flex items-center space-x-3">
                 <div className="text-4xl">⏳</div>
                 <div>
-                  <h1 className="font-playfair text-2xl font-bold text-slate-800">Ritmo Leve</h1>
-                  <p className="text-emerald-600 font-semibold text-sm">Sono, rotina e organização</p>
+                  <h1 className="font-playfair text-2xl font-bold text-white">Ritmo Leve</h1>
+                  <p className="text-emerald-400 font-semibold text-sm">Sono, rotina e organização</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-              <p className="text-slate-700 text-sm leading-relaxed text-center">
+            <div className="bg-gray-700/60 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-600">
+              <p className="text-gray-300 text-sm leading-relaxed text-center">
                 Aqui você encontra conteúdos para ajudar sua família a viver os dias com mais calma. 
                 Respeitando o ritmo do bebê e o seu, sem rigidez, com sabedoria e afeto.
               </p>
@@ -158,34 +158,34 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
         </div>
       </div>
 
-      <div className="relative z-10 p-4 space-y-8">
+      <div className="relative z-10 p-6 space-y-10">
         {/* 🟤 2. MENU PRINCIPAL DE TEMAS - Redesenhado */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="text-center space-y-2">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800">Temas Principais</h2>
-            <p className="text-slate-600">Escolha o tema que mais precisa hoje</p>
+            <h2 className="font-playfair text-2xl font-bold text-white">Temas Principais</h2>
+            <p className="text-gray-400">Escolha o tema que mais precisa hoje</p>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-6">
             {ritmoLeveThemes.map((theme) => {
               const Icon = theme.icon;
               return (
-                <Card key={theme.id} className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group">
+                <Card key={theme.id} className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group bg-gray-800/60 backdrop-blur-sm border border-gray-700">
                   <div className={`bg-gradient-to-r ${theme.gradient} relative`}>
-                    <div className="absolute top-4 right-4 text-3xl opacity-20">{theme.emoji}</div>
+                    <div className="absolute top-4 right-4 text-3xl opacity-30">{theme.emoji}</div>
                     <CardContent className="p-6 relative">
                       <div className="flex items-center space-x-5">
-                        <div className="w-16 h-16 bg-white/40 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                          <Icon className="w-8 h-8 text-slate-700" />
+                        <div className="w-16 h-16 bg-gray-700/60 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300 border border-gray-600">
+                          <Icon className="w-8 h-8 text-gray-200" />
                         </div>
                         <div className="space-y-2 flex-1">
-                          <h3 className="font-playfair text-lg font-bold text-slate-800">{theme.title}</h3>
-                          <p className="text-slate-600 text-sm">{theme.description}</p>
-                          <div className="flex items-center space-x-2 text-xs text-slate-500">
+                          <h3 className="font-playfair text-lg font-bold text-white">{theme.title}</h3>
+                          <p className="text-gray-300 text-sm">{theme.description}</p>
+                          <div className="flex items-center space-x-2 text-xs text-gray-400">
                             <Play className="w-3 h-3" />
                             <span>Vídeo • Texto • Dica prática</span>
                           </div>
                         </div>
-                        <ArrowLeft className="w-5 h-5 text-slate-400 rotate-180 group-hover:translate-x-1 transition-transform" />
+                        <ArrowLeft className="w-5 h-5 text-gray-400 rotate-180 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </CardContent>
                   </div>
@@ -196,38 +196,38 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
         </div>
 
         {/* 🟤 4. ESPECIALISTA DA SEMANA - Redesenhado */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="text-center space-y-2">
-            <h3 className="font-playfair text-2xl font-bold text-slate-800">Especialista da Semana</h3>
-            <p className="text-slate-600">Converse ao vivo com nossa especialista</p>
+            <h3 className="font-playfair text-2xl font-bold text-white">Especialista da Semana</h3>
+            <p className="text-gray-400">Converse ao vivo com nossa especialista</p>
           </div>
           
-          <Card className="bg-gradient-to-br from-violet-400/20 via-purple-300/15 to-indigo-400/20 border-none shadow-xl overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-violet-200/30 rounded-full blur-2xl"></div>
+          <Card className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 shadow-xl overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl"></div>
             <CardContent className="relative p-6 space-y-6">
               <div className="flex items-center space-x-4">
-                <div className="w-20 h-20 bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-3xl flex-shrink-0 shadow-lg">
+                <div className="w-20 h-20 bg-gray-700/60 backdrop-blur-sm rounded-full flex items-center justify-center text-3xl flex-shrink-0 shadow-lg border border-gray-600">
                   👩‍⚕️
                 </div>
                 <div className="space-y-2">
-                  <h4 className="font-playfair text-xl font-bold text-slate-800">Dra. Ana Silva</h4>
-                  <p className="text-violet-700 font-semibold">Especialista em Sono Infantil</p>
+                  <h4 className="font-playfair text-xl font-bold text-white">Dra. Ana Silva</h4>
+                  <p className="text-violet-400 font-semibold">Especialista em Sono Infantil</p>
                 </div>
               </div>
               
-              <div className="space-y-4">
-                <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+              <div className="space-y-6">
+                <div className="bg-gray-700/50 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-600">
                   <div className="flex items-center space-x-2 mb-2">
-                    <Video className="w-5 h-5 text-violet-600" />
-                    <span className="text-sm font-bold text-slate-800">Vídeo introdutório</span>
+                    <Video className="w-5 h-5 text-violet-400" />
+                    <span className="text-sm font-bold text-white">Vídeo introdutório</span>
                   </div>
-                  <p className="text-sm text-slate-700">
+                  <p className="text-sm text-gray-300">
                     "Como criar uma rotina flexível que funciona para toda família"
                   </p>
                 </div>
 
-                <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                  <div className="flex items-center space-x-2 text-sm text-violet-600 font-semibold">
+                <div className="bg-gray-700/30 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-600">
+                  <div className="flex items-center space-x-2 text-sm text-violet-400 font-semibold">
                     <Calendar className="w-4 h-4" />
                     <span>Próxima live: Sexta, 19/07 às 10h</span>
                   </div>
@@ -238,7 +238,7 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
                     <MessageCircle className="w-4 h-4 mr-2" />
                     Enviar Pergunta
                   </Button>
-                  <Button variant="outline" className="flex-1 bg-white/40 border-violet-200 text-violet-700 font-semibold hover:bg-white/60">
+                  <Button variant="outline" className="flex-1 bg-gray-700/50 border-gray-600 text-violet-400 font-semibold hover:bg-gray-700/70">
                     <Video className="w-4 h-4 mr-2" />
                     Ver Replays
                   </Button>

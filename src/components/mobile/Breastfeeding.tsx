@@ -141,63 +141,63 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-sage/5">
+    <div className="min-h-screen bg-gray-900">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary/20 via-terracotta/10 to-sage/20 p-4 pb-6">
+      <div className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 p-4 pb-6">
         <div className="flex items-center space-x-3 mb-4">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={onBack}
-            className="text-primary hover:bg-primary/20"
+            className="text-blue-400 hover:bg-gray-700"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div className="text-2xl">🍼</div>
-          <h1 className="font-playfair text-2xl font-semibold text-foreground">
+          <h1 className="font-playfair text-2xl font-semibold text-white">
             Amamentação
           </h1>
         </div>
         
-        <p className="text-muted-foreground ml-11">
+        <p className="text-gray-400 ml-11">
           Seu bebê tem {babyAge} meses – aqui estão recomendações e ferramentas pensadas para esta fase.
         </p>
       </div>
 
-      <div className="p-4 space-y-6">
+      <div className="p-6 space-y-10">
         
         {/* Bloco 1: Recomendado para você */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="font-playfair text-lg font-semibold text-foreground">
+            <h2 className="font-playfair text-lg font-semibold text-white">
               🔹 Recomendado para você
             </h2>
-            <Button variant="ghost" size="sm" className="text-primary">
+            <Button variant="ghost" size="sm" className="text-blue-400 hover:bg-gray-800">
               Ver todas <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
           
-          <div className="flex overflow-x-auto gap-4 pb-2">
+          <div className="flex overflow-x-auto gap-6 pb-2">
             {recommendedContent.map((content) => (
               <Card 
                 key={content.id}
-                className={`bg-gradient-to-br ${content.gradient} border-none shadow-soft flex-shrink-0 w-64 cursor-pointer hover:shadow-md transition-all duration-200`}
+                className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 shadow-xl flex-shrink-0 w-64 cursor-pointer hover:bg-gray-800/80 transition-all duration-200"
               >
                 <CardContent className="p-4 space-y-3">
                   <div className="flex items-start justify-between">
                     <div className="space-y-2 flex-1">
-                      <h3 className="font-medium text-sm leading-tight text-foreground">
+                      <h3 className="font-medium text-sm leading-tight text-white">
                         {content.title}
                       </h3>
-                      <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                      <div className="flex items-center space-x-2 text-xs text-gray-400">
                         <span>{content.readTime}</span>
                         <span>•</span>
                         <span className="capitalize">{content.type}</span>
                       </div>
                     </div>
                     {content.isCompleted && (
-                      <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 border border-blue-500/30">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                       </div>
                     )}
                   </div>
