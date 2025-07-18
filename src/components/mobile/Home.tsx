@@ -115,6 +115,7 @@ const getContentColor = (type: string) => {
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
   
   const today = new Date();
   const currentDay = today.getDate();
@@ -243,6 +244,7 @@ const Home = () => {
               const Icon = getContentIcon(item.content.type);
               const isToday = item.date === currentDay;
               const isPast = item.date < currentDay;
+              const isSelected = selectedDay === item.date;
               const colorClasses = getContentColor(item.content.type);
               
               return (
@@ -257,35 +259,25 @@ const Home = () => {
                     </p>
                   </div>
                   
-                  {/* Card do conteúdo */}
+                  {/* Card do conteúdo - apenas ícone */}
                   <Card 
+                    onClick={() => setSelectedDay(isSelected ? null : item.date)}
                     className={`
-                      ${isToday ? 'ring-2 ring-primary bg-primary/5' : ''} 
-                      ${isPast && item.content.completed ? 'bg-muted/50' : ''} 
-                      border-none shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer
+                      ${isToday ? 'ring-2 ring-primary' : ''} 
+                      ${isSelected ? 'ring-2 ring-primary bg-primary/10' : 'bg-background'} 
+                      ${isPast && item.content.completed ? 'bg-muted/30' : ''} 
+                      border-none shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer h-16
                     `}
                   >
-                    <CardContent className="p-3 text-center space-y-2">
-                      {/* Ícone do tipo de conteúdo */}
-                      <div className="flex justify-center">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colorClasses}`}>
-                          <Icon className="w-4 h-4" />
-                        </div>
+                    <CardContent className="p-2 flex flex-col items-center justify-center h-full">
+                      {/* Ícone do tipo de conteúdo com maior contraste */}
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colorClasses.replace('/20', '/40')}`}>
+                        <Icon className="w-5 h-5" />
                       </div>
-                      
-                      {/* Título */}
-                      <h3 className="text-xs font-medium text-foreground leading-tight">
-                        {item.content.title}
-                      </h3>
-                      
-                      {/* Duração */}
-                      <p className="text-xs text-muted-foreground">
-                        {item.content.duration}
-                      </p>
                       
                       {/* Status de conclusão */}
                       {item.content.completed && (
-                        <div className="w-2 h-2 bg-primary rounded-full mx-auto"></div>
+                        <div className="w-2 h-2 bg-primary rounded-full mt-1"></div>
                       )}
                     </CardContent>
                   </Card>
@@ -293,6 +285,48 @@ const Home = () => {
               );
             })}
           </div>
+
+          {/* Card expandido quando um dia é selecionado */}
+          {selectedDay && (
+            <Card className="bg-gradient-to-br from-primary/10 via-background to-sage/5 border-none shadow-lg animate-fade-in">
+              <CardContent className="p-6 space-y-4">
+                {(() => {
+                  const selectedContent = weeklyContents.find(item => item.date === selectedDay);
+                  if (!selectedContent) return null;
+                  
+                  const Icon = getContentIcon(selectedContent.content.type);
+                  const colorClasses = getContentColor(selectedContent.content.type);
+                  
+                  return (
+                    <div className="flex items-start space-x-4">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${colorClasses.replace('/20', '/30')}`}>
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <div className="space-y-2 flex-1">
+                        <h4 className="font-playfair font-medium text-foreground">
+                          {selectedContent.content.title}
+                        </h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          Conteúdo especialmente selecionado para o dia {selectedContent.date} da sua jornada.
+                        </p>
+                        <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                          <span>{selectedContent.content.duration}</span>
+                          <span>•</span>
+                          <span className="capitalize">{selectedContent.content.type}</span>
+                          {selectedContent.content.completed && (
+                            <>
+                              <span>•</span>
+                              <span className="text-primary">✓ Concluído</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Conteúdo em destaque do dia */}
