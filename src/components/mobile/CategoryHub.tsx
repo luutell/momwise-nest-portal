@@ -1,70 +1,122 @@
-import { Baby, Moon, Heart, Droplets, Utensils, Flower, Users, Sparkles } from 'lucide-react';
+import { 
+  Baby, Moon, Heart, Lightbulb, Users, ShoppingCart, 
+  Flower, Baby as BabyCry, RotateCcw, Utensils, 
+  Sparkles, Bed, Search
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 const categories = [
   {
-    id: 'breastfeeding',
-    title: 'Breastfeeding',
-    icon: Droplets,
+    id: 'practical-tips',
+    title: 'Dicas Práticas',
+    icon: Lightbulb,
     color: 'bg-sage/20 hover:bg-sage/30',
     iconColor: 'text-sage',
-    description: 'Guidance and support for your feeding journey'
+    description: 'Dicas práticas e aplicáveis no dia a dia'
   },
   {
-    id: 'sleep',
-    title: 'Baby Sleep',
-    icon: Moon,
-    color: 'bg-terracotta/20 hover:bg-terracotta/30',
-    iconColor: 'text-terracotta',
-    description: 'Understanding natural sleep rhythms'
-  },
-  {
-    id: 'postpartum',
-    title: 'Postpartum Care',
+    id: 'emotional-support',
+    title: 'Apoio Emocional',
     icon: Heart,
     color: 'bg-primary/20 hover:bg-primary/30',
     iconColor: 'text-primary',
-    description: 'Healing and recovery support'
+    description: 'Apoio emocional'
   },
   {
-    id: 'emotions',
-    title: 'Emotional Wellness',
+    id: 'with-experts',
+    title: 'Com Especialistas',
     icon: Sparkles,
+    color: 'bg-terracotta/20 hover:bg-terracotta/30',
+    iconColor: 'text-terracotta',
+    description: 'Conteúdos por especialistas (pediatras, nutricionistas, psicólogas, etc.)'
+  },
+  {
+    id: 'no-judgment',
+    title: 'Sem Julgamentos',
+    icon: Flower,
     color: 'bg-secondary/20 hover:bg-secondary/30',
     iconColor: 'text-secondary',
-    description: 'Mental health and emotional balance'
+    description: 'Explicações claras e sem julgamentos'
   },
   {
-    id: 'hygiene',
-    title: 'Natural Hygiene',
-    icon: Flower,
+    id: 'between-mothers',
+    title: 'Entre Mães',
+    icon: Users,
     color: 'bg-sage/20 hover:bg-sage/30',
     iconColor: 'text-sage',
-    description: 'Gentle, natural care practices'
+    description: 'Troca com outras mães'
   },
   {
-    id: 'nutrition',
-    title: 'Nutrition',
+    id: 'collective-mothers',
+    title: 'Coletivo de Mães',
+    icon: ShoppingCart,
+    color: 'bg-primary/20 hover:bg-primary/30',
+    iconColor: 'text-primary',
+    description: 'Compras coletivas'
+  },
+  {
+    id: 'self-care',
+    title: 'Cuidando de Si',
+    icon: Heart,
+    color: 'bg-terracotta/20 hover:bg-terracotta/30',
+    iconColor: 'text-terracotta',
+    description: 'Autocuidado e saúde da mãe'
+  },
+  {
+    id: 'understanding-cry',
+    title: 'Entendendo o Choro',
+    icon: BabyCry,
+    color: 'bg-secondary/20 hover:bg-secondary/30',
+    iconColor: 'text-secondary',
+    description: 'Como interpretar o choro do bebê'
+  },
+  {
+    id: 'light-rhythm',
+    title: 'Ritmo Leve',
+    icon: RotateCcw,
+    color: 'bg-sage/20 hover:bg-sage/30',
+    iconColor: 'text-sage',
+    description: 'Como montar uma rotina leve com o bebê'
+  },
+  {
+    id: 'daily-with-baby',
+    title: 'No Dia a Dia com o Bebê',
+    icon: Baby,
+    color: 'bg-primary/20 hover:bg-primary/30',
+    iconColor: 'text-primary',
+    description: 'Manejo e posições para segurar, ninar e trocar o bebê'
+  },
+  {
+    id: 'baby-feeding',
+    title: 'Alimentação do Bebê',
     icon: Utensils,
     color: 'bg-terracotta/20 hover:bg-terracotta/30',
     iconColor: 'text-terracotta',
-    description: 'Nourishing you and your baby'
+    description: 'Introdução alimentar com orientação prática'
   },
   {
-    id: 'identity',
-    title: 'Maternal Identity',
-    icon: Users,
-    color: 'bg-primary/20 hover:bg-primary/30',
-    iconColor: 'text-primary',
-    description: 'Embracing your motherhood journey'
-  },
-  {
-    id: 'development',
-    title: 'Child Development',
-    icon: Baby,
+    id: 'stimulation-respect',
+    title: 'Estímulo com Respeito',
+    icon: Sparkles,
     color: 'bg-secondary/20 hover:bg-secondary/30',
     iconColor: 'text-secondary',
-    description: 'Play and developmental milestones'
+    description: 'Atividades para estimular o bebê com respeito ao seu tempo'
+  },
+  {
+    id: 'sleep-regressions',
+    title: 'Sono e Regressões',
+    icon: Moon,
+    color: 'bg-sage/20 hover:bg-sage/30',
+    iconColor: 'text-sage',
+    description: 'Explicações sobre sono e regressões'
+  },
+  {
+    id: 'phases-discoveries',
+    title: 'Fases e Descobertas',
+    icon: Search,
+    color: 'bg-primary/20 hover:bg-primary/30',
+    iconColor: 'text-primary',
+    description: 'Curiosidades sobre o desenvolvimento do bebê'
   }
 ];
 
