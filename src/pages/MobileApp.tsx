@@ -5,9 +5,19 @@ import CategoryHub from '@/components/mobile/CategoryHub';
 import WeeklyCalendar from '@/components/mobile/WeeklyCalendar';
 import DailyInsight from '@/components/mobile/DailyInsight';
 import Profile from '@/components/mobile/Profile';
+import Onboarding from '@/components/mobile/Onboarding';
 
 const MobileApp = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false);
+  };
+
+  if (showOnboarding) {
+    return <Onboarding onComplete={handleOnboardingComplete} />;
+  }
 
   return (
     <div className="min-h-screen bg-warm-white font-inter">
