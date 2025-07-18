@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, BookOpen, Play, Heart } from 'lucide-react';
+import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, Video, MessageCircle, CheckCircle, Bookmark, User, Clock8, Baby } from 'lucide-react';
 import AudioPlayer from './AudioPlayer';
 
 interface Article {
@@ -20,74 +20,77 @@ interface CategoryDetailProps {
   onBack: () => void;
 }
 
-const sampleContent: Record<string, Article[]> = {
-  breastfeeding: [
-    {
-      id: '1',
-      title: 'Understanding Your Baby\'s Feeding Cues',
-      excerpt: 'Learn to recognize early hunger signs and trust your instincts in feeding your little one.',
-      readTime: '4 min read',
-      type: 'article'
-    },
-    {
-      id: '2',
-      title: 'Guided Breathing for Nursing',
-      excerpt: 'A gentle 5-minute breathing exercise to help you relax during feeding time.',
-      readTime: '5 min',
-      type: 'audio',
-      duration: '5:23'
-    },
-    {
-      id: '3',
-      title: 'Reflection: Your Feeding Journey',
-      excerpt: 'Take a moment to honor your breastfeeding experience and acknowledge your strength.',
-      readTime: '3 min',
-      type: 'reflection'
-    }
-  ],
-  sleep: [
-    {
-      id: '1',
-      title: 'Creating Sacred Sleep Rhythms',
-      excerpt: 'Discover how to honor your baby\'s natural sleep patterns while caring for your own rest.',
-      readTime: '6 min read',
-      type: 'article'
-    },
-    {
-      id: '2',
-      title: 'Bedtime Meditation for Mother & Baby',
-      excerpt: 'A soothing audio guide to help both you and your baby transition into peaceful sleep.',
-      readTime: '8 min',
-      type: 'audio',
-      duration: '8:15'
-    }
-  ]
-};
+// Temas específicos para "Ritmo Leve" baseados na imagem
+const ritmoLeveThemes = [
+  {
+    id: 'entendendo-sono',
+    icon: '💤',
+    title: 'Entendendo o Sono',
+    description: 'Aprenda a ler os sinais e respeitar as janelas naturais'
+  },
+  {
+    id: 'rotina-leve',
+    icon: '⏳',
+    title: 'Rotina Leve',
+    description: 'Organização com flexibilidade e acolhimento'
+  },
+  {
+    id: 'ambiente-sonecas',
+    icon: '🌙',
+    title: 'Ambiente e Sonecas',
+    description: 'Dicas para tornar os cochilos mais tranquilos'
+  },
+  {
+    id: 'saltos-regressoes',
+    icon: '🌊',
+    title: 'Saltos e Regressões',
+    description: 'O que são e como lidar com mais leveza'
+  },
+  {
+    id: 'planejamento-dia',
+    icon: '📋',
+    title: 'Planejamento do Dia',
+    description: 'Crie uma rotina afetiva com o bebê no centro'
+  },
+  {
+    id: 'diario-ritmos',
+    icon: '📖',
+    title: 'Diário de Ritmos',
+    description: 'Registre e reflita sobre o que está funcionando'
+  }
+];
+
+const interactiveTools = [
+  {
+    id: 'calculadora-sono',
+    icon: Clock,
+    title: 'Calculadora de janela de sono',
+    description: 'Descubra os momentos ideais para sonecas'
+  },
+  {
+    id: 'calendario-sono',
+    icon: Calendar,
+    title: 'Calendário do sono por idade',
+    description: 'Veja padrões esperados para cada fase'
+  },
+  {
+    id: 'planejador-rotina',
+    icon: PenTool,
+    title: 'Planejador de rotina personalizado',
+    description: 'Monte sua rotina respeitando o ritmo familiar'
+  },
+  {
+    id: 'diario-sono',
+    icon: FileText,
+    title: 'Meu Diário do Sono',
+    description: 'Anotações simples para acompanhar o progresso'
+  }
+];
 
 const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDetailProps) => {
-  const articles = sampleContent[categoryId] || [];
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'article': return <BookOpen className="w-4 h-4" />;
-      case 'audio': return <Play className="w-4 h-4" />;
-      case 'reflection': return <Heart className="w-4 h-4" />;
-      default: return <BookOpen className="w-4 h-4" />;
-    }
-  };
-
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'article': return 'bg-sage/20 text-sage';
-      case 'audio': return 'bg-terracotta/20 text-terracotta';
-      case 'reflection': return 'bg-primary/20 text-primary';
-      default: return 'bg-muted text-muted-foreground';
-    }
-  };
-
   return (
     <div className="min-h-screen bg-warm-white">
-      {/* Header */}
+      {/* 🟤 1. TOPO FIXO */}
       <div className="bg-gradient-warm text-primary-foreground p-4 pb-6">
         <div className="flex items-center mb-4">
           <Button 
@@ -98,79 +101,169 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <h1 className="font-playfair text-xl font-semibold">{title}</h1>
+          <h1 className="font-playfair text-2xl font-semibold">⏳ Ritmo Leve</h1>
         </div>
-        <p className="text-primary-foreground/90 text-sm">
-          {description}
+        <p className="text-primary-foreground/90 text-sm mb-3">
+          Sono, rotina e organização com mais paz e presença
+        </p>
+        <p className="text-primary-foreground/80 text-xs leading-relaxed">
+          Aqui você encontra conteúdos para ajudar sua família a viver os dias com mais calma. 
+          Respeitando o ritmo do bebê e o seu, sem rigidez, com sabedoria e afeto.
         </p>
       </div>
 
-      {/* Content */}
-      <div className="p-4">
-        {/* This Week's Focus */}
-        <Card className="mb-6 border-none shadow-gentle bg-gradient-soft">
+      <div className="p-4 space-y-6">
+        {/* 🟤 2. MENU PRINCIPAL DE TEMAS */}
+        <div>
+          <h2 className="font-playfair text-lg font-semibold mb-4">Temas</h2>
+          <div className="grid grid-cols-1 gap-3">
+            {ritmoLeveThemes.map((theme) => (
+              <Card key={theme.id} className="border-none shadow-gentle hover:shadow-soft transition-shadow cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="text-2xl">{theme.icon}</div>
+                    <div className="flex-1">
+                      <h3 className="font-playfair font-medium text-sm mb-1">{theme.title}</h3>
+                      <p className="text-xs text-muted-foreground">{theme.description}</p>
+                    </div>
+                    <ArrowLeft className="w-4 h-4 text-muted-foreground rotate-180" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* 🟤 4. ESPECIALISTA DA SEMANA */}
+        <Card className="border-none shadow-gentle bg-gradient-soft">
           <CardContent className="p-4">
-            <h3 className="font-playfair font-medium mb-2">This Week in {title}</h3>
-            <p className="text-sm text-muted-foreground">
-              Focus on trusting your instincts and finding your unique rhythm together.
-            </p>
+            <div className="flex items-center space-x-3 mb-3">
+              <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                <User className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-playfair font-semibold text-sm">Dra. Ana Silva</h3>
+                <p className="text-xs text-muted-foreground">Especialista da semana</p>
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <div className="bg-primary/10 rounded-lg p-3 mb-3">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Video className="w-4 h-4 text-primary" />
+                  <span className="text-xs font-medium">Vídeo introdutório</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  "Como criar uma rotina flexível que funciona para toda família"
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2 text-xs">
+                <Calendar className="w-4 h-4 text-primary" />
+                <span>Próxima live: Sexta, 19/07 às 10h</span>
+              </div>
+              
+              <div className="flex space-x-2">
+                <Button variant="outline" size="sm" className="flex-1 text-xs">
+                  <MessageCircle className="w-3 h-3 mr-1" />
+                  Envie sua pergunta
+                </Button>
+                <Button variant="outline" size="sm" className="flex-1 text-xs">
+                  <Video className="w-3 h-3 mr-1" />
+                  Ver replays
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        {/* Audio Featured Content */}
-        {articles.find(a => a.type === 'audio') && (
-          <div className="mb-6">
-            <h3 className="font-playfair text-lg font-medium mb-4">Featured Audio</h3>
-            <AudioPlayer
-              title="Guided Breathing for Nursing"
-              duration="5:23"
-              description="A gentle 5-minute breathing exercise to help you relax during feeding time."
-            />
+        {/* 🟤 5. FERRAMENTAS INTERATIVAS */}
+        <div>
+          <h2 className="font-playfair text-lg font-semibold mb-4">Ferramentas Interativas</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {interactiveTools.map((tool) => (
+              <Card key={tool.id} className="border-none shadow-gentle hover:shadow-soft transition-shadow cursor-pointer">
+                <CardContent className="p-3 text-center">
+                  <tool.icon className="w-6 h-6 text-primary mx-auto mb-2" />
+                  <h3 className="font-medium text-xs mb-1">{tool.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-tight">{tool.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        )}
-
-        {/* Articles & Content */}
-        <div className="space-y-4">
-          <h3 className="font-playfair text-lg font-medium">Gentle Guidance</h3>
-          
-          {articles.map((article) => (
-            <Card key={article.id} className="border-none shadow-gentle hover:shadow-soft transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between mb-3">
-                  <Badge className={getTypeColor(article.type)}>
-                    <span className="flex items-center space-x-1">
-                      {getTypeIcon(article.type)}
-                      <span className="capitalize">{article.type}</span>
-                    </span>
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {article.duration || article.readTime}
-                  </span>
-                </div>
-                
-                <h4 className="font-playfair font-medium mb-2 text-sm">
-                  {article.title}
-                </h4>
-                
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {article.excerpt}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
         </div>
 
-        {/* Community Stories */}
-        <div className="mt-8">
-          <h3 className="font-playfair text-lg font-medium mb-4">From Our Community</h3>
-          <Card className="border-none shadow-gentle">
+        {/* 🟤 6. COMUNIDADE */}
+        <div>
+          <h2 className="font-playfair text-lg font-semibold mb-4">💬 Comunidade</h2>
+          
+          {/* Comentários e relatos */}
+          <div className="space-y-3">
+            <Card className="border-none shadow-gentle">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Baby className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <h4 className="font-medium text-xs">Mariana</h4>
+                      <span className="text-xs text-muted-foreground">há 2h</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+                      "Consegui criar uma rotina que funciona! O bebê está dormindo melhor e eu também. 
+                      A dica do ambiente escuro fez toda diferença nas sonecas."
+                    </p>
+                    <div className="flex items-center space-x-3">
+                      <button className="flex items-center space-x-1 text-xs text-muted-foreground">
+                        <Heart className="w-3 h-3" />
+                        <span>12</span>
+                      </button>
+                      <button className="text-xs text-muted-foreground">Responder</button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-none shadow-gentle">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Baby className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <h4 className="font-medium text-xs">Luciana</h4>
+                      <span className="text-xs text-muted-foreground">há 5h</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+                      "Dica: comecei a observar os sinais de sono antes de ele ficar muito agitado. 
+                      Mudou completamente nossa rotina! 💕"
+                    </p>
+                    <div className="flex items-center space-x-3">
+                      <button className="flex items-center space-x-1 text-xs text-muted-foreground">
+                        <Heart className="w-3 h-3" />
+                        <span>8</span>
+                      </button>
+                      <button className="text-xs text-muted-foreground">Responder</button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Caixa para novo comentário */}
+          <Card className="border-2 border-dashed border-primary/30 mt-4">
             <CardContent className="p-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-                <div>
-                  <h4 className="font-medium text-sm mb-1">Sarah's Story</h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    "I learned to trust my body's wisdom and my baby's natural rhythms. It wasn't always easy, but it was always worth it."
+              <div className="flex items-center space-x-3">
+                <MessageCircle className="w-5 h-5 text-primary" />
+                <div className="flex-1">
+                  <p className="text-xs text-muted-foreground">
+                    Compartilhe sua experiência ou dica com outras mães...
                   </p>
                 </div>
               </div>
