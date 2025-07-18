@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Calendar, Play, BookOpen, Headphones, RotateCcw, Baby, Utensils, Clock, Heart, Users, Phone } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import CategoryDetail from './CategoryDetail';
+import Breastfeeding from './Breastfeeding';
 
 interface WeeklyContent {
   day: string;
@@ -159,11 +160,11 @@ const Home = () => {
       color: 'bg-secondary/20 hover:bg-secondary/30 text-secondary'
     },
     {
-      id: 'juntas-comeco',
-      title: 'Juntas no Começo',
-      emoji: '🤱',
+      id: 'amamentacao',
+      title: 'Amamentação',
+      emoji: '🍼',
       icon: Heart,
-      description: 'Amamentação e pós-parto',
+      description: 'Registro, dicas e comunidade',
       color: 'bg-primary/20 hover:bg-primary/30 text-primary'
     },
     {
@@ -184,9 +185,18 @@ const Home = () => {
     }
   ];
 
-  // Se uma categoria está selecionada, mostra o CategoryDetail
+  // Se uma categoria está selecionada, mostra o componente apropriado
   if (selectedCategory) {
     const category = sections.find(s => s.id === selectedCategory);
+    
+    // Componente especial para Amamentação
+    if (selectedCategory === 'amamentacao') {
+      return (
+        <Breastfeeding onBack={() => setSelectedCategory(null)} />
+      );
+    }
+    
+    // Outros componentes usam CategoryDetail
     return (
       <CategoryDetail
         categoryId={selectedCategory}
