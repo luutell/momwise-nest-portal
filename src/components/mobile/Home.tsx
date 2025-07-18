@@ -1,4 +1,4 @@
-import { Calendar, Play, BookOpen, Headphones } from 'lucide-react';
+import { Calendar, Play, BookOpen, Headphones, RotateCcw, Baby, Utensils, Clock, Heart, Users, Phone } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface WeeklyContent {
@@ -130,123 +130,242 @@ const Home = () => {
     return `Hoje é ${dayName}, ${day} de ${month}`;
   };
 
+  // Seções fixas do app
+  const sections = [
+    {
+      id: 'ritmo-leve',
+      title: 'Ritmo Leve',
+      emoji: '🔄',
+      icon: RotateCcw,
+      description: 'Rotina, sono, regressões',
+      color: 'bg-sage/20 hover:bg-sage/30 text-sage'
+    },
+    {
+      id: 'entendendo-bebe',
+      title: 'Entendendo o Bebê',
+      emoji: '🧠',
+      icon: Baby,
+      description: 'Choro, marcos, mitos',
+      color: 'bg-primary/20 hover:bg-primary/30 text-primary'
+    },
+    {
+      id: 'primeiras-mordidas',
+      title: 'Primeiras Mordidas',
+      emoji: '🍽',
+      icon: Utensils,
+      description: 'Alimentação',
+      color: 'bg-terracotta/20 hover:bg-terracotta/30 text-terracotta'
+    },
+    {
+      id: 'no-seu-tempo',
+      title: 'No seu Tempo',
+      emoji: '💪',
+      icon: Clock,
+      description: 'Atividades de estímulo',
+      color: 'bg-secondary/20 hover:bg-secondary/30 text-secondary'
+    },
+    {
+      id: 'juntas-comeco',
+      title: 'Juntas no Começo',
+      emoji: '🤱',
+      icon: Heart,
+      description: 'Amamentação e pós-parto',
+      color: 'bg-primary/20 hover:bg-primary/30 text-primary'
+    },
+    {
+      id: 'mae-inteira',
+      title: 'Mãe Inteira',
+      emoji: '🛀',
+      icon: Heart,
+      description: 'Autocuidado, saúde emocional',
+      color: 'bg-terracotta/20 hover:bg-terracotta/30 text-terracotta'
+    },
+    {
+      id: 'entre-maes',
+      title: 'Entre Mães',
+      emoji: '🤝',
+      icon: Users,
+      description: 'Comunidade e trocas reais',
+      color: 'bg-sage/20 hover:bg-sage/30 text-sage'
+    }
+  ];
+
   return (
-    <div className="p-4 space-y-6">
-      {/* Header personalizado */}
-      <div className="space-y-2">
-        <h1 className="font-playfair text-2xl font-semibold text-foreground">
-          Olá, {userName} 👋
-        </h1>
-        <p className="text-muted-foreground text-sm">
-          {formatDate(today)}
-        </p>
-        <p className="text-primary text-sm font-medium">
-          Você está no dia {postPartumDay} pós-parto
-        </p>
-      </div>
-
-      {/* Calendário Semanal */}
-      <div className="space-y-4">
-        <div className="flex items-center space-x-2">
-          <Calendar className="w-5 h-5 text-primary" />
-          <h2 className="font-playfair text-lg font-medium text-foreground">
-            Sua Semana
-          </h2>
+    <div className="pb-6">
+      <div className="p-4 space-y-6">
+        {/* Header personalizado */}
+        <div className="space-y-2">
+          <h1 className="font-playfair text-2xl font-semibold text-foreground">
+            Olá, {userName} 👋
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            {formatDate(today)}
+          </p>
+          <p className="text-primary text-sm font-medium">
+            Você está no dia {postPartumDay} pós-parto
+          </p>
         </div>
-        
-        <p className="text-muted-foreground text-sm">
-          Cada dia traz um novo conteúdo personalizado para sua fase
-        </p>
 
-        {/* Grid do calendário */}
-        <div className="grid grid-cols-7 gap-2">
-          {weeklyContents.map((item, index) => {
-            const Icon = getContentIcon(item.content.type);
-            const isToday = item.date === currentDay;
-            const isPast = item.date < currentDay;
-            const colorClasses = getContentColor(item.content.type);
-            
-            return (
-              <div key={index} className="space-y-2">
-                {/* Dia da semana */}
-                <div className="text-center">
-                  <p className="text-xs font-medium text-muted-foreground">
-                    {item.day}
+        {/* Calendário Semanal */}
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Calendar className="w-5 h-5 text-primary" />
+            <h2 className="font-playfair text-lg font-medium text-foreground">
+              Sua Semana
+            </h2>
+          </div>
+          
+          <p className="text-muted-foreground text-sm">
+            Cada dia traz um novo conteúdo personalizado para sua fase
+          </p>
+
+          {/* Grid do calendário */}
+          <div className="grid grid-cols-7 gap-2">
+            {weeklyContents.map((item, index) => {
+              const Icon = getContentIcon(item.content.type);
+              const isToday = item.date === currentDay;
+              const isPast = item.date < currentDay;
+              const colorClasses = getContentColor(item.content.type);
+              
+              return (
+                <div key={index} className="space-y-2">
+                  {/* Dia da semana */}
+                  <div className="text-center">
+                    <p className="text-xs font-medium text-muted-foreground">
+                      {item.day}
+                    </p>
+                    <p className={`text-sm font-semibold ${isToday ? 'text-primary' : 'text-foreground'}`}>
+                      {item.date}
+                    </p>
+                  </div>
+                  
+                  {/* Card do conteúdo */}
+                  <Card 
+                    className={`
+                      ${isToday ? 'ring-2 ring-primary bg-primary/5' : ''} 
+                      ${isPast && item.content.completed ? 'bg-muted/50' : ''} 
+                      border-none shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer
+                    `}
+                  >
+                    <CardContent className="p-3 text-center space-y-2">
+                      {/* Ícone do tipo de conteúdo */}
+                      <div className="flex justify-center">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colorClasses}`}>
+                          <Icon className="w-4 h-4" />
+                        </div>
+                      </div>
+                      
+                      {/* Título */}
+                      <h3 className="text-xs font-medium text-foreground leading-tight">
+                        {item.content.title}
+                      </h3>
+                      
+                      {/* Duração */}
+                      <p className="text-xs text-muted-foreground">
+                        {item.content.duration}
+                      </p>
+                      
+                      {/* Status de conclusão */}
+                      {item.content.completed && (
+                        <div className="w-2 h-2 bg-primary rounded-full mx-auto"></div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Conteúdo em destaque do dia */}
+        <div className="space-y-4">
+          <h3 className="font-playfair text-lg font-medium text-foreground">
+            Destaque de Hoje
+          </h3>
+          
+          <Card className="bg-gradient-to-br from-primary/10 via-background to-sage/5 border-none shadow-soft">
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Play className="w-6 h-6 text-primary" />
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-playfair font-medium text-foreground">
+                    Massagem relaxante no bebê
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Aprenda técnicas suaves de massagem que ajudam a acalmar seu bebê 
+                    e fortalecer o vínculo entre vocês.
                   </p>
-                  <p className={`text-sm font-semibold ${isToday ? 'text-primary' : 'text-foreground'}`}>
-                    {item.date}
+                  <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                    <span>4 minutos</span>
+                    <span>•</span>
+                    <span>Vídeo</span>
+                    <span>•</span>
+                    <span>Com especialista</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Chamada para Especialista */}
+        <div className="space-y-4">
+          <Card className="bg-gradient-to-r from-terracotta/20 to-primary/20 border-none shadow-soft">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-terracotta/30 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-6 h-6 text-terracotta" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="font-playfair font-semibold text-foreground">
+                    📞 Tire dúvidas ao vivo com especialista
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Nesta sexta às 10h! Clique para participar
                   </p>
                 </div>
-                
-                {/* Card do conteúdo */}
-                <Card 
-                  className={`
-                    ${isToday ? 'ring-2 ring-primary bg-primary/5' : ''} 
-                    ${isPast && item.content.completed ? 'bg-muted/50' : ''} 
-                    border-none shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer
-                  `}
-                >
-                  <CardContent className="p-3 text-center space-y-2">
-                    {/* Ícone do tipo de conteúdo */}
-                    <div className="flex justify-center">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colorClasses}`}>
-                        <Icon className="w-4 h-4" />
-                      </div>
-                    </div>
-                    
-                    {/* Título */}
-                    <h3 className="text-xs font-medium text-foreground leading-tight">
-                      {item.content.title}
-                    </h3>
-                    
-                    {/* Duração */}
-                    <p className="text-xs text-muted-foreground">
-                      {item.content.duration}
-                    </p>
-                    
-                    {/* Status de conclusão */}
-                    {item.content.completed && (
-                      <div className="w-2 h-2 bg-primary rounded-full mx-auto"></div>
-                    )}
-                  </CardContent>
-                </Card>
               </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Seções fixas - scroll horizontal */}
+      <div className="space-y-4">
+        <div className="px-4">
+          <h3 className="font-playfair text-lg font-medium text-foreground">
+            Explore por Temas
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            Navegue pelos conteúdos organizados para sua jornada
+          </p>
+        </div>
+        
+        <div className="flex overflow-x-auto gap-4 px-4 pb-2">
+          {sections.map((section) => {
+            const Icon = section.icon;
+            return (
+              <Card 
+                key={section.id}
+                className={`${section.color.split(' ')[0]} border-none shadow-soft hover:shadow-md transition-all duration-200 cursor-pointer flex-shrink-0 w-40`}
+              >
+                <CardContent className="p-4 text-center space-y-3">
+                  <div className="text-2xl">{section.emoji}</div>
+                  <div className="space-y-1">
+                    <h4 className="font-playfair font-medium text-sm text-foreground">
+                      {section.title}
+                    </h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {section.description}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             );
           })}
         </div>
-      </div>
-
-      {/* Conteúdo em destaque do dia */}
-      <div className="space-y-4">
-        <h3 className="font-playfair text-lg font-medium text-foreground">
-          Destaque de Hoje
-        </h3>
-        
-        <Card className="bg-gradient-to-br from-primary/10 via-background to-sage/5 border-none shadow-soft">
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <Play className="w-6 h-6 text-primary" />
-              </div>
-              <div className="space-y-2">
-                <h4 className="font-playfair font-medium text-foreground">
-                  Massagem relaxante no bebê
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Aprenda técnicas suaves de massagem que ajudam a acalmar seu bebê 
-                  e fortalecer o vínculo entre vocês.
-                </p>
-                <div className="flex items-center space-x-4 text-xs text-muted-foreground">
-                  <span>4 minutos</span>
-                  <span>•</span>
-                  <span>Vídeo</span>
-                  <span>•</span>
-                  <span>Com especialista</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Home as HomeIcon, Calendar, Heart, User } from 'lucide-react';
+import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle } from 'lucide-react';
 import Home from '@/components/mobile/Home';
 import WeeklyCalendar from '@/components/mobile/WeeklyCalendar';
 import DailyInsight from '@/components/mobile/DailyInsight';
@@ -43,10 +43,24 @@ const MobileApp = () => {
             <WeeklyCalendar />
           </TabsContent>
           
-          <TabsContent value="wellness" className="mt-0">
+          <TabsContent value="biblioteca" className="mt-0">
             <div className="p-4">
-              <h2 className="font-playfair text-xl mb-4">Wellness & Stories</h2>
-              <p className="text-muted-foreground">Community features coming soon...</p>
+              <h2 className="font-playfair text-xl mb-4">Biblioteca</h2>
+              <p className="text-muted-foreground">Todos os conteúdos organizados por categoria...</p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="entre-maes" className="mt-0">
+            <div className="p-4">
+              <h2 className="font-playfair text-xl mb-4">Entre Mães</h2>
+              <p className="text-muted-foreground">Comunidade e trocas reais entre mães...</p>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="chat" className="mt-0">
+            <div className="p-4">
+              <h2 className="font-playfair text-xl mb-4">Chat</h2>
+              <p className="text-muted-foreground">Converse com especialistas...</p>
             </div>
           </TabsContent>
           
@@ -65,19 +79,27 @@ const MobileApp = () => {
             </TabsTrigger>
             
             <TabsTrigger 
-              value="calendar" 
+              value="biblioteca" 
               className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
             >
-              <Calendar className="w-5 h-5 mb-1" />
-              <span className="text-xs">Calendar</span>
+              <BookOpen className="w-5 h-5 mb-1" />
+              <span className="text-xs">Biblioteca</span>
             </TabsTrigger>
             
             <TabsTrigger 
-              value="wellness" 
+              value="entre-maes" 
               className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
             >
               <Heart className="w-5 h-5 mb-1" />
-              <span className="text-xs">Wellness</span>
+              <span className="text-xs">Entre Mães</span>
+            </TabsTrigger>
+            
+            <TabsTrigger 
+              value="chat" 
+              className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+            >
+              <MessageCircle className="w-5 h-5 mb-1" />
+              <span className="text-xs">Chat</span>
             </TabsTrigger>
             
             <TabsTrigger 
@@ -85,7 +107,7 @@ const MobileApp = () => {
               className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
             >
               <User className="w-5 h-5 mb-1" />
-              <span className="text-xs">Profile</span>
+              <span className="text-xs">Perfil</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
