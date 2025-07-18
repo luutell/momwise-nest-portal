@@ -180,9 +180,9 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
           <div className="flex overflow-x-auto gap-6 pb-2">
             {recommendedContent.map((content, index) => {
               const cardColors = [
-                'bg-emerald-200/90', // mint green
-                'bg-purple-200/90',  // lavender
-                'bg-blue-200/90'     // light blue
+                'bg-emerald-300', // solid mint green
+                'bg-purple-300',  // solid lavender
+                'bg-blue-300'     // solid light blue
               ];
               const cardColor = cardColors[index % cardColors.length];
               
