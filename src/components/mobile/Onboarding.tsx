@@ -64,7 +64,7 @@ const Onboarding = ({ onComplete }: OnboardingProps) => {
   const currentStepData = onboardingSteps[currentStep];
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-gradient-to-br from-background via-primary/5 to-sage/10">
+    <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-gradient-to-br from-terracotta/10 via-terracotta/5 to-terracotta/20">
       <div className="w-full max-w-md space-y-8">
         {/* Progress indicators */}
         <div className="flex justify-center space-x-2">
