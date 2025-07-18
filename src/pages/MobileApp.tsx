@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Home, Calendar, Heart, User } from 'lucide-react';
-import CategoryHub from '@/components/mobile/CategoryHub';
+import { Home as HomeIcon, Calendar, Heart, User } from 'lucide-react';
+import Home from '@/components/mobile/Home';
 import WeeklyCalendar from '@/components/mobile/WeeklyCalendar';
 import DailyInsight from '@/components/mobile/DailyInsight';
 import Profile from '@/components/mobile/Profile';
@@ -36,7 +36,7 @@ const MobileApp = () => {
       <main className="flex-1 pb-20">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsContent value="home" className="mt-0">
-            <CategoryHub />
+            <Home />
           </TabsContent>
           
           <TabsContent value="calendar" className="mt-0">
@@ -60,7 +60,7 @@ const MobileApp = () => {
               value="home" 
               className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
             >
-              <Home className="w-5 h-5 mb-1" />
+              <HomeIcon className="w-5 h-5 mb-1" />
               <span className="text-xs">Home</span>
             </TabsTrigger>
             
