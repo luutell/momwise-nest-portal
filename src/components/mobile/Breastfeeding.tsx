@@ -141,7 +141,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-terracotta">
       {/* Header */}
       <div className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 p-4 pb-6">
         <div className="flex items-center space-x-3 mb-4">
@@ -164,10 +164,10 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         </p>
       </div>
 
-      <div className="p-6 space-y-10">
+      <div className="p-8 space-y-12">
         
         {/* Bloco 1: Recomendado para você */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="flex items-center justify-between">
             <h2 className="font-playfair text-lg font-semibold text-white">
               🔹 Recomendado para você

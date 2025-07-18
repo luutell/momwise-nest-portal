@@ -115,7 +115,7 @@ const interactiveTools = [
 
 const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDetailProps) => {
   return (
-    <div className="min-h-screen bg-gray-900 relative overflow-hidden">
+    <div className="min-h-screen bg-terracotta relative overflow-hidden">
       {/* Elementos decorativos de fundo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-xl"></div>
@@ -158,14 +158,14 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
         </div>
       </div>
 
-      <div className="relative z-10 p-6 space-y-10">
+      <div className="relative z-10 p-8 space-y-12">
         {/* 🟤 2. MENU PRINCIPAL DE TEMAS - Redesenhado */}
         <div className="space-y-8">
           <div className="text-center space-y-2">
             <h2 className="font-playfair text-2xl font-bold text-white">Temas Principais</h2>
             <p className="text-gray-400">Escolha o tema que mais precisa hoje</p>
           </div>
-          <div className="space-y-6">
+           <div className="space-y-8">
             {ritmoLeveThemes.map((theme) => {
               const Icon = theme.icon;
               return (
