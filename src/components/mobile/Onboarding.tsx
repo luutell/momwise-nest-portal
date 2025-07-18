@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronRight, Sparkles, MessageCircle, Calendar, Users, Baby } from 'lucide-react';
+import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 const onboardingSteps = [
   {
@@ -64,22 +65,29 @@ const Onboarding = ({ onComplete }: OnboardingProps) => {
   const currentStepData = onboardingSteps[currentStep];
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-terracotta">
-      <div className="w-full max-w-md space-y-8">
+    <div className="relative min-h-screen flex flex-col justify-center items-center p-6 overflow-hidden">
+      {/* Watercolor background - same as hero */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
+        style={{ backgroundImage: `url(${watercolorBg})` }}
+      />
+      
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-md space-y-8">
         {/* Progress indicators */}
         <div className="flex justify-center space-x-2">
           {onboardingSteps.map((_, index) => (
             <div
               key={index}
               className={`h-2 w-8 rounded-full transition-all duration-300 ${
-                index <= currentStep ? 'bg-primary' : 'bg-muted'
+                index <= currentStep ? 'bg-primary' : 'bg-muted/50'
               }`}
             />
           ))}
         </div>
 
         {/* Main content card */}
-        <Card className={`border-0 shadow-lg bg-gradient-to-br ${currentStepData.gradient} backdrop-blur-sm`}>
+        <Card className={`border-0 shadow-2xl bg-gradient-to-br ${currentStepData.gradient} backdrop-blur-sm`}>
           <CardContent className="p-8 text-center space-y-6">
             {/* Icon */}
             <div className="flex justify-center">
@@ -114,7 +122,7 @@ const Onboarding = ({ onComplete }: OnboardingProps) => {
         <div className="text-center">
           <button
             onClick={onComplete}
-            className="text-muted-foreground hover:text-foreground transition-colors text-sm underline"
+            className="text-foreground bg-white/80 hover:bg-white/90 transition-all duration-200 text-sm px-4 py-2 rounded-lg font-medium shadow-md"
           >
             Pular apresentação
           </button>
