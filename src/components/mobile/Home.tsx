@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Calendar, Play, BookOpen, Headphones, RotateCcw, Baby, Utensils, Clock, Heart, Users, Phone } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import CategoryDetail from './CategoryDetail';
 
 interface WeeklyContent {
   day: string;
@@ -112,23 +114,14 @@ const getContentColor = (type: string) => {
 };
 
 const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  
   const today = new Date();
   const currentDay = today.getDate();
   
   // Mock user data - in real app this would come from user profile
   const userName = "Luiza";
   const postPartumDay = 23;
-  
-  const formatDate = (date: Date) => {
-    const days = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
-    const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-    
-    const dayName = days[date.getDay()];
-    const day = date.getDate();
-    const month = months[date.getMonth()];
-    
-    return `Hoje é ${dayName}, ${day} de ${month}`;
-  };
 
   // Seções fixas do app
   const sections = [
@@ -189,6 +182,31 @@ const Home = () => {
       color: 'bg-sage/20 hover:bg-sage/30 text-sage'
     }
   ];
+
+  // Se uma categoria está selecionada, mostra o CategoryDetail
+  if (selectedCategory) {
+    const category = sections.find(s => s.id === selectedCategory);
+    return (
+      <CategoryDetail
+        categoryId={selectedCategory}
+        title={category?.title || ''}
+        description={category?.description || ''}
+        onBack={() => setSelectedCategory(null)}
+      />
+    );
+  }
+  
+  const formatDate = (date: Date) => {
+    const days = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+    const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+    
+    const dayName = days[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    
+    return `Hoje é ${dayName}, ${day} de ${month}`;
+  };
+
 
   return (
     <div className="pb-6">
@@ -349,6 +367,7 @@ const Home = () => {
             return (
               <Card 
                 key={section.id}
+                onClick={() => setSelectedCategory(section.id)}
                 className={`${section.color.split(' ')[0]} border-none shadow-soft hover:shadow-md transition-all duration-200 cursor-pointer flex-shrink-0 w-40`}
               >
                 <CardContent className="p-4 text-center space-y-3">
