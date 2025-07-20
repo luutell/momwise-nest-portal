@@ -141,84 +141,75 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-terracotta">
+    <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-sage/5">
       {/* Header */}
-      <div className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 p-4 pb-6">
+      <div className="bg-gradient-to-r from-primary/20 via-terracotta/10 to-sage/20 p-4 pb-6">
         <div className="flex items-center space-x-3 mb-4">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={onBack}
-            className="text-blue-400 hover:bg-gray-700"
+            className="text-primary hover:bg-primary/20"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div className="text-2xl">🍼</div>
-          <h1 className="font-playfair text-2xl font-semibold text-white">
+          <h1 className="font-playfair text-2xl font-semibold text-foreground">
             Amamentação
           </h1>
         </div>
         
-        <p className="text-gray-400 ml-11">
+        <p className="text-muted-foreground ml-11">
           Seu bebê tem {babyAge} meses – aqui estão recomendações e ferramentas pensadas para esta fase.
         </p>
       </div>
 
-      <div className="p-8 space-y-12">
+      <div className="p-4 space-y-6">
         
         {/* Bloco 1: Recomendado para você */}
-        <div className="space-y-8">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-playfair text-lg font-semibold text-white">
+            <h2 className="font-playfair text-lg font-semibold text-foreground">
               🔹 Recomendado para você
             </h2>
-            <Button variant="ghost" size="sm" className="text-blue-400 hover:bg-gray-800">
+            <Button variant="ghost" size="sm" className="text-primary">
               Ver todas <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
           
-          <div className="flex overflow-x-auto gap-6 pb-2">
-            {recommendedContent.map((content, index) => {
-              const cardColors = [
-                'bg-emerald-300', // solid mint green
-                'bg-purple-300',  // solid lavender
-                'bg-blue-300'     // solid light blue
-              ];
-              const cardColor = cardColors[index % cardColors.length];
-              
-              return (
-                <Card 
-                  key={content.id}
-                  className={`${cardColor} shadow-xl flex-shrink-0 w-64 cursor-pointer hover:scale-105 transition-all duration-200 border-none`}
-                >
-                  <CardContent className="p-4 space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-2 flex-1">
-                        <h3 className="font-medium text-sm leading-tight text-gray-800">
-                          {content.title}
-                        </h3>
-                        <div className="flex items-center space-x-2 text-xs text-gray-700">
-                          <span>{content.readTime}</span>
-                          <span>•</span>
-                          <span className="capitalize">{content.type}</span>
-                        </div>
+          <div className="flex overflow-x-auto gap-4 pb-2">
+            {recommendedContent.map((content) => (
+              <Card 
+                key={content.id}
+                className={`bg-gradient-to-br ${content.gradient} border-none shadow-soft flex-shrink-0 w-64 cursor-pointer hover:shadow-md transition-all duration-200`}
+              >
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-2 flex-1">
+                      <h3 className="font-medium text-sm leading-tight text-foreground">
+                        {content.title}
+                      </h3>
+                      <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                        <span>{content.readTime}</span>
+                        <span>•</span>
+                        <span className="capitalize">{content.type}</span>
                       </div>
-                      {content.isCompleted && (
-                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        </div>
-                      )}
                     </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                    {content.isCompleted && (
+                      <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
 
         {/* Bloco 2: Registrar mamadas */}
         <div className="space-y-4">
-          <h2 className="font-playfair text-lg font-semibold text-white">
+          <h2 className="font-playfair text-lg font-semibold text-foreground">
             🔹 Registrar mamadas
           </h2>
           
@@ -323,7 +314,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         {/* Bloco 3: Biblioteca de dúvidas frequentes */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-playfair text-lg font-semibold text-white">
+            <h2 className="font-playfair text-lg font-semibold text-foreground">
               🔹 Biblioteca de dúvidas frequentes
             </h2>
             <Button variant="ghost" size="sm" className="text-primary">
@@ -346,7 +337,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         {/* Bloco 4: Entre Mães - Amamentação */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-playfair text-lg font-semibold text-white">
+            <h2 className="font-playfair text-lg font-semibold text-foreground">
               🔹 Entre Mães – Amamentação
             </h2>
             <Button variant="ghost" size="sm" className="text-primary">
@@ -412,7 +403,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
 
         {/* Bloco 5: Fale com uma especialista */}
         <div className="space-y-4">
-          <h2 className="font-playfair text-lg font-semibold text-white">
+          <h2 className="font-playfair text-lg font-semibold text-foreground">
             🔹 Fale com uma especialista
           </h2>
           
