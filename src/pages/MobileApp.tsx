@@ -33,7 +33,7 @@ const MobileApp = () => {
   }
 
   return (
-    <SidebarProvider defaultOpen={false}>
+    <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen w-full bg-warm-white font-inter flex">
         <AppSidebar />
         
