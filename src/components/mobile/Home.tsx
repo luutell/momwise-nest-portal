@@ -222,18 +222,6 @@ const Home = () => {
   return (
     <div className="pb-6">
       <div className="p-4 space-y-6">
-        {/* Header personalizado */}
-        <div className="space-y-2">
-          <h1 className="font-playfair text-2xl font-semibold text-foreground">
-            Olá, {userName} 👋
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            {formatDate(today)}
-          </p>
-          <p className="text-primary text-sm font-medium">
-            Você está no dia {postPartumDay} pós-parto
-          </p>
-        </div>
 
         {/* Calendário Semanal */}
         <div className="space-y-4">
