@@ -6,17 +6,28 @@ import WeeklyCalendar from '@/components/mobile/WeeklyCalendar';
 import DailyInsight from '@/components/mobile/DailyInsight';
 import Profile from '@/components/mobile/Profile';
 import Onboarding from '@/components/mobile/Onboarding';
+import ProfileSetup from '@/components/mobile/ProfileSetup';
 
 const MobileApp = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showProfileSetup, setShowProfileSetup] = useState(false);
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false);
+    setShowProfileSetup(true);
+  };
+
+  const handleProfileSetupComplete = () => {
+    setShowProfileSetup(false);
   };
 
   if (showOnboarding) {
     return <Onboarding onComplete={handleOnboardingComplete} />;
+  }
+
+  if (showProfileSetup) {
+    return <ProfileSetup onComplete={handleProfileSetupComplete} />;
   }
 
   return (
