@@ -34,15 +34,15 @@ const MobileApp = () => {
 
   return (
     <SidebarProvider defaultOpen={false}>
-      <div className="min-h-screen max-w-md mx-auto bg-background font-inter flex">
+      <div className="min-h-screen w-full max-w-sm mx-auto bg-background font-inter flex overflow-hidden">
         <AppSidebar />
         
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
           <header className="bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-cream hover:bg-cream/10 rounded-lg p-2">
+                <SidebarTrigger className="text-cream hover:bg-cream/10 rounded-lg p-2 bg-cream/20">
                   <Menu className="w-5 h-5" />
                 </SidebarTrigger>
                 <h1 className="font-playfair text-2xl font-semibold">MomWise</h1>
@@ -66,8 +66,8 @@ const MobileApp = () => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 pb-20">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <main className="flex-1 pb-20 overflow-y-auto">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
               <TabsContent value="home" className="mt-0">
                 <Home />
               </TabsContent>
@@ -102,7 +102,7 @@ const MobileApp = () => {
               </TabsContent>
 
               {/* Bottom Navigation */}
-              <TabsList className="fixed bottom-0 left-0 right-0 h-16 rounded-none bg-card border-t border-border flex">
+              <TabsList className="fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-sm w-full h-16 rounded-none bg-card border-t border-border flex z-50">
                 <TabsTrigger 
                   value="home" 
                   className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
