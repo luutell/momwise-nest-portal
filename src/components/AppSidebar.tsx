@@ -46,6 +46,57 @@ const menuItems = [
   },
 ];
 
+const categories = [
+  {
+    title: 'Amamentação',
+    url: '/app/amamentacao',
+    icon: Baby,
+    color: 'text-terracotta'
+  },
+  {
+    title: 'Puerpério',
+    url: '/app/puerperio',
+    icon: Heart,
+    color: 'text-sage'
+  },
+  {
+    title: 'Desenvolvimento',
+    url: '/app/desenvolvimento',
+    icon: Users,
+    color: 'text-terracotta'
+  },
+  {
+    title: 'Sono',
+    url: '/app/sono',
+    icon: Calendar,
+    color: 'text-sage'
+  },
+  {
+    title: 'Trabalho',
+    url: '/app/trabalho',
+    icon: Home,
+    color: 'text-terracotta'
+  },
+  {
+    title: 'Autocuidado',
+    url: '/app/autocuidado',
+    icon: User,
+    color: 'text-sage'
+  },
+  {
+    title: 'Relações',
+    url: '/app/relacoes',
+    icon: Heart,
+    color: 'text-terracotta'
+  },
+  {
+    title: 'Gestação',
+    url: '/app/gestacao',
+    icon: Baby,
+    color: 'text-sage'
+  }
+];
+
 const quickActions = [
   {
     title: 'Amamentação',
@@ -139,23 +190,23 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Ações Rápidas */}
+        {/* Categorias */}
         {!collapsed && (
           <SidebarGroup>
             <SidebarGroupLabel className="px-4 py-2 text-muted-foreground text-xs uppercase tracking-wide">
-              Acesso Rápido
+              Categorias
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {quickActions.map((action) => (
-                  <SidebarMenuItem key={action.title}>
+                {categories.map((category) => (
+                  <SidebarMenuItem key={category.title}>
                     <SidebarMenuButton asChild>
                       <NavLink
-                        to={action.url}
+                        to={category.url}
                         className={`flex items-center space-x-3 px-4 py-2 rounded-lg mx-2 transition-all duration-200 hover:bg-muted/50 text-muted-foreground hover:text-foreground`}
                       >
-                        <action.icon className={`w-4 h-4 ${action.color}`} />
-                        <span className="text-sm">{action.title}</span>
+                        <category.icon className={`w-4 h-4 ${category.color}`} />
+                        <span className="text-sm">{category.title}</span>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

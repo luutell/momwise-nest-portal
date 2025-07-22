@@ -33,21 +33,21 @@ const MobileApp = () => {
   }
 
   return (
-    <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen w-full bg-warm-white font-inter flex">
+    <SidebarProvider defaultOpen={false}>
+      <div className="min-h-screen max-w-md mx-auto bg-background font-inter flex">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <header className="bg-gradient-warm text-primary-foreground p-4 pb-6 rounded-b-2xl shadow-soft">
+          <header className="bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-primary-foreground hover:bg-primary-foreground/10 rounded-lg p-2">
+                <SidebarTrigger className="text-cream hover:bg-cream/10 rounded-lg p-2">
                   <Menu className="w-5 h-5" />
                 </SidebarTrigger>
                 <h1 className="font-playfair text-2xl font-semibold">MomWise</h1>
               </div>
-              <div className="w-8 h-8 bg-primary-foreground/20 rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-cream/20 rounded-full flex items-center justify-center">
                 <Heart className="w-4 h-4" />
               </div>
             </div>
@@ -58,7 +58,7 @@ const MobileApp = () => {
                 Olá Luiza! 👋
               </p>
               <p className="text-terracotta/80 text-sm">
-                Hoje é dia 21 de julho, seu bebê tem 20 dias
+                Hoje é dia 21 de julho, seu bebê Miguel tem 20 dias
               </p>
             </div>
             
