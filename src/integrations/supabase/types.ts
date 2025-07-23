@@ -14,6 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
+      referral_rewards: {
+        Row: {
+          applied: boolean | null
+          created_at: string
+          id: string
+          months_earned: number | null
+          referral_count: number
+          reward_type: string | null
+          user_id: string
+        }
+        Insert: {
+          applied?: boolean | null
+          created_at?: string
+          id?: string
+          months_earned?: number | null
+          referral_count: number
+          reward_type?: string | null
+          user_id: string
+        }
+        Update: {
+          applied?: boolean | null
+          created_at?: string
+          id?: string
+          months_earned?: number | null
+          referral_count?: number
+          reward_type?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referred_email: string
+          referred_user_id: string | null
+          referrer_id: string
+          rewarded: boolean | null
+          subscribed: boolean | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referred_email: string
+          referred_user_id?: string | null
+          referrer_id: string
+          rewarded?: boolean | null
+          subscribed?: boolean | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referred_email?: string
+          referred_user_id?: string | null
+          referrer_id?: string
+          rewarded?: boolean | null
+          subscribed?: boolean | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          free_months_remaining: number | null
+          id: string
+          stripe_customer_id: string | null
+          subscribed: boolean
+          subscription_end: string | null
+          subscription_tier: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          free_months_remaining?: number | null
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          free_months_remaining?: number | null
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       waitlist_emails: {
         Row: {
           created_at: string
