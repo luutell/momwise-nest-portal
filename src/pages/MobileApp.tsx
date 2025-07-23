@@ -42,10 +42,10 @@ const MobileApp = () => {
           <header className="bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-cream hover:bg-cream/10 rounded-lg p-2 bg-cream/20">
-                  <Menu className="w-5 h-5" />
+                <SidebarTrigger className="text-white hover:bg-white/10 rounded-lg p-2 bg-white/20 border border-white/30">
+                  <Menu className="w-5 h-5 text-white" />
                 </SidebarTrigger>
-                <h1 className="font-playfair text-2xl font-semibold">MomWise</h1>
+                <h1 className="font-playfair text-2xl font-semibold text-white">MomWise</h1>
               </div>
               <div className="w-8 h-8 bg-cream/20 rounded-full flex items-center justify-center">
                 <Heart className="w-4 h-4" />
