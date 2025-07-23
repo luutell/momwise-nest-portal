@@ -42,8 +42,8 @@ const MobileApp = () => {
           <header className="bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-white hover:bg-white/10 rounded-lg p-2 bg-white/20 border border-white/30">
-                  <Menu className="w-5 h-5 text-white" />
+                <SidebarTrigger className="text-terracotta hover:bg-terracotta/10 rounded-lg p-2 bg-terracotta/20 border border-terracotta/30">
+                  <Menu className="w-5 h-5 text-terracotta" />
                 </SidebarTrigger>
                 <h1 className="font-playfair text-2xl font-semibold text-white">MomWise</h1>
               </div>
