@@ -9,7 +9,6 @@ import DailyInsight from '@/components/mobile/DailyInsight';
 import Profile from '@/components/mobile/Profile';
 import Onboarding from '@/components/mobile/Onboarding';
 import ProfileSetup from '@/components/mobile/ProfileSetup';
-import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 const MobileApp = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -45,33 +44,17 @@ const MobileApp = () => {
         
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
-          <header className="relative bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft overflow-hidden">
-            <div className="flex items-center justify-between mb-4 relative z-10">
+          <header className="bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <SidebarTrigger className="text-white hover:bg-white/10 rounded-lg p-2 bg-white/20 border border-white/30">
                   <Menu className="w-5 h-5 text-white" />
                 </SidebarTrigger>
-                <h1 className="font-playfair text-2xl font-semibold relative">
-                  <span 
-                    className="relative z-10 inline-block text-transparent bg-clip-text"
-                    style={{ 
-                      backgroundImage: `url(${watercolorBg})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      filter: 'contrast(1.5) saturate(1.2) brightness(1.1)'
-                    }}
-                  >
-                    MomWise
-                  </span>
-                  <span 
-                    className="absolute inset-0 text-white opacity-30"
-                    style={{ zIndex: -1 }}
-                  >
-                    MomWise
-                  </span>
-                </h1>
+                <img 
+                  src="/lovable-uploads/9d4b19c9-65a5-4ee3-9afa-64adf0ee24d6.png" 
+                  alt="MomWise" 
+                  className="h-8 w-auto rounded-lg"
+                />
               </div>
               <div className="w-8 h-8 bg-cream/20 rounded-full flex items-center justify-center">
                 <Heart className="w-4 h-4 text-white" />
@@ -82,7 +65,7 @@ const MobileApp = () => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 pb-20 overflow-y-auto -mt-2">
+          <main className="flex-1 pb-20 overflow-y-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
               <TabsContent value="home" className="mt-0">
                 <Home />
