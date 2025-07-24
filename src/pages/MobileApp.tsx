@@ -44,7 +44,7 @@ const MobileApp = () => {
         
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
-          <header className="bg-gradient-warm text-cream p-4 pb-4 rounded-b-2xl shadow-soft">
+          <header className="bg-gradient-warm text-cream p-4 pb-2 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <SidebarTrigger className="text-foreground bg-white/90 hover:bg-white rounded-lg p-2 border border-gray-200 shadow-sm">
@@ -65,7 +65,7 @@ const MobileApp = () => {
           </header>
 
           {/* Main Content - sem margem ou padding */}
-          <main className="flex-1 pb-20 overflow-y-auto">
+          <main className="flex-1 pb-20 overflow-y-auto -mt-4">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
               <TabsContent value="home" className="mt-0 p-0">
                 <Home />

@@ -127,8 +127,8 @@ export function AppSidebar() {
 
   const getNavClasses = (isActive: boolean) =>
     isActive 
-      ? 'bg-terracotta/10 text-terracotta font-medium border-r-2 border-terracotta' 
-      : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground';
+      ? 'bg-terracotta/20 text-terracotta font-medium border-r-2 border-terracotta' 
+      : 'hover:bg-gray-100 text-gray-700 hover:text-gray-900';
 
   return (
     <Sidebar
@@ -145,10 +145,10 @@ export function AppSidebar() {
           </div>
           {!collapsed && (
             <div>
-              <h2 className="font-playfair text-lg font-semibold text-sidebar-foreground">
+              <h2 className="font-playfair text-lg font-semibold text-gray-800">
                 MomWise
               </h2>
-              <p className="text-xs text-sidebar-foreground/70">
+              <p className="text-xs text-gray-600">
                 Sua jornada maternal
               </p>
             </div>
@@ -159,7 +159,7 @@ export function AppSidebar() {
       <SidebarContent className="py-4">
         {/* Menu Principal */}
         <SidebarGroup>
-          <SidebarGroupLabel className="px-4 py-2 text-sidebar-foreground/70 text-xs uppercase tracking-wide font-medium">
+          <SidebarGroupLabel className="px-4 py-2 text-gray-600 text-xs uppercase tracking-wide font-medium">
             {!collapsed ? 'Menu Principal' : ''}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -176,8 +176,8 @@ export function AppSidebar() {
                       <item.icon className="w-5 h-5 flex-shrink-0" />
                       {!collapsed && (
                         <div className="flex-1">
-                          <div className="font-medium">{item.title}</div>
-                          <div className="text-xs text-muted-foreground">
+                          <div className="font-medium text-current">{item.title}</div>
+                          <div className="text-xs text-gray-500">
                             {item.description}
                           </div>
                         </div>
@@ -193,7 +193,7 @@ export function AppSidebar() {
         {/* Categorias */}
         {!collapsed && (
           <SidebarGroup>
-            <SidebarGroupLabel className="px-4 py-2 text-sidebar-foreground/70 text-xs uppercase tracking-wide font-medium">
+            <SidebarGroupLabel className="px-4 py-2 text-gray-600 text-xs uppercase tracking-wide font-medium">
               Categorias
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -203,10 +203,10 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <NavLink
                         to={category.url}
-                        className={`flex items-center space-x-3 px-4 py-2 rounded-lg mx-2 transition-all duration-200 hover:bg-muted/50 text-muted-foreground hover:text-foreground`}
+                        className="flex items-center space-x-3 px-4 py-2 rounded-lg mx-2 transition-all duration-200 hover:bg-gray-100 text-gray-700 hover:text-gray-900"
                       >
                         <category.icon className={`w-4 h-4 ${category.color}`} />
-                        <span className="text-sm">{category.title}</span>
+                        <span className="text-sm text-current">{category.title}</span>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -226,7 +226,7 @@ export function AppSidebar() {
                   Seu bebê hoje
                 </span>
               </div>
-              <p className="text-sm text-foreground">
+              <p className="text-sm text-gray-800">
                 20 dias de vida
               </p>
             </div>
