@@ -145,10 +145,10 @@ export function AppSidebar() {
           </div>
           {!collapsed && (
             <div>
-              <h2 className="font-playfair text-lg font-semibold text-foreground">
+              <h2 className="font-playfair text-lg font-semibold text-sidebar-foreground">
                 MomWise
               </h2>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-sidebar-foreground/70">
                 Sua jornada maternal
               </p>
             </div>
@@ -159,7 +159,7 @@ export function AppSidebar() {
       <SidebarContent className="py-4">
         {/* Menu Principal */}
         <SidebarGroup>
-          <SidebarGroupLabel className="px-4 py-2 text-muted-foreground text-xs uppercase tracking-wide">
+          <SidebarGroupLabel className="px-4 py-2 text-sidebar-foreground/70 text-xs uppercase tracking-wide font-medium">
             {!collapsed ? 'Menu Principal' : ''}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -193,7 +193,7 @@ export function AppSidebar() {
         {/* Categorias */}
         {!collapsed && (
           <SidebarGroup>
-            <SidebarGroupLabel className="px-4 py-2 text-muted-foreground text-xs uppercase tracking-wide">
+            <SidebarGroupLabel className="px-4 py-2 text-sidebar-foreground/70 text-xs uppercase tracking-wide font-medium">
               Categorias
             </SidebarGroupLabel>
             <SidebarGroupContent>

@@ -46,31 +46,35 @@ const MobileApp = () => {
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
           <header className="relative bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft overflow-hidden">
-            {/* Watercolor background for title */}
-            <div 
-              className="absolute top-0 left-0 right-0 h-20 bg-cover bg-center bg-no-repeat opacity-40"
-              style={{ backgroundImage: `url(${watercolorBg})` }}
-            />
-            <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            
             <div className="flex items-center justify-between mb-4 relative z-10">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-terracotta hover:bg-terracotta/10 rounded-lg p-2 bg-terracotta/20 border border-terracotta/30">
-                  <Menu className="w-5 h-5 text-terracotta" />
+                <SidebarTrigger className="text-white hover:bg-white/10 rounded-lg p-2 bg-white/20 border border-white/30">
+                  <Menu className="w-5 h-5 text-white" />
                 </SidebarTrigger>
-                <h1 className="font-playfair text-2xl font-semibold relative z-10" 
+                <h1 className="font-playfair text-2xl font-semibold relative">
+                  <span 
+                    className="relative z-10 inline-block text-transparent bg-clip-text"
                     style={{ 
-                      background: `url(${watercolorBg}) center/cover`,
-                      backgroundClip: 'text',
+                      backgroundImage: `url(${watercolorBg})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
                       WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: 'contrast(1.2) brightness(0.8)'
-                    }}>
-                  MomWise
+                      backgroundClip: 'text',
+                      filter: 'contrast(1.5) saturate(1.2) brightness(1.1)'
+                    }}
+                  >
+                    MomWise
+                  </span>
+                  <span 
+                    className="absolute inset-0 text-white opacity-30"
+                    style={{ zIndex: -1 }}
+                  >
+                    MomWise
+                  </span>
                 </h1>
               </div>
               <div className="w-8 h-8 bg-cream/20 rounded-full flex items-center justify-center">
-                <Heart className="w-4 h-4" />
+                <Heart className="w-4 h-4 text-white" />
               </div>
             </div>
             
@@ -78,7 +82,7 @@ const MobileApp = () => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 pb-20 overflow-y-auto">
+          <main className="flex-1 pb-20 overflow-y-auto -mt-2">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
               <TabsContent value="home" className="mt-0">
                 <Home />
