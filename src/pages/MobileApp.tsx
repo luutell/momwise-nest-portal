@@ -9,6 +9,7 @@ import DailyInsight from '@/components/mobile/DailyInsight';
 import Profile from '@/components/mobile/Profile';
 import Onboarding from '@/components/mobile/Onboarding';
 import ProfileSetup from '@/components/mobile/ProfileSetup';
+import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 const MobileApp = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -44,27 +45,33 @@ const MobileApp = () => {
         
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
-          <header className="bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft">
-            <div className="flex items-center justify-between mb-4">
+          <header className="relative bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft overflow-hidden">
+            {/* Watercolor background for title */}
+            <div 
+              className="absolute top-0 left-0 right-0 h-20 bg-cover bg-center bg-no-repeat opacity-40"
+              style={{ backgroundImage: `url(${watercolorBg})` }}
+            />
+            <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            
+            <div className="flex items-center justify-between mb-4 relative z-10">
               <div className="flex items-center space-x-3">
                 <SidebarTrigger className="text-terracotta hover:bg-terracotta/10 rounded-lg p-2 bg-terracotta/20 border border-terracotta/30">
                   <Menu className="w-5 h-5 text-terracotta" />
                 </SidebarTrigger>
-                <h1 className="font-playfair text-2xl font-semibold text-white">MomWise</h1>
+                <h1 className="font-playfair text-2xl font-semibold relative z-10" 
+                    style={{ 
+                      background: `url(${watercolorBg}) center/cover`,
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: 'contrast(1.2) brightness(0.8)'
+                    }}>
+                  MomWise
+                </h1>
               </div>
               <div className="w-8 h-8 bg-cream/20 rounded-full flex items-center justify-center">
                 <Heart className="w-4 h-4" />
               </div>
-            </div>
-            
-            {/* Mensagem personalizada em terracota */}
-            <div className="bg-terracotta/20 rounded-xl p-4 mb-4">
-              <p className="text-terracotta font-medium text-lg">
-                Olá Luiza! 👋
-              </p>
-              <p className="text-terracotta/80 text-sm">
-                Hoje é dia 21 de julho, seu bebê Miguel tem 20 dias
-              </p>
             </div>
             
             <DailyInsight />

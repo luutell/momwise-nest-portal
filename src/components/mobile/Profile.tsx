@@ -54,15 +54,15 @@ const Profile = () => {
           <div className="grid grid-cols-1 gap-3">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Nome do bebê</p>
-              <p className="text-foreground">(opcional e personalizável)</p>
+              <p className="text-foreground">Miguel (da personalização)</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Data de nascimento</p>
-              <p className="text-foreground">(já salva no cadastro)</p>
+              <p className="text-foreground">1 de julho de 2024 (da personalização)</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Peso estimado</p>
-              <p className="text-foreground">(puxado da curva de crescimento)</p>
+              <p className="text-foreground">4.2 kg (baseado na curva de crescimento)</p>
             </div>
           </div>
 
