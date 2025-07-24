@@ -65,7 +65,7 @@ const MobileApp = () => {
           </header>
 
           {/* Main Content - sem margem ou padding */}
-          <main className="flex-1 pb-20 overflow-y-auto -mt-4">
+          <main className="flex-1 pb-20 overflow-y-auto -mt-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
               <TabsContent value="home" className="mt-0 p-0">
                 <Home />

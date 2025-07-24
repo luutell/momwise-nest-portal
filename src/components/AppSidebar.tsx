@@ -132,10 +132,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className={`border-r border-border/50 bg-sidebar-background ${
-        collapsed ? 'w-16' : 'w-64'
-      }`}
-      collapsible="icon"
+      className="border-r border-border/50 bg-white"
+      collapsible="offcanvas"
     >
       {/* Header com logo */}
       <div className="p-4 border-b border-border/50">
