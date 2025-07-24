@@ -44,16 +44,16 @@ const MobileApp = () => {
         
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
-          <header className="bg-gradient-warm text-cream p-4 pb-6 rounded-b-2xl shadow-soft">
+          <header className="bg-gradient-warm text-cream p-4 pb-4 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-white hover:bg-white/10 rounded-lg p-2 bg-white/20 border border-white/30">
-                  <Menu className="w-5 h-5 text-white" />
+                <SidebarTrigger className="text-foreground bg-white/90 hover:bg-white rounded-lg p-2 border border-gray-200 shadow-sm">
+                  <Menu className="w-5 h-5 text-gray-700" />
                 </SidebarTrigger>
                 <img 
-                  src="/lovable-uploads/9d4b19c9-65a5-4ee3-9afa-64adf0ee24d6.png" 
+                  src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
                   alt="MomWise" 
-                  className="h-8 w-auto rounded-lg"
+                  className="h-10 w-auto rounded-lg"
                 />
               </div>
               <div className="w-8 h-8 bg-cream/20 rounded-full flex items-center justify-center">
@@ -64,39 +64,39 @@ const MobileApp = () => {
             <DailyInsight />
           </header>
 
-          {/* Main Content */}
+          {/* Main Content - sem margem ou padding */}
           <main className="flex-1 pb-20 overflow-y-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
-              <TabsContent value="home" className="mt-0">
+              <TabsContent value="home" className="mt-0 p-0">
                 <Home />
               </TabsContent>
               
-              <TabsContent value="calendar" className="mt-0">
+              <TabsContent value="calendar" className="mt-0 p-0">
                 <WeeklyCalendar />
               </TabsContent>
               
-              <TabsContent value="biblioteca" className="mt-0">
+              <TabsContent value="biblioteca" className="mt-0 p-0">
                 <div className="p-4">
                   <h2 className="font-playfair text-xl mb-4">Biblioteca</h2>
                   <p className="text-muted-foreground">Todos os conteúdos organizados por categoria...</p>
                 </div>
               </TabsContent>
 
-              <TabsContent value="entre-maes" className="mt-0">
+              <TabsContent value="entre-maes" className="mt-0 p-0">
                 <div className="p-4">
                   <h2 className="font-playfair text-xl mb-4">Entre Mães</h2>
                   <p className="text-muted-foreground">Comunidade e trocas reais entre mães...</p>
                 </div>
               </TabsContent>
               
-              <TabsContent value="chat" className="mt-0">
+              <TabsContent value="chat" className="mt-0 p-0">
                 <div className="p-4">
                   <h2 className="font-playfair text-xl mb-4">Chat</h2>
                   <p className="text-muted-foreground">Converse com especialistas...</p>
                 </div>
               </TabsContent>
               
-              <TabsContent value="profile" className="mt-0">
+              <TabsContent value="profile" className="mt-0 p-0">
                 <Profile />
               </TabsContent>
 

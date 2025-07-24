@@ -221,10 +221,10 @@ const Home = () => {
 
   return (
     <div className="pb-6">
-      <div className="p-4 space-y-6">
+      <div className="space-y-6">
 
         {/* Calendário Semanal */}
-        <div className="space-y-4">
+        <div className="space-y-4 px-4">
           <div className="flex items-center space-x-2">
             <Calendar className="w-5 h-5 text-primary" />
             <h2 className="font-playfair text-lg font-medium text-foreground">
@@ -237,7 +237,7 @@ const Home = () => {
           </p>
 
           {/* Grid do calendário */}
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-7 gap-2 px-0">
             {weeklyContents.map((item, index) => {
               const Icon = getContentIcon(item.content.type);
               const isToday = item.date === currentDay;
@@ -328,7 +328,7 @@ const Home = () => {
         </div>
 
         {/* Conteúdo em destaque do dia */}
-        <div className="space-y-4">
+        <div className="space-y-4 px-4">
           <h3 className="font-playfair text-lg font-medium text-foreground">
             Destaque de Hoje
           </h3>
@@ -361,7 +361,7 @@ const Home = () => {
         </div>
 
         {/* Chamada para Especialista */}
-        <div className="space-y-4">
+        <div className="space-y-4 px-4">
           <Card className="bg-gradient-to-r from-terracotta/20 to-primary/20 border-none shadow-soft">
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
@@ -393,7 +393,7 @@ const Home = () => {
           </p>
         </div>
         
-        <div className="flex overflow-x-auto gap-4 px-4 pb-2">
+        <div className="flex overflow-x-auto gap-4 pl-4 pr-4 pb-2">
           {sections.map((section) => {
             const Icon = section.icon;
             return (
