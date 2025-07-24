@@ -49,9 +49,10 @@ const onboardingSteps = [
 
 interface OnboardingProps {
   onComplete: () => void;
+  onSkip?: () => void;
 }
 
-const Onboarding = ({ onComplete }: OnboardingProps) => {
+const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleNext = () => {
@@ -122,13 +123,23 @@ const Onboarding = ({ onComplete }: OnboardingProps) => {
         </Card>
 
         {/* Skip option */}
-        <div className="text-center">
+        <div className="text-center space-y-2">
           <button
             onClick={onComplete}
             className="text-foreground bg-white/80 hover:bg-white/90 transition-all duration-200 text-sm px-4 py-2 rounded-lg font-medium shadow-md"
           >
             Pular apresentação
           </button>
+          {onSkip && (
+            <div>
+              <button
+                onClick={onSkip}
+                className="text-foreground bg-terracotta/20 hover:bg-terracotta/30 transition-all duration-200 text-sm px-4 py-2 rounded-lg font-medium"
+              >
+                Pular personalização completa
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

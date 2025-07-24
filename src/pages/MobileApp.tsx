@@ -24,12 +24,17 @@ const MobileApp = () => {
     setShowProfileSetup(false);
   };
 
+  const handleSkipPersonalization = () => {
+    setShowOnboarding(false);
+    setShowProfileSetup(false);
+  };
+
   if (showOnboarding) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
+    return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleSkipPersonalization} />;
   }
 
   if (showProfileSetup) {
-    return <ProfileSetup onComplete={handleProfileSetupComplete} />;
+    return <ProfileSetup onComplete={handleProfileSetupComplete} onSkip={handleSkipPersonalization} />;
   }
 
   return (

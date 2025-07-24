@@ -10,6 +10,7 @@ import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 interface ProfileSetupProps {
   onComplete: () => void;
+  onSkip?: () => void;
 }
 
 interface ProfileData {
@@ -88,7 +89,7 @@ const contentTypes = [
   'Acompanhamento com especialistas'
 ];
 
-const ProfileSetup = ({ onComplete }: ProfileSetupProps) => {
+const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [profileData, setProfileData] = useState<ProfileData>({
     name: '',
@@ -449,10 +450,20 @@ const ProfileSetup = ({ onComplete }: ProfileSetupProps) => {
         </Card>
 
         {/* Step indicator */}
-        <div className="text-center">
+        <div className="text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             Etapa {currentStep + 1} de {setupSteps.length}
           </p>
+          {onSkip && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={onSkip}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Pular personalização
+            </Button>
+          )}
         </div>
       </div>
     </div>
