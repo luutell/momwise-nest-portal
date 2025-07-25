@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle, Menu } from 'lucide-react';
 import { AppSidebar } from '@/components/AppSidebar';
-import AuthWrapper from '@/components/auth/AuthWrapper';
+
 import { useProfile } from '@/hooks/useProfile';
 import Home from '@/components/mobile/Home';
 import WeeklyCalendar from '@/components/mobile/WeeklyCalendar';
@@ -65,7 +65,6 @@ const MobileApp = () => {
   }
 
   return (
-    <AuthWrapper>
     <SidebarProvider defaultOpen={false}>
       <div className="min-h-screen w-full bg-background font-inter flex overflow-hidden">
         <AppSidebar />
@@ -170,7 +169,6 @@ const MobileApp = () => {
         </div>
       </div>
     </SidebarProvider>
-    </AuthWrapper>
   );
 };
 
