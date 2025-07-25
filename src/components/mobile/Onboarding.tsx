@@ -94,26 +94,25 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
           
           <CardContent className="relative z-10 p-8 text-center space-y-6">
             {/* Icon */}
-            <div className="flex justify-center">
-              <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
-                <currentStepData.icon className="w-8 h-8 text-primary" />
-              </div>
-            </div>
+             <div className="flex justify-center">
+               {currentStep === 0 ? (
+                 <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
+                   <img 
+                     src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
+                     alt="MomWise" 
+                     className="w-10 h-10 rounded-full object-contain" 
+                   />
+                 </div>
+               ) : (
+                 <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
+                   <currentStepData.icon className="w-8 h-8 text-primary" />
+                 </div>
+               )}
+             </div>
 
             {/* Title */}
-            <h1 className="text-2xl font-semibold text-foreground leading-relaxed flex items-center justify-center">
-              {currentStep === 0 ? (
-                <>
-                  <img 
-                    src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
-                    alt="MomWise" 
-                    className="inline-block w-6 h-6 mr-2 rounded-full object-contain" 
-                  />
-                  {currentStepData.title}
-                </>
-              ) : (
-                currentStepData.title
-              )}
+            <h1 className="text-2xl font-semibold text-foreground leading-relaxed">
+              {currentStepData.title}
             </h1>
 
             {/* Subtitle */}
