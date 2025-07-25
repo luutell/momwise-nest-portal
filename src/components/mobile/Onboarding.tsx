@@ -98,9 +98,9 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
                {currentStep === 0 ? (
                  <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
                    <img 
-                     src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
-                     alt="MomWise" 
-                     className="w-10 h-10 rounded-full object-contain" 
+                     src="/lovable-uploads/eea7514a-fcb9-43ad-ad9b-2acbd4ee31ea.png" 
+                     alt="MomWise Nest Spiral" 
+                     className="w-10 h-10 object-contain" 
                    />
                  </div>
                ) : (
