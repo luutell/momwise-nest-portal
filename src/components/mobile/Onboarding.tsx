@@ -67,6 +67,15 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
 
   const handleSkip = async () => {
     try {
+      // Import supabase client to ensure auth
+      const { supabase } = await import('@/integrations/supabase/client');
+      
+      // Check if user is authenticated, if not sign in anonymously
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        await supabase.auth.signInAnonymously();
+      }
+      
       // Create a minimal profile when skipping
       await completeOnboarding({
         name: 'Usuário',
@@ -108,38 +117,38 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
           {/* Gradient overlay for readability */}
           <div className={`absolute inset-0 bg-gradient-to-br ${currentStepData.gradient}`} />
           
-          <CardContent className="relative z-10 p-8 text-center space-y-6">
+          <CardContent className="relative z-10 p-8 text-center">
             {/* Icon */}
-             <div className="flex justify-center">
-               {currentStep === 0 ? (
-                 <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
-                   <img 
-                     src="/lovable-uploads/eea7514a-fcb9-43ad-ad9b-2acbd4ee31ea.png" 
-                     alt="MomWise Nest Spiral" 
-                     className="w-14 h-14 object-contain" 
-                   />
-                 </div>
-               ) : (
-                 <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
-                   <currentStepData.icon className="w-8 h-8 text-primary" />
-                 </div>
-               )}
+             <div className="flex justify-center mb-4">
+                {currentStep === 0 ? (
+                  <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
+                    <img 
+                      src="/lovable-uploads/eea7514a-fcb9-43ad-ad9b-2acbd4ee31ea.png" 
+                      alt="MomWise Nest Spiral" 
+                      className="w-14 h-14 object-contain" 
+                    />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
+                    <currentStepData.icon className="w-8 h-8 text-primary" />
+                  </div>
+                )}
              </div>
 
             {/* Title */}
-            <h1 className="text-2xl font-semibold text-foreground leading-relaxed">
+            <h1 className="text-2xl font-semibold text-foreground leading-relaxed mb-4">
               {currentStepData.title}
             </h1>
 
             {/* Subtitle */}
-            <p className="text-muted-foreground text-lg leading-relaxed">
+            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
               {currentStepData.subtitle}
             </p>
 
             {/* Button */}
             <Button 
               onClick={handleNext}
-              className="w-full mt-8 bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 rounded-lg transition-all duration-200"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 rounded-lg transition-all duration-200"
               size="lg"
             >
               {currentStepData.buttonText}

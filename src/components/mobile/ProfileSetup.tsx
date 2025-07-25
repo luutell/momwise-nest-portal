@@ -101,6 +101,15 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
       // Finalizar onboarding - salvar no Supabase
       setIsSubmitting(true);
       try {
+        // Import supabase client to ensure auth
+        const { supabase } = await import('@/integrations/supabase/client');
+        
+        // Check if user is authenticated, if not sign in anonymously
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          await supabase.auth.signInAnonymously();
+        }
+        
         await completeOnboarding({
           ...profileData,
           birth_date: profileData.birth_date || undefined,
