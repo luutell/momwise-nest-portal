@@ -13,6 +13,7 @@ import Profile from '@/components/mobile/Profile';
 import Onboarding from '@/components/mobile/Onboarding';
 import ProfileSetup from '@/components/mobile/ProfileSetup';
 import Biblioteca from '@/components/mobile/Biblioteca';
+import EntreElas from '@/components/mobile/EntreElas';
 
 const MobileApp = () => {
   const location = useLocation();
@@ -122,10 +123,7 @@ const MobileApp = () => {
               </TabsContent>
 
               <TabsContent value="entre-maes" className="mt-0 p-0">
-                <div className="p-4">
-                  <h2 className="font-playfair text-xl mb-4">Entre Mães</h2>
-                  <p className="text-muted-foreground">Comunidade e trocas reais entre mães...</p>
-                </div>
+                <EntreElas />
               </TabsContent>
               
               <TabsContent value="chat" className="mt-0 p-0">
