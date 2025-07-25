@@ -1,10 +1,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Calendar, User, Home as HomeIcon, BookOpen, Heart, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Home as HomeIcon, BookOpen, Heart, MessageCircle, MoreHorizontal } from 'lucide-react';
 
 interface Post {
   id: string;
@@ -52,87 +52,111 @@ export default function CategoryPosts() {
 
   if (isLoading) {
     return (
-      <div className="p-6 max-w-4xl mx-auto">
-        <div className="text-center py-8">Carregando posts...</div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <img 
+            src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
+            alt="MomWise" 
+            className="h-16 w-16 mx-auto mb-4 rounded-full object-contain"
+          />
+          <p className="text-foreground">Carregando...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-background font-inter pb-20">
-      <Tabs value="biblioteca" className="w-full h-full">
-        <TabsContent value="biblioteca" className="mt-0 p-0">
-          <div className="p-6 max-w-4xl mx-auto">
-            <div className="mb-6">
-              <Link to="/app" className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-4">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar
-              </Link>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{category}</h1>
-              <p className="text-gray-600">
-                {posts?.length || 0} {posts?.length === 1 ? 'artigo encontrado' : 'artigos encontrados'}
-              </p>
-            </div>
-
-            <div className="grid gap-6">
-              {posts?.length === 0 ? (
-                <Card>
-                  <CardContent className="text-center py-8">
-                    <p className="text-gray-600">Nenhum post encontrado nesta categoria ainda.</p>
-                  </CardContent>
-                </Card>
-              ) : (
-                posts?.map((post) => (
-                  <Card key={post.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                    <Link to={`/app/post/${post.id}`}>
-                      <div className="flex flex-col md:flex-row">
-                        {post.image_url && (
-                          <div className="md:w-1/3">
-                            <img 
-                              src={post.image_url} 
-                              alt={post.title}
-                              className="w-full h-48 md:h-full object-cover rounded-l-lg"
-                            />
-                          </div>
-                        )}
-                        <div className={`${post.image_url ? 'md:w-2/3' : 'w-full'}`}>
-                          <CardHeader>
-                            <CardTitle className="text-xl hover:text-terracotta transition-colors">
-                              {post.title}
-                            </CardTitle>
-                            <CardDescription className="flex items-center space-x-4 text-sm">
-                              <span className="flex items-center">
-                                <User className="w-4 h-4 mr-1" />
-                                {post.author}
-                              </span>
-                              <span className="flex items-center">
-                                <Calendar className="w-4 h-4 mr-1" />
-                                {new Date(post.created_at).toLocaleDateString('pt-BR')}
-                              </span>
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-gray-600 line-clamp-3">
-                              {post.content.substring(0, 200)}...
-                            </p>
-                            <Button 
-                              variant="link" 
-                              className="p-0 h-auto text-terracotta mt-2 hover:text-terracotta/80"
-                            >
-                              Ler mais →
-                            </Button>
-                          </CardContent>
-                        </div>
-                      </div>
-                    </Link>
-                  </Card>
-                ))
-              )}
-            </div>
-          </div>
-        </TabsContent>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="sticky top-0 bg-background border-b border-border z-10">
+        <div className="flex items-center justify-between p-4">
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => navigate('/app')}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Voltar
+          </Button>
+          <h1 className="font-playfair text-lg font-semibold">
+            {category}
+          </h1>
+          <Button variant="ghost" size="sm">
+            <MoreHorizontal className="w-5 h-5" />
+          </Button>
+        </div>
         
-        {/* Bottom Navigation */}
+        <div className="px-4 pb-4">
+          <p className="text-sm text-muted-foreground">
+            {posts?.length || 0} {posts?.length === 1 ? 'artigo encontrado' : 'artigos encontrados'}
+          </p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-4 space-y-4 pb-24">
+        {posts?.length === 0 ? (
+          <div className="text-center py-12">
+            <BookOpen className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="font-medium text-foreground mb-2">
+              Nenhum artigo encontrado
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              Ainda não temos conteúdo publicado nesta categoria
+            </p>
+          </div>
+        ) : (
+          posts?.map((post) => (
+            <Card key={post.id} className="border border-border hover:shadow-md transition-shadow">
+              <Link to={`/app/post/${post.id}`}>
+                {post.image_url && (
+                  <div className="relative h-48 w-full">
+                    <img 
+                      src={post.image_url} 
+                      alt={post.title}
+                      className="w-full h-full object-cover rounded-t-lg"
+                    />
+                  </div>
+                )}
+                
+                <CardContent className="p-4">
+                  <h3 className="font-playfair text-lg font-semibold text-foreground mb-2 line-clamp-2">
+                    {post.title}
+                  </h3>
+                  
+                  <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
+                    {post.content.substring(0, 150)}...
+                  </p>
+                  
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <div className="flex items-center space-x-3">
+                      <span className="flex items-center">
+                        <User className="w-3 h-3 mr-1" />
+                        {post.author}
+                      </span>
+                      <span className="flex items-center">
+                        <Calendar className="w-3 h-3 mr-1" />
+                        {new Date(post.created_at).toLocaleDateString('pt-BR')}
+                      </span>
+                    </div>
+                    
+                    <Button 
+                      variant="link" 
+                      size="sm"
+                      className="p-0 h-auto text-primary hover:text-primary/80 text-xs"
+                    >
+                      Ler mais →
+                    </Button>
+                  </div>
+                </CardContent>
+              </Link>
+            </Card>
+          ))
+        )}
+      </div>
+
+      {/* Bottom Navigation */}
+      <Tabs value="biblioteca" className="w-full h-full">
         <TabsList className="fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-sm w-full h-16 rounded-none bg-card border-t border-border flex z-50">
           <TabsTrigger 
             value="home" 
