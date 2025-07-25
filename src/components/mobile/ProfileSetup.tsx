@@ -17,14 +17,15 @@ interface ProfileData {
   // Etapa 1
   name: string;
   birthDate: string;
-  firstExperience: string;
+  firstMaternity: string;
+  previousExperience: string;
+  otherExperience: string;
   joinGroups: string;
   
   // Etapa 2
   babyName: string;
   babyBirthDate: string;
   babyAvatar: string;
-  babyPhase: string;
   
   // Etapa 3
   interests: string[];
@@ -94,12 +95,13 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   const [profileData, setProfileData] = useState<ProfileData>({
     name: '',
     birthDate: '',
-    firstExperience: '',
+    firstMaternity: '',
+    previousExperience: '',
+    otherExperience: '',
     joinGroups: '',
     babyName: '',
     babyBirthDate: '',
     babyAvatar: '',
-    babyPhase: '',
     interests: [],
     contentPreference: [],
     specialistAccess: ''
@@ -166,10 +168,10 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
             </div>
 
             <div className="space-y-3">
-              <Label>Essa é sua primeira experiência materna?</Label>
+              <Label>Essa é a sua primeira maternidade?</Label>
               <RadioGroup
-                value={profileData.firstExperience}
-                onValueChange={(value) => updateProfileData('firstExperience', value)}
+                value={profileData.firstMaternity}
+                onValueChange={(value) => updateProfileData('firstMaternity', value)}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="sim" id="first-yes" />
@@ -179,12 +181,46 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
                   <RadioGroupItem value="nao" id="first-no" />
                   <Label htmlFor="first-no">Não</Label>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="gestando" id="first-pregnant" />
-                  <Label htmlFor="first-pregnant">Estou gestando agora</Label>
-                </div>
               </RadioGroup>
             </div>
+
+            {profileData.firstMaternity === 'nao' && (
+              <div className="space-y-3">
+                <Label>📝 Conte um pouco mais sobre sua experiência:</Label>
+                <RadioGroup
+                  value={profileData.previousExperience}
+                  onValueChange={(value) => updateProfileData('previousExperience', value)}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="perdi-gravidez" id="exp-loss" />
+                    <Label htmlFor="exp-loss">Já perdi uma gravidez</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="dois-filhos" id="exp-two" />
+                    <Label htmlFor="exp-two">Tenho 2 filhos</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="mais-dois-filhos" id="exp-more" />
+                    <Label htmlFor="exp-more">Tenho mais de 2 filhos</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="outra" id="exp-other" />
+                    <Label htmlFor="exp-other">Outra experiência (escreva abaixo)</Label>
+                  </div>
+                </RadioGroup>
+                
+                {profileData.previousExperience === 'outra' && (
+                  <div className="space-y-2 mt-3">
+                    <Input
+                      value={profileData.otherExperience}
+                      onChange={(e) => updateProfileData('otherExperience', e.target.value)}
+                      placeholder="Descreva sua experiência..."
+                      className="mt-2"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="space-y-3">
               <Label>Você gostaria de participar de grupos com mães com filhos da mesma idade?</Label>
@@ -252,30 +288,6 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
               </div>
             </div>
 
-            <div className="space-y-3">
-              <Label>Seu bebê está em qual fase?</Label>
-              <RadioGroup
-                value={profileData.babyPhase}
-                onValueChange={(value) => updateProfileData('babyPhase', value)}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="barriga" id="phase-pregnant" />
-                  <Label htmlFor="phase-pregnant">Ainda na barriga</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="0-3meses" id="phase-0-3" />
-                  <Label htmlFor="phase-0-3">Primeiros 3 meses</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="4-12meses" id="phase-4-12" />
-                  <Label htmlFor="phase-4-12">Entre 4 e 12 meses</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="1ano+" id="phase-1year" />
-                  <Label htmlFor="phase-1year">Já passou de 1 ano</Label>
-                </div>
-              </RadioGroup>
-            </div>
           </div>
         );
 
@@ -366,9 +378,12 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   const canProceed = () => {
     switch (currentStep) {
       case 0:
-        return profileData.name.trim() !== '' && profileData.firstExperience !== '';
+        return profileData.name.trim() !== '' && profileData.firstMaternity !== '' && 
+               (profileData.firstMaternity === 'sim' || 
+                (profileData.firstMaternity === 'nao' && profileData.previousExperience !== '' &&
+                 (profileData.previousExperience !== 'outra' || profileData.otherExperience.trim() !== '')));
       case 1:
-        return profileData.babyName.trim() !== '' && profileData.babyPhase !== '';
+        return profileData.babyName.trim() !== '';
       case 2:
         return profileData.interests.length > 0;
       case 3:
