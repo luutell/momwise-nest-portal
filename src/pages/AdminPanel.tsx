@@ -32,14 +32,14 @@ interface Post {
 }
 
 const categories = [
-  'Amamentação',
-  'Puerpério',
-  'Desenvolvimento',
-  'Sono',
-  'Trabalho',
-  'Autocuidado',
-  'Relações',
-  'Gestação'
+  'Ritmo Leve',
+  'Entendendo o Bebê',
+  'Primeiras Mordidas',
+  'No seu Tempo',
+  'Juntas no Começo',
+  'Mãe Inteira',
+  'Entre Mães',
+  'Higiene Natural'
 ];
 
 export default function AdminPanel() {
@@ -51,6 +51,9 @@ export default function AdminPanel() {
     author: '',
     category: '',
     image_url: '',
+    audio_url: '',
+    introduction: '',
+    practical_tip: '',
     published: false
   });
   const { toast } = useToast();
@@ -124,14 +127,17 @@ export default function AdminPanel() {
   });
 
   const resetForm = () => {
-    setFormData({
-      title: '',
-      content: '',
-      author: '',
-      category: '',
-      image_url: '',
-      published: false
-    });
+      setFormData({
+        title: '',
+        content: '',
+        author: '',
+        category: '',
+        image_url: '',
+        audio_url: '',
+        introduction: '',
+        practical_tip: '',
+        published: false
+      });
   };
 
   const handleEdit = (post: Post) => {
@@ -142,6 +148,9 @@ export default function AdminPanel() {
       author: post.author,
       category: post.category,
       image_url: post.image_url || '',
+      audio_url: '',
+      introduction: '',
+      practical_tip: '',
       published: post.published
     });
     setIsDialogOpen(true);
@@ -219,34 +228,72 @@ export default function AdminPanel() {
                     <SelectValue placeholder="Selecione uma categoria" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="Ritmo Leve">🔄 Ritmo Leve</SelectItem>
+                    <SelectItem value="Entendendo o Bebê">🧠 Entendendo o Bebê</SelectItem>
+                    <SelectItem value="Primeiras Mordidas">🍽 Primeiras Mordidas</SelectItem>
+                    <SelectItem value="No seu Tempo">💪 No seu Tempo</SelectItem>
+                    <SelectItem value="Juntas no Começo">🤱 Juntas no Começo</SelectItem>
+                    <SelectItem value="Mãe Inteira">🛀 Mãe Inteira</SelectItem>
+                    <SelectItem value="Entre Mães">🤝 Entre Mães</SelectItem>
+                    <SelectItem value="Higiene Natural">🚼 Higiene Natural</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div>
-                <Label htmlFor="image_url">URL da Imagem</Label>
-                <Input
-                  id="image_url"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  placeholder="https://exemplo.com/imagem.jpg"
+                <Label htmlFor="introduction">Introdução</Label>
+                <Textarea
+                  id="introduction"
+                  value={formData.introduction}
+                  onChange={(e) => setFormData({ ...formData, introduction: e.target.value })}
+                  placeholder="Introdução breve do post..."
+                  className="min-h-20"
                 />
               </div>
 
               <div>
-                <Label htmlFor="content">Conteúdo *</Label>
+                <Label htmlFor="content">Conteúdo Principal *</Label>
                 <Textarea
                   id="content"
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  placeholder="Escreva o conteúdo do post..."
+                  placeholder="Escreva o conteúdo principal do post..."
                   className="min-h-[200px]"
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="practical_tip">Dica Prática</Label>
+                <Textarea
+                  id="practical_tip"
+                  value={formData.practical_tip}
+                  onChange={(e) => setFormData({ ...formData, practical_tip: e.target.value })}
+                  placeholder="Dica prática relacionada ao conteúdo..."
+                  className="min-h-20"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="image_url">URL da Imagem</Label>
+                  <Input
+                    id="image_url"
+                    type="url"
+                    value={formData.image_url}
+                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                    placeholder="https://exemplo.com/imagem.jpg"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="audio_url">URL do Áudio</Label>
+                  <Input
+                    id="audio_url"
+                    type="url"
+                    value={formData.audio_url}
+                    onChange={(e) => setFormData({ ...formData, audio_url: e.target.value })}
+                    placeholder="https://exemplo.com/audio.mp3"
+                  />
+                </div>
               </div>
 
               <div className="flex items-center space-x-2">

@@ -2,7 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, User, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Tag, Volume2 } from 'lucide-react';
+import AudioPlayer from '@/components/mobile/AudioPlayer';
+import PostFeedback from '@/components/mobile/PostFeedback';
 
 interface Post {
   id: string;
@@ -13,6 +15,9 @@ interface Post {
   image_url?: string;
   published: boolean;
   created_at: string;
+  introduction?: string;
+  practical_tip?: string;
+  audio_url?: string;
 }
 
 export default function PostDetail() {
@@ -98,17 +103,57 @@ export default function PostDetail() {
             {post.title}
           </h1>
 
+          {post.introduction && (
+            <div className="bg-terracotta/5 rounded-lg p-4 border-l-4 border-terracotta">
+              <p className="text-gray-700 leading-relaxed font-medium">
+                {post.introduction}
+              </p>
+            </div>
+          )}
+
+          {post.audio_url && (
+            <div className="bg-sage/10 rounded-lg p-4">
+              <div className="flex items-center mb-3">
+                <Volume2 className="w-5 h-5 text-sage mr-2" />
+                <h3 className="font-semibold text-gray-900">Ouvir este conteúdo</h3>
+              </div>
+              <AudioPlayer
+                title={post.title}
+                duration="5:30"
+                description="Versão em áudio narrada"
+                audioUrl={post.audio_url}
+              />
+            </div>
+          )}
+
           <div className="prose prose-lg max-w-none">
             <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
               {post.content}
             </div>
           </div>
+
+          {post.practical_tip && (
+            <div className="bg-sage/5 rounded-lg p-4 border-l-4 border-sage">
+              <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
+                <span className="text-sage mr-2">💡</span>
+                Dica Prática
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                {post.practical_tip}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Feedback Section */}
+        <div className="mt-8">
+          <PostFeedback postId={post.id} />
         </div>
 
         <div className="mt-8 pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center">
             <Link 
-              to={`/app/${post.category.toLowerCase()}`}
+              to={`/app/${post.category.toLowerCase().replace(/\s+/g, '-')}`}
               className="text-terracotta hover:text-terracotta/80 font-medium"
             >
               ← Ver mais posts de {post.category}

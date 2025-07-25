@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,8 +16,21 @@ interface Post {
   created_at: string;
 }
 
+const categoryMap: { [key: string]: string } = {
+  'ritmo-leve': 'Ritmo Leve',
+  'entendendo-o-bebe': 'Entendendo o Bebê',
+  'primeiras-mordidas': 'Primeiras Mordidas',
+  'no-seu-tempo': 'No seu Tempo',
+  'juntas-no-comeco': 'Juntas no Começo',
+  'mae-inteira': 'Mãe Inteira',
+  'entre-maes-categoria': 'Entre Mães',
+  'higiene-natural': 'Higiene Natural'
+};
+
 export default function CategoryPosts() {
-  const { category } = useParams<{ category: string }>();
+  const { pathname } = useLocation();
+  const categoryKey = pathname.split('/').pop() || '';
+  const category = categoryMap[categoryKey] || categoryKey;
   
   const { data: posts, isLoading } = useQuery({
     queryKey: ['category-posts', category],

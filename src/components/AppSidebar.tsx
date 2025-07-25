@@ -48,51 +48,59 @@ const menuItems = [
 
 const categories = [
   {
-    title: 'Amamentação',
-    url: '/app/Amamentação',
-    icon: Baby,
-    color: 'text-terracotta'
-  },
-  {
-    title: 'Puerpério',
-    url: '/app/Puerpério',
-    icon: Heart,
-    color: 'text-sage'
-  },
-  {
-    title: 'Desenvolvimento',
-    url: '/app/Desenvolvimento',
-    icon: Users,
-    color: 'text-terracotta'
-  },
-  {
-    title: 'Sono',
-    url: '/app/Sono',
+    title: '🔄 Ritmo Leve',
+    description: 'rotina, sono e regressões',
+    url: '/app/ritmo-leve',
     icon: Calendar,
-    color: 'text-sage'
-  },
-  {
-    title: 'Trabalho',
-    url: '/app/Trabalho',
-    icon: Home,
     color: 'text-terracotta'
   },
   {
-    title: 'Autocuidado',
-    url: '/app/Autocuidado',
+    title: '🧠 Entendendo o Bebê',
+    description: 'choro, marcos e mitos',
+    url: '/app/entendendo-o-bebe',
+    icon: Baby,
+    color: 'text-sage'
+  },
+  {
+    title: '🍽 Primeiras Mordidas',
+    description: 'alimentação',
+    url: '/app/primeiras-mordidas',
+    icon: BookOpen,
+    color: 'text-terracotta'
+  },
+  {
+    title: '💪 No seu Tempo',
+    description: 'atividades de estímulo',
+    url: '/app/no-seu-tempo',
+    icon: Users,
+    color: 'text-sage'
+  },
+  {
+    title: '🤱 Juntas no Começo',
+    description: 'amamentação e pós-parto',
+    url: '/app/juntas-no-comeco',
+    icon: Heart,
+    color: 'text-terracotta'
+  },
+  {
+    title: '🛀 Mãe Inteira',
+    description: 'autocuidado e saúde emocional',
+    url: '/app/mae-inteira',
     icon: User,
     color: 'text-sage'
   },
   {
-    title: 'Relações',
-    url: '/app/Relações',
-    icon: Heart,
+    title: '🤝 Entre Mães',
+    description: 'comunidade e trocas reais',
+    url: '/app/entre-maes-categoria',
+    icon: MessageCircle,
     color: 'text-terracotta'
   },
   {
-    title: 'Gestação',
-    url: '/app/Gestação',
-    icon: Baby,
+    title: '🚼 Higiene Natural',
+    description: 'eliminação gentil e sinais do bebê',
+    url: '/app/higiene-natural',
+    icon: Home,
     color: 'text-sage'
   }
 ];
@@ -206,7 +214,12 @@ export function AppSidebar() {
                     >
                       <category.icon className={`w-4 h-4 ${category.color} flex-shrink-0`} />
                       {!collapsed && (
-                        <span className="text-sm text-current">{category.title}</span>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium text-current">{category.title}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">
+                            {category.description}
+                          </div>
+                        </div>
                       )}
                     </NavLink>
                   </SidebarMenuButton>

@@ -14,36 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
+      post_feedback: {
+        Row: {
+          created_at: string
+          id: string
+          is_helpful: boolean
+          post_id: string
+          suggestion: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_helpful: boolean
+          post_id: string
+          suggestion?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_helpful?: boolean
+          post_id?: string
+          suggestion?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_feedback_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       posts: {
         Row: {
+          audio_url: string | null
           author: string
           category: string
           content: string
           created_at: string
           id: string
           image_url: string | null
+          introduction: string | null
+          practical_tip: string | null
           published: boolean | null
           title: string
           updated_at: string
         }
         Insert: {
+          audio_url?: string | null
           author: string
           category: string
           content: string
           created_at?: string
           id?: string
           image_url?: string | null
+          introduction?: string | null
+          practical_tip?: string | null
           published?: boolean | null
           title: string
           updated_at?: string
         }
         Update: {
+          audio_url?: string | null
           author?: string
           category?: string
           content?: string
           created_at?: string
           id?: string
           image_url?: string | null
+          introduction?: string | null
+          practical_tip?: string | null
           published?: boolean | null
           title?: string
           updated_at?: string
@@ -175,7 +219,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_post_feedback_stats: {
+        Args: { post_uuid: string }
+        Returns: {
+          total_feedback: number
+          helpful_percentage: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

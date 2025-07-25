@@ -26,7 +26,14 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/app" element={<MobileApp />} />
             <Route path="/admin" element={<AdminPanel />} />
-            <Route path="/app/:category" element={<CategoryPosts />} />
+            <Route path="/app/ritmo-leve" element={<CategoryPosts />} />
+            <Route path="/app/entendendo-o-bebe" element={<CategoryPosts />} />
+            <Route path="/app/primeiras-mordidas" element={<CategoryPosts />} />
+            <Route path="/app/no-seu-tempo" element={<CategoryPosts />} />
+            <Route path="/app/juntas-no-comeco" element={<CategoryPosts />} />
+            <Route path="/app/mae-inteira" element={<CategoryPosts />} />
+            <Route path="/app/entre-maes-categoria" element={<CategoryPosts />} />
+            <Route path="/app/higiene-natural" element={<CategoryPosts />} />
             <Route path="/app/post/:id" element={<PostDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
