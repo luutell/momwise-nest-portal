@@ -67,18 +67,26 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
 
   const handleSkip = async () => {
     try {
-      // For now, just mark onboarding as completed locally
-      // This will be migrated to the database when user actually signs in
+      // Mark onboarding as completed locally
       localStorage.setItem('onboarding_completed', 'true');
       localStorage.setItem('profile_data', JSON.stringify({
         name: 'Usuário',
         onboarding_completed: true
       }));
       
-      onComplete();
+      // Call onSkip if provided, otherwise onComplete
+      if (onSkip) {
+        onSkip();
+      } else {
+        onComplete();
+      }
     } catch (error) {
       console.error('Error skipping onboarding:', error);
-      onComplete(); // Still proceed even if there's an error
+      if (onSkip) {
+        onSkip();
+      } else {
+        onComplete();
+      }
     }
   };
 

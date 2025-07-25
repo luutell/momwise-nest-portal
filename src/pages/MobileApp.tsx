@@ -33,9 +33,13 @@ const MobileApp = () => {
   }, [location.pathname]);
 
   const handleOnboardingComplete = async () => {
-    // Clear localStorage and reload to start fresh
-    localStorage.removeItem('onboarding_completed');
-    localStorage.removeItem('profile_data');
+    // Just reload to refresh the app state
+    await new Promise(resolve => setTimeout(resolve, 100));
+    window.location.reload();
+  };
+
+  const handleOnboardingSkip = async () => {
+    // For skip, we want to keep the localStorage data and just reload
     await new Promise(resolve => setTimeout(resolve, 100));
     window.location.reload();
   };
@@ -57,7 +61,7 @@ const MobileApp = () => {
 
   if (showOnboarding) {
     // Always show onboarding first if not completed
-    return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
+    return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingSkip} />;
   }
 
   return (
