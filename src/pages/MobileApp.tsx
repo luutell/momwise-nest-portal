@@ -71,7 +71,7 @@ const MobileApp = () => {
               </div>
             </div>
             
-            <DailyInsight />
+            
           </header>
 
           {/* Main Content */}

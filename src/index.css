@@ -124,14 +124,14 @@ All colors MUST be HSL.
     --transition-organic: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-gentle: all 0.3s ease-out;
 
-    --sidebar-background: 16 65% 45%;
-    --sidebar-foreground: 36 33% 95%;
-    --sidebar-primary: 36 33% 95%;
-    --sidebar-primary-foreground: 16 65% 45%;
-    --sidebar-accent: 16 65% 55%;
-    --sidebar-accent-foreground: 36 33% 95%;
-    --sidebar-border: 16 65% 55%;
-    --sidebar-ring: 16 65% 65%;
+    --sidebar-background: 36 33% 97%;
+    --sidebar-foreground: 16 65% 45%;
+    --sidebar-primary: 16 65% 45%;
+    --sidebar-primary-foreground: 36 33% 97%;
+    --sidebar-accent: 36 33% 95%;
+    --sidebar-accent-foreground: 16 65% 45%;
+    --sidebar-border: 110 15% 80%;
+    --sidebar-ring: 16 65% 45%;
   }
 
   .dark {
