@@ -62,7 +62,7 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// MomWise brand colors
+				// MomWise aquarela design system colors
 				terracotta: {
 					DEFAULT: 'hsl(var(--terracotta))',
 					light: 'hsl(var(--terracotta-light))',
@@ -73,19 +73,18 @@ export default {
 					light: 'hsl(var(--sage-light))',
 					dark: 'hsl(var(--sage-dark))'
 				},
-				cream: {
-					DEFAULT: 'hsl(var(--cream))',
-					warm: 'hsl(var(--cream-warm))'
-				}
+				cream: 'hsl(var(--cream))',
+				'warm-cream': 'hsl(var(--warm-cream))',
+				'soft-beige': 'hsl(var(--soft-beige))'
 			},
 			fontFamily: {
+				'inter': ['Inter', 'sans-serif'],
 				'playfair': ['Playfair Display', 'serif'],
-				'mono-space': ['Space Mono', 'monospace'],
 			},
 			boxShadow: {
-				'soft': '0 4px 20px hsl(var(--sage) / 0.1)',
-				'warm': '0 8px 30px hsl(var(--terracotta) / 0.15)',
-				'organic': '0 10px 40px hsl(var(--sage) / 0.08)',
+				'soft': '0 4px 20px hsl(var(--terracotta) / 0.12)',
+				'gentle': '0 2px 12px hsl(var(--sage) / 0.1)',
+				'floating': '0 8px 32px hsl(var(--terracotta) / 0.15)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -94,25 +93,27 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'scale-in': {
+					'0%': { opacity: '0', transform: 'scale(0.95)' },
+					'100%': { opacity: '1', transform: 'scale(1)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.4s ease-out',
+				'scale-in': 'scale-in 0.3s ease-out',
 			}
 		}
 	},

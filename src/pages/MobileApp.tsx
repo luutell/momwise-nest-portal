@@ -54,11 +54,11 @@ const MobileApp = () => {
         
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
-          <header className="bg-gradient-warm text-cream p-4 pb-2 rounded-b-2xl shadow-soft">
+          <header className="bg-gradient-warm text-primary-foreground p-4 pb-2 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-foreground bg-white/90 hover:bg-white rounded-lg p-2 border border-gray-200 shadow-sm">
-                  <Menu className="w-5 h-5 text-gray-700" />
+                <SidebarTrigger className="text-foreground bg-background/90 hover:bg-background rounded-lg p-2 border border-border shadow-sm">
+                  <Menu className="w-5 h-5 text-sidebar-foreground" />
                 </SidebarTrigger>
                 <img 
                   src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
@@ -66,8 +66,8 @@ const MobileApp = () => {
                   className="h-10 w-auto rounded-lg"
                 />
               </div>
-              <div className="w-8 h-8 bg-cream/20 rounded-full flex items-center justify-center">
-                <Heart className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 bg-primary-foreground/20 rounded-full flex items-center justify-center">
+                <Heart className="w-4 h-4 text-primary-foreground" />
               </div>
             </div>
             

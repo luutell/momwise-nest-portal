@@ -65,112 +65,119 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Core MomWise Color Palette */
-    --background: 36 33% 95%; /* Soft off-white with warm undertones */
-    --foreground: 25 40% 20%; /* Deep warm brown for text */
-
-    --card: 36 33% 97%;
-    --card-foreground: 25 40% 20%;
-
-    --popover: 36 33% 97%;
-    --popover-foreground: 25 40% 20%;
-
-    /* Deep terracotta as primary */
-    --primary: 16 65% 45%; /* Deep terracotta */
-    --primary-foreground: 36 33% 95%;
-
-    /* Sage green as secondary */
-    --secondary: 110 25% 55%; /* Sage green */
-    --secondary-foreground: 25 40% 20%;
-
-    --muted: 110 15% 85%; /* Soft sage for muted elements */
-    --muted-foreground: 25 25% 45%;
-
-    --accent: 36 45% 85%; /* Warm cream accent */
-    --accent-foreground: 25 40% 20%;
-
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 36 33% 95%;
-
-    --border: 110 15% 80%;
-    --input: 110 15% 85%;
-    --ring: 16 65% 45%;
-
+    /* MomWise Aquarela Design System - Professional & Cohesive */
+    
+    /* Base Colors - Inspired by watercolor and organic tones */
+    --background: 35 20% 96%; /* Soft cream background */
+    --foreground: 25 35% 25%; /* Deep warm brown for text */
+    
+    --card: 35 25% 98%; /* Slightly warmer card background */
+    --card-foreground: 25 35% 25%;
+    
+    --popover: 35 25% 98%;
+    --popover-foreground: 25 35% 25%;
+    
+    /* Primary - Warm terracotta from the image */
+    --primary: 16 75% 55%; /* Rich terracotta */
+    --primary-foreground: 35 20% 96%;
+    
+    /* Secondary - Soft sage inspired by natural tones */
+    --secondary: 85 20% 70%; /* Muted sage */
+    --secondary-foreground: 25 35% 25%;
+    
+    /* Muted - Soft neutral tones */
+    --muted: 35 15% 92%;
+    --muted-foreground: 25 20% 45%;
+    
+    /* Accent - Warm cream accent */
+    --accent: 40 30% 88%;
+    --accent-foreground: 25 35% 25%;
+    
+    /* Borders and inputs */
+    --border: 35 15% 85%;
+    --input: 35 15% 90%;
+    --ring: 16 75% 55%;
+    
+    /* Status colors */
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 35 20% 96%;
+    
+    /* Sidebar colors for consistency */
+    --sidebar-background: 35 20% 96%;
+    --sidebar-foreground: 25 35% 25%;
+    --sidebar-primary: 16 75% 55%;
+    --sidebar-primary-foreground: 35 20% 96%;
+    --sidebar-accent: 35 15% 92%;
+    --sidebar-accent-foreground: 25 35% 25%;
+    --sidebar-border: 35 15% 85%;
+    --sidebar-ring: 16 75% 55%;
+    
+    /* Design system custom colors */
+    --terracotta: 16 75% 55%;
+    --terracotta-light: 16 60% 70%;
+    --terracotta-dark: 16 85% 45%;
+    
+    --sage: 85 20% 70%;
+    --sage-light: 85 25% 80%;
+    --sage-dark: 85 25% 55%;
+    
+    --cream: 35 20% 96%;
+    --warm-cream: 40 25% 92%;
+    --soft-beige: 35 15% 88%;
+    
+    /* Gradients - Aquarela inspired */
+    --gradient-warm: linear-gradient(135deg, hsl(var(--terracotta)) 0%, hsl(var(--terracotta-light)) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--warm-cream)) 100%);
+    --gradient-aquarela: radial-gradient(ellipse at top, hsl(var(--sage-light) / 0.2) 0%, hsl(var(--warm-cream) / 0.1) 70%);
+    
+    /* Shadows - Soft and organic */
+    --shadow-soft: 0 4px 20px hsl(var(--terracotta) / 0.12);
+    --shadow-gentle: 0 2px 12px hsl(var(--sage) / 0.1);
+    --shadow-floating: 0 8px 32px hsl(var(--terracotta) / 0.15);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-gentle: all 0.2s ease-out;
+    
     --radius: 1rem;
-    
-    /* MomWise Custom Colors */
-    --terracotta: 16 65% 45%;
-    --terracotta-light: 16 65% 65%;
-    --terracotta-dark: 16 65% 35%;
-    
-    --sage: 110 25% 55%;
-    --sage-light: 110 25% 75%;
-    --sage-dark: 110 25% 35%;
-    
-    --cream: 36 33% 95%;
-    --cream-warm: 36 45% 90%;
-    
-    /* Gradients */
-    --gradient-warm: linear-gradient(135deg, hsl(var(--terracotta)) 0%, hsl(var(--sage)) 100%);
-    --gradient-soft: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--cream-warm)) 100%);
-    --gradient-organic: radial-gradient(ellipse at top, hsl(var(--sage-light) / 0.1) 0%, transparent 70%);
-    
-    /* Shadows */
-    --shadow-soft: 0 4px 20px hsl(var(--sage) / 0.1);
-    --shadow-warm: 0 8px 30px hsl(var(--terracotta) / 0.15);
-    --shadow-organic: 0 10px 40px hsl(var(--sage) / 0.08);
-    
-    /* Animations */
-    --transition-organic: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-gentle: all 0.3s ease-out;
-
-    --sidebar-background: 36 33% 97%;
-    --sidebar-foreground: 16 65% 45%;
-    --sidebar-primary: 16 65% 45%;
-    --sidebar-primary-foreground: 36 33% 97%;
-    --sidebar-accent: 36 33% 95%;
-    --sidebar-accent-foreground: 16 65% 45%;
-    --sidebar-border: 110 15% 80%;
-    --sidebar-ring: 16 65% 45%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 25 15% 8%;
+    --foreground: 35 20% 95%;
+    
+    --card: 25 15% 10%;
+    --card-foreground: 35 20% 95%;
+    
+    --popover: 25 15% 10%;
+    --popover-foreground: 35 20% 95%;
+    
+    --primary: 16 75% 65%;
+    --primary-foreground: 25 15% 8%;
+    
+    --secondary: 85 20% 45%;
+    --secondary-foreground: 35 20% 95%;
+    
+    --muted: 25 10% 15%;
+    --muted-foreground: 35 15% 65%;
+    
+    --accent: 25 15% 15%;
+    --accent-foreground: 35 20% 95%;
+    
+    --border: 25 10% 18%;
+    --input: 25 10% 18%;
+    --ring: 16 75% 65%;
+    
+    --sidebar-background: 25 15% 8%;
+    --sidebar-foreground: 35 20% 95%;
+    --sidebar-primary: 16 75% 65%;
+    --sidebar-primary-foreground: 25 15% 8%;
+    --sidebar-accent: 25 10% 15%;
+    --sidebar-accent-foreground: 35 20% 95%;
+    --sidebar-border: 25 10% 18%;
+    --sidebar-ring: 16 75% 65%;
   }
+}
 }
 
 @layer base {
@@ -179,102 +186,127 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
   }
   
-  /* Custom typography */
+  /* Typography system */
   .font-playfair {
     font-family: 'Playfair Display', serif;
+    font-weight: 500;
   }
   
-  .font-mono-space {
-    font-family: 'Space Mono', monospace;
+  .font-inter {
+    font-family: 'Inter', sans-serif;
   }
 }
 
 @layer components {
-  /* Abstract maternal shapes - gentle and non-cliché */
-  .mother-baby-silhouette {
-    background: radial-gradient(ellipse 70% 80% at 30% 40%, hsl(var(--sage) / 0.15), transparent 60%),
-                radial-gradient(ellipse 40% 50% at 65% 70%, hsl(var(--terracotta) / 0.08), transparent 70%);
-    border-radius: 45% 55% 60% 40% / 50% 70% 30% 50%;
-    transform: rotate(-10deg);
+  /* Professional aquarela-inspired components */
+  
+  /* Gradient backgrounds */
+  .bg-gradient-warm {
+    background: var(--gradient-warm);
   }
   
-  .embrace-silhouette {
-    background: linear-gradient(135deg, hsl(var(--sage) / 0.12), transparent 70%);
-    border-radius: 60% 40% 70% 30% / 40% 60% 40% 60%;
-    transform: rotate(15deg);
+  .bg-gradient-soft {
+    background: var(--gradient-soft);
   }
   
-  .flowing-form {
-    background: radial-gradient(ellipse at top, hsl(var(--terracotta) / 0.08), transparent 80%);
-    border-radius: 30% 70% 70% 30% / 60% 40% 60% 40%;
-    transform: rotate(-25deg);
+  .bg-gradient-aquarela {
+    background: var(--gradient-aquarela);
   }
   
-  .nurturing-curve {
-    background: conic-gradient(from 45deg, transparent, hsl(var(--sage) / 0.1), transparent 70%);
-    border-radius: 70% 30% 40% 60% / 50% 50% 50% 50%;
-    transform: rotate(20deg);
-  }
-  
-  .gentle-circle {
-    background: radial-gradient(circle, hsl(var(--sage) / 0.15), transparent 70%);
-    border-radius: 50%;
-  }
-  
-  .soft-orb {
-    background: radial-gradient(ellipse, hsl(var(--terracotta) / 0.1), transparent 60%);
-    border-radius: 60% 40% 50% 50% / 70% 70% 30% 30%;
-  }
-  
-   /* Button variants */
-  .btn-organic {
-    @apply bg-terracotta text-cream px-8 py-4 rounded-full transition-all duration-300 hover:scale-105;
+  /* Button variants matching the design */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-full font-medium;
     box-shadow: var(--shadow-soft);
-  }
-  
-  .btn-organic:hover {
-    box-shadow: var(--shadow-warm);
-  }
-  
-  .btn-ghost {
-    @apply bg-transparent border border-sage text-sage hover:bg-sage hover:text-background px-6 py-3 rounded-full;
     transition: var(--transition-gentle);
   }
   
-  /* Input styling */
-  .input-organic {
-    @apply bg-transparent border-sage/30 rounded-full px-6 py-4 focus:border-sage focus:ring-2 focus:ring-sage/20;
-    box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
+  .btn-primary:hover {
+    @apply bg-primary/90 scale-105;
+    box-shadow: var(--shadow-floating);
   }
   
-  /* Floating animation */
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  .btn-secondary {
+    @apply bg-secondary/20 text-secondary-foreground border border-secondary/30 px-6 py-3 rounded-full font-medium;
+    transition: var(--transition-gentle);
   }
   
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+  .btn-secondary:hover {
+    @apply bg-secondary/30 border-secondary/50;
   }
   
-  /* Gentle fade in */
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out;
+  /* Card styles */
+  .card-soft {
+    @apply bg-card rounded-2xl border border-border/50;
+    box-shadow: var(--shadow-gentle);
   }
   
-  @keyframes fadeInUp {
+  .card-elevated {
+    @apply bg-card rounded-2xl border-0;
+    box-shadow: var(--shadow-floating);
+  }
+  
+  /* Input styles */
+  .input-soft {
+    @apply bg-background border border-border rounded-xl px-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/20;
+    transition: var(--transition-gentle);
+  }
+  
+  /* Text styles for consistency */
+  .text-heading {
+    @apply font-playfair text-foreground font-medium;
+  }
+  
+  .text-body {
+    @apply font-inter text-foreground/80;
+  }
+  
+  .text-caption {
+    @apply font-inter text-muted-foreground text-sm;
+  }
+  
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(10px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Organic shapes for visual interest */
+  .shape-organic {
+    border-radius: 60% 40% 70% 30% / 40% 60% 40% 60%;
+  }
+  
+  .shape-soft {
+    border-radius: 45% 55% 60% 40% / 50% 70% 30% 50%;
   }
 }
