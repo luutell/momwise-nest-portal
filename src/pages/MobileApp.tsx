@@ -4,6 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle, Menu } from 'lucide-react';
 import { AppSidebar } from '@/components/AppSidebar';
+import AuthWrapper from '@/components/auth/AuthWrapper';
+import { useProfile } from '@/hooks/useProfile';
 import Home from '@/components/mobile/Home';
 import WeeklyCalendar from '@/components/mobile/WeeklyCalendar';
 import DailyInsight from '@/components/mobile/DailyInsight';
@@ -15,8 +17,10 @@ import Biblioteca from '@/components/mobile/Biblioteca';
 const MobileApp = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('home');
-  const [showOnboarding, setShowOnboarding] = useState(true);
-  const [showProfileSetup, setShowProfileSetup] = useState(false);
+  const { profile, loading } = useProfile();
+  
+  // Show onboarding if user doesn't have a profile or hasn't completed onboarding
+  const showOnboarding = !loading && (!profile || !profile.onboarding_completed);
 
   // Set active tab based on route
   useEffect(() => {
@@ -26,28 +30,36 @@ const MobileApp = () => {
   }, [location.pathname]);
 
   const handleOnboardingComplete = () => {
-    setShowOnboarding(false);
-    setShowProfileSetup(true);
+    // Onboarding completed, profile should be updated via useProfile hook
+    // Component will re-render automatically when profile changes
   };
 
-  const handleProfileSetupComplete = () => {
-    setShowProfileSetup(false);
-  };
-
-  const handleSkipPersonalization = () => {
-    setShowOnboarding(false);
-    setShowProfileSetup(false);
-  };
-
-  if (showOnboarding) {
-    return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleSkipPersonalization} />;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-sage/10">
+        <div className="text-center">
+          <img 
+            src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
+            alt="MomWise" 
+            className="h-16 w-16 mx-auto mb-4 rounded-full object-contain"
+          />
+          <p className="text-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
   }
 
-  if (showProfileSetup) {
-    return <ProfileSetup onComplete={handleProfileSetupComplete} onSkip={handleSkipPersonalization} />;
+  if (showOnboarding) {
+    // If no profile exists or name is empty, show onboarding first
+    if (!profile || !profile.name) {
+      return <Onboarding onComplete={() => {}} onSkip={handleOnboardingComplete} />;
+    }
+    // If profile exists but onboarding not completed, show profile setup
+    return <ProfileSetup onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
   }
 
   return (
+    <AuthWrapper>
     <SidebarProvider defaultOpen={false}>
       <div className="min-h-screen w-full max-w-sm mx-auto bg-background font-inter flex overflow-hidden">
         <AppSidebar />
@@ -157,6 +169,7 @@ const MobileApp = () => {
         </div>
       </div>
     </SidebarProvider>
+    </AuthWrapper>
   );
 };
 

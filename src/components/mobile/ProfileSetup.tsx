@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ChevronRight, ChevronLeft, User, Baby, Heart, Brain, Calendar } from 'lucide-react';
+import { ChevronRight, ChevronLeft, User, Baby, Heart, Brain, Calendar, Loader2 } from 'lucide-react';
+import { useProfile, ProfileData } from '@/hooks/useProfile';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 interface ProfileSetupProps {
@@ -13,27 +14,6 @@ interface ProfileSetupProps {
   onSkip?: () => void;
 }
 
-interface ProfileData {
-  // Etapa 1
-  name: string;
-  birthDate: string;
-  firstMaternity: string;
-  previousExperience: string;
-  otherExperience: string;
-  joinGroups: string;
-  
-  // Etapa 2
-  babyName: string;
-  babyBirthDate: string;
-  babyAvatar: string;
-  
-  // Etapa 3
-  interests: string[];
-  
-  // Etapa 4
-  contentPreference: string[];
-  specialistAccess: string;
-}
 
 const setupSteps = [
   {
@@ -92,31 +72,46 @@ const contentTypes = [
 
 const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { completeOnboarding } = useProfile();
+  
   const [profileData, setProfileData] = useState<ProfileData>({
     name: '',
-    birthDate: '',
-    firstMaternity: '',
-    previousExperience: '',
-    otherExperience: '',
-    joinGroups: '',
-    babyName: '',
-    babyBirthDate: '',
-    babyAvatar: '',
+    birth_date: '',
+    first_maternity: undefined,
+    previous_experience: '',
+    other_experience: '',
+    join_groups: '',
+    baby_name: '',
+    baby_birth_date: '',
+    baby_avatar: '',
     interests: [],
-    contentPreference: [],
-    specialistAccess: ''
+    content_preference: [],
+    specialist_access: ''
   });
 
   const updateProfileData = (field: keyof ProfileData, value: any) => {
     setProfileData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < setupSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Salvar dados do perfil aqui
-      onComplete();
+      // Finalizar onboarding - salvar no Supabase
+      setIsSubmitting(true);
+      try {
+        await completeOnboarding({
+          ...profileData,
+          birth_date: profileData.birth_date || undefined,
+          baby_birth_date: profileData.baby_birth_date || undefined,
+        });
+        onComplete();
+      } catch (error) {
+        console.error('Error completing onboarding:', error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -127,18 +122,20 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   };
 
   const handleInterestChange = (interest: string, checked: boolean) => {
-    if (checked && profileData.interests.length < 2) {
-      updateProfileData('interests', [...profileData.interests, interest]);
+    const currentInterests = profileData.interests || [];
+    if (checked && currentInterests.length < 2) {
+      updateProfileData('interests', [...currentInterests, interest]);
     } else if (!checked) {
-      updateProfileData('interests', profileData.interests.filter(i => i !== interest));
+      updateProfileData('interests', currentInterests.filter(i => i !== interest));
     }
   };
 
   const handleContentPreferenceChange = (content: string, checked: boolean) => {
+    const currentPreferences = profileData.content_preference || [];
     if (checked) {
-      updateProfileData('contentPreference', [...profileData.contentPreference, content]);
+      updateProfileData('content_preference', [...currentPreferences, content]);
     } else {
-      updateProfileData('contentPreference', profileData.contentPreference.filter(c => c !== content));
+      updateProfileData('content_preference', currentPreferences.filter(c => c !== content));
     }
   };
 
@@ -162,16 +159,16 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
               <Input
                 id="birthDate"
                 type="date"
-                value={profileData.birthDate}
-                onChange={(e) => updateProfileData('birthDate', e.target.value)}
+                value={profileData.birth_date}
+                onChange={(e) => updateProfileData('birth_date', e.target.value)}
               />
             </div>
 
             <div className="space-y-3">
               <Label>Essa é a sua primeira maternidade?</Label>
               <RadioGroup
-                value={profileData.firstMaternity}
-                onValueChange={(value) => updateProfileData('firstMaternity', value)}
+                value={profileData.first_maternity ? 'sim' : profileData.first_maternity === false ? 'nao' : ''}
+                onValueChange={(value) => updateProfileData('first_maternity', value === 'sim')}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="sim" id="first-yes" />
@@ -184,12 +181,12 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
               </RadioGroup>
             </div>
 
-            {profileData.firstMaternity === 'nao' && (
+            {profileData.first_maternity === false && (
               <div className="space-y-3">
                 <Label>📝 Conte um pouco mais sobre sua experiência:</Label>
                 <RadioGroup
-                  value={profileData.previousExperience}
-                  onValueChange={(value) => updateProfileData('previousExperience', value)}
+                  value={profileData.previous_experience}
+                  onValueChange={(value) => updateProfileData('previous_experience', value)}
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="perdi-gravidez" id="exp-loss" />
@@ -209,11 +206,11 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
                   </div>
                 </RadioGroup>
                 
-                {profileData.previousExperience === 'outra' && (
+                {profileData.previous_experience === 'outra' && (
                   <div className="space-y-2 mt-3">
                     <Input
-                      value={profileData.otherExperience}
-                      onChange={(e) => updateProfileData('otherExperience', e.target.value)}
+                      value={profileData.other_experience}
+                      onChange={(e) => updateProfileData('other_experience', e.target.value)}
                       placeholder="Descreva sua experiência..."
                       className="mt-2"
                     />
@@ -225,8 +222,8 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
             <div className="space-y-3">
               <Label>Você gostaria de participar de grupos com mães com filhos da mesma idade?</Label>
               <RadioGroup
-                value={profileData.joinGroups}
-                onValueChange={(value) => updateProfileData('joinGroups', value)}
+                value={profileData.join_groups}
+                onValueChange={(value) => updateProfileData('join_groups', value)}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="sim" id="groups-yes" />
@@ -252,8 +249,8 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
               <Label htmlFor="babyName">Nome do bebê / como você chama seu bebê?</Label>
               <Input
                 id="babyName"
-                value={profileData.babyName}
-                onChange={(e) => updateProfileData('babyName', e.target.value)}
+                value={profileData.baby_name}
+                onChange={(e) => updateProfileData('baby_name', e.target.value)}
                 placeholder="Nome do bebê"
               />
             </div>
@@ -263,8 +260,8 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
               <Input
                 id="babyBirthDate"
                 type="date"
-                value={profileData.babyBirthDate}
-                onChange={(e) => updateProfileData('babyBirthDate', e.target.value)}
+                value={profileData.baby_birth_date}
+                onChange={(e) => updateProfileData('baby_birth_date', e.target.value)}
               />
             </div>
 
@@ -274,9 +271,9 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
                 {babyAvatars.map((avatar) => (
                   <button
                     key={avatar.id}
-                    onClick={() => updateProfileData('babyAvatar', avatar.id)}
+                    onClick={() => updateProfileData('baby_avatar', avatar.id)}
                     className={`p-4 rounded-lg border-2 transition-all ${
-                      profileData.babyAvatar === avatar.id
+                      profileData.baby_avatar === avatar.id
                         ? 'border-primary bg-primary/10'
                         : 'border-muted hover:border-primary/50'
                     }`}
@@ -297,7 +294,7 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
             <div className="text-center space-y-2">
               <h3 className="text-lg font-medium">Escolha até 2 áreas que mais fazem sentido para você neste momento:</h3>
               <p className="text-sm text-muted-foreground">
-                {profileData.interests.length}/2 selecionadas
+                {(profileData.interests?.length || 0)}/2 selecionadas
               </p>
             </div>
 
@@ -306,13 +303,13 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
                 <div key={interest} className="flex items-center space-x-2">
                   <Checkbox
                     id={`interest-${interest}`}
-                    checked={profileData.interests.includes(interest)}
+                    checked={(profileData.interests || []).includes(interest)}
                     onCheckedChange={(checked) => handleInterestChange(interest, checked as boolean)}
-                    disabled={!profileData.interests.includes(interest) && profileData.interests.length >= 2}
+                    disabled={!(profileData.interests || []).includes(interest) && (profileData.interests?.length || 0) >= 2}
                   />
                   <Label 
                     htmlFor={`interest-${interest}`}
-                    className={`flex-1 ${!profileData.interests.includes(interest) && profileData.interests.length >= 2 ? 'text-muted-foreground' : ''}`}
+                    className={`flex-1 ${!(profileData.interests || []).includes(interest) && (profileData.interests?.length || 0) >= 2 ? 'text-muted-foreground' : ''}`}
                   >
                     {interest}
                   </Label>
@@ -336,7 +333,7 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
                   <div key={content} className="flex items-center space-x-2">
                     <Checkbox
                       id={`content-${content}`}
-                      checked={profileData.contentPreference.includes(content)}
+                      checked={(profileData.content_preference || []).includes(content)}
                       onCheckedChange={(checked) => handleContentPreferenceChange(content, checked as boolean)}
                     />
                     <Label htmlFor={`content-${content}`} className="flex-1">
@@ -350,8 +347,8 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
             <div className="space-y-3">
               <Label>Você gostaria de ter acesso a um especialista para tirar dúvidas por vídeo chamada sempre que possível?</Label>
               <RadioGroup
-                value={profileData.specialistAccess}
-                onValueChange={(value) => updateProfileData('specialistAccess', value)}
+                value={profileData.specialist_access}
+                onValueChange={(value) => updateProfileData('specialist_access', value)}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="essencial" id="specialist-essential" />
@@ -378,16 +375,16 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   const canProceed = () => {
     switch (currentStep) {
       case 0:
-        return profileData.name.trim() !== '' && profileData.firstMaternity !== '' && 
-               (profileData.firstMaternity === 'sim' || 
-                (profileData.firstMaternity === 'nao' && profileData.previousExperience !== '' &&
-                 (profileData.previousExperience !== 'outra' || profileData.otherExperience.trim() !== '')));
+        return profileData.name.trim() !== '' && profileData.first_maternity !== undefined && 
+               (profileData.first_maternity === true || 
+                (profileData.first_maternity === false && profileData.previous_experience !== '' &&
+                 (profileData.previous_experience !== 'outra' || profileData.other_experience?.trim() !== '')));
       case 1:
-        return profileData.babyName.trim() !== '';
+        return profileData.baby_name?.trim() !== '';
       case 2:
-        return profileData.interests.length > 0;
+        return profileData.interests && profileData.interests.length > 0;
       case 3:
-        return profileData.contentPreference.length > 0 && profileData.specialistAccess !== '';
+        return profileData.content_preference && profileData.content_preference.length > 0 && profileData.specialist_access !== '';
       default:
         return true;
     }
@@ -455,10 +452,19 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
               <Button 
                 onClick={handleNext}
                 className="flex-1"
-                disabled={!canProceed()}
+                disabled={!canProceed() || isSubmitting}
               >
-                {currentStep === setupSteps.length - 1 ? 'Finalizar' : 'Continuar'}
-                <ChevronRight className="ml-2 w-4 h-4" />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    {currentStep === setupSteps.length - 1 ? 'Finalizar' : 'Continuar'}
+                    <ChevronRight className="ml-2 w-4 h-4" />
+                  </>
+                )}
               </Button>
             </div>
           </CardContent>
