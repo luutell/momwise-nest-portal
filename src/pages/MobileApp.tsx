@@ -67,7 +67,7 @@ const MobileApp = () => {
   return (
     <AuthWrapper>
     <SidebarProvider defaultOpen={false}>
-      <div className="min-h-screen w-full max-w-sm mx-auto bg-background font-inter flex overflow-hidden">
+      <div className="min-h-screen w-full bg-background font-inter flex overflow-hidden">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col min-w-0">
@@ -84,11 +84,6 @@ const MobileApp = () => {
                   className="h-10 w-auto rounded-lg"
                 />
               </div>
-              <img 
-                src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
-                alt="MomWise" 
-                className="w-8 h-8 rounded-full object-contain"
-              />
             </div>
             
             
