@@ -17,10 +17,14 @@ import Biblioteca from '@/components/mobile/Biblioteca';
 const MobileApp = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('home');
-  const { profile, loading } = useProfile();
-  
-  // Show onboarding if user doesn't have a profile or hasn't completed onboarding
-  const showOnboarding = !loading && (!profile || !profile.onboarding_completed);
+   const { profile, loading } = useProfile();
+   
+   // Check localStorage for onboarding completion
+   const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
+   const localProfileData = localStorage.getItem('profile_data');
+   
+   // Show onboarding if user doesn't have a profile or hasn't completed onboarding (either in DB or localStorage)
+   const showOnboarding = !loading && !localOnboardingCompleted && (!profile || !profile.onboarding_completed);
 
   // Set active tab based on route
   useEffect(() => {
@@ -51,12 +55,17 @@ const MobileApp = () => {
   }
 
   if (showOnboarding) {
-    // If no profile exists, show onboarding first
-    if (!profile) {
-      return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
+    // If no profile exists and no local onboarding completed, show onboarding first
+    if (!localOnboardingCompleted && (!profile || !profile.onboarding_completed)) {
+      // Try to get local profile data to determine which step to show
+      const localProfile = localProfileData ? JSON.parse(localProfileData) : null;
+      
+      if (!localProfile || !localProfile.name) {
+        return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
+      }
+      // If local profile exists but onboarding not completed, show profile setup
+      return <ProfileSetup onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
     }
-    // If profile exists but onboarding not completed, show profile setup
-    return <ProfileSetup onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
   }
 
   return (

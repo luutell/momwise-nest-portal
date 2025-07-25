@@ -67,20 +67,14 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
 
   const handleSkip = async () => {
     try {
-      // Import supabase client to ensure auth
-      const { supabase } = await import('@/integrations/supabase/client');
-      
-      // Check if user is authenticated, if not sign in anonymously
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        await supabase.auth.signInAnonymously();
-      }
-      
-      // Create a minimal profile when skipping
-      await completeOnboarding({
+      // For now, just mark onboarding as completed locally
+      // This will be migrated to the database when user actually signs in
+      localStorage.setItem('onboarding_completed', 'true');
+      localStorage.setItem('profile_data', JSON.stringify({
         name: 'Usuário',
         onboarding_completed: true
-      });
+      }));
+      
       onComplete();
     } catch (error) {
       console.error('Error skipping onboarding:', error);

@@ -98,23 +98,20 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
     if (currentStep < setupSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Finalizar onboarding - salvar no Supabase
+      // Finalizar onboarding - salvar localmente
       setIsSubmitting(true);
       try {
-        // Import supabase client to ensure auth
-        const { supabase } = await import('@/integrations/supabase/client');
-        
-        // Check if user is authenticated, if not sign in anonymously
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          await supabase.auth.signInAnonymously();
-        }
-        
-        await completeOnboarding({
+        // For now, save to localStorage until user actually signs in
+        const completeData = {
           ...profileData,
           birth_date: profileData.birth_date || undefined,
           baby_birth_date: profileData.baby_birth_date || undefined,
-        });
+          onboarding_completed: true
+        };
+        
+        localStorage.setItem('onboarding_completed', 'true');
+        localStorage.setItem('profile_data', JSON.stringify(completeData));
+        
         onComplete();
       } catch (error) {
         console.error('Error completing onboarding:', error);
