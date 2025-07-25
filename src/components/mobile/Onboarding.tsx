@@ -8,7 +8,7 @@ const onboardingSteps = [
   {
     id: 1,
     icon: Sparkles,
-    title: '✨ Bem-vinda ao MomWise.',
+    title: 'Bem-vinda ao MomWise.',
     subtitle: 'Aqui, maternidade é vivida com leveza, informação e apoio real.',
     buttonText: 'Começar',
     gradient: 'from-primary/20 to-sage/20'
@@ -101,8 +101,19 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl font-semibold text-foreground leading-relaxed">
-              {currentStepData.title}
+            <h1 className="text-2xl font-semibold text-foreground leading-relaxed flex items-center justify-center">
+              {currentStep === 0 ? (
+                <>
+                  <img 
+                    src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
+                    alt="MomWise" 
+                    className="inline-block w-6 h-6 mr-2 rounded-full object-contain" 
+                  />
+                  {currentStepData.title}
+                </>
+              ) : (
+                currentStepData.title
+              )}
             </h1>
 
             {/* Subtitle */}
