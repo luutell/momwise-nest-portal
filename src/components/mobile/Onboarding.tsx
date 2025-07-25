@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChevronRight, Sparkles, MessageCircle, Calendar, Users, Baby } from 'lucide-react';
+import { useProfile } from '@/hooks/useProfile';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 const onboardingSteps = [
@@ -54,12 +55,27 @@ interface OnboardingProps {
 
 const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const { completeOnboarding } = useProfile();
 
   const handleNext = () => {
     if (currentStep < onboardingSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       onComplete();
+    }
+  };
+
+  const handleSkip = async () => {
+    try {
+      // Create a minimal profile when skipping
+      await completeOnboarding({
+        name: 'Usuário',
+        onboarding_completed: true
+      });
+      onComplete();
+    } catch (error) {
+      console.error('Error skipping onboarding:', error);
+      onComplete(); // Still proceed even if there's an error
     }
   };
 
@@ -135,7 +151,7 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
         {/* Skip option */}
         <div className="text-center space-y-2">
           <button
-            onClick={onComplete}
+            onClick={handleSkip}
             className="text-foreground bg-white/80 hover:bg-white/90 transition-all duration-200 text-sm px-4 py-2 rounded-lg font-medium shadow-md"
           >
             Pular apresentação
@@ -143,7 +159,7 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
           {onSkip && (
             <div>
               <button
-                onClick={onSkip}
+                onClick={handleSkip}
                 className="text-foreground bg-terracotta/20 hover:bg-terracotta/30 transition-all duration-200 text-sm px-4 py-2 rounded-lg font-medium"
               >
                 Pular personalização completa

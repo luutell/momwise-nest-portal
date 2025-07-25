@@ -29,9 +29,10 @@ const MobileApp = () => {
     }
   }, [location.pathname]);
 
-  const handleOnboardingComplete = () => {
-    // Onboarding completed, profile should be updated via useProfile hook
-    // Component will re-render automatically when profile changes
+  const handleOnboardingComplete = async () => {
+    // Force profile refresh to check for updates
+    await new Promise(resolve => setTimeout(resolve, 100));
+    window.location.reload();
   };
 
   if (loading) {
