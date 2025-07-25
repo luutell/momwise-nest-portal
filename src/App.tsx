@@ -21,7 +21,7 @@ const App = () => (
       <LanguageProvider>
         <Toaster />
         <Sonner />
-        <LanguageSwitcher />
+        
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
