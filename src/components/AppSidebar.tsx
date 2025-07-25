@@ -49,49 +49,49 @@ const menuItems = [
 const categories = [
   {
     title: 'Amamentação',
-    url: '/app/amamentacao',
+    url: '/app/Amamentação',
     icon: Baby,
     color: 'text-terracotta'
   },
   {
     title: 'Puerpério',
-    url: '/app/puerperio',
+    url: '/app/Puerpério',
     icon: Heart,
     color: 'text-sage'
   },
   {
     title: 'Desenvolvimento',
-    url: '/app/desenvolvimento',
+    url: '/app/Desenvolvimento',
     icon: Users,
     color: 'text-terracotta'
   },
   {
     title: 'Sono',
-    url: '/app/sono',
+    url: '/app/Sono',
     icon: Calendar,
     color: 'text-sage'
   },
   {
     title: 'Trabalho',
-    url: '/app/trabalho',
+    url: '/app/Trabalho',
     icon: Home,
     color: 'text-terracotta'
   },
   {
     title: 'Autocuidado',
-    url: '/app/autocuidado',
+    url: '/app/Autocuidado',
     icon: User,
     color: 'text-sage'
   },
   {
     title: 'Relações',
-    url: '/app/relacoes',
+    url: '/app/Relações',
     icon: Heart,
     color: 'text-terracotta'
   },
   {
     title: 'Gestação',
-    url: '/app/gestacao',
+    url: '/app/Gestação',
     icon: Baby,
     color: 'text-sage'
   }
@@ -188,31 +188,33 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Categorias */}
-        {!collapsed && (
-          <SidebarGroup>
-            <SidebarGroupLabel className="px-4 py-2 text-gray-600 text-xs uppercase tracking-wide font-medium">
-              Categorias
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {categories.map((category) => (
-                  <SidebarMenuItem key={category.title}>
-                    <SidebarMenuButton asChild>
-                      <NavLink
-                        to={category.url}
-                        className="flex items-center space-x-3 px-4 py-2 rounded-lg mx-2 transition-all duration-200 hover:bg-gray-100 text-gray-700 hover:text-gray-900"
-                      >
-                        <category.icon className={`w-4 h-4 ${category.color}`} />
+        {/* Categorias - sempre visível */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-4 py-2 text-gray-800 text-xs uppercase tracking-wide font-medium">
+            {!collapsed ? 'Categorias' : ''}
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {categories.map((category) => (
+                <SidebarMenuItem key={category.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={category.url}
+                      className={`flex items-center space-x-3 px-4 py-2 rounded-lg mx-2 transition-all duration-200 ${getNavClasses(
+                        isActive(category.url)
+                      )}`}
+                    >
+                      <category.icon className={`w-4 h-4 ${category.color} flex-shrink-0`} />
+                      {!collapsed && (
                         <span className="text-sm text-current">{category.title}</span>
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+                      )}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
         {/* Saudação no bottom quando expandido */}
         {!collapsed && (

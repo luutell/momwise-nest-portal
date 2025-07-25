@@ -7,6 +7,9 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import Index from "./pages/Index";
 import MobileApp from "./pages/MobileApp";
+import AdminPanel from "./pages/AdminPanel";
+import CategoryPosts from "./pages/CategoryPosts";
+import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +25,9 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/app" element={<MobileApp />} />
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/app/:category" element={<CategoryPosts />} />
+            <Route path="/app/post/:id" element={<PostDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
