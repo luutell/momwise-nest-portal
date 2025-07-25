@@ -52,7 +52,7 @@ const MobileApp = () => {
   if (showOnboarding) {
     // If no profile exists or name is empty, show onboarding first
     if (!profile || !profile.name) {
-      return <Onboarding onComplete={() => {}} onSkip={handleOnboardingComplete} />;
+      return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
     }
     // If profile exists but onboarding not completed, show profile setup
     return <ProfileSetup onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
