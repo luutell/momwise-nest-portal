@@ -94,6 +94,66 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          baby_avatar: string | null
+          baby_birth_date: string | null
+          baby_name: string | null
+          birth_date: string | null
+          content_preference: Json | null
+          created_at: string
+          first_maternity: boolean | null
+          id: string
+          interests: Json | null
+          join_groups: string | null
+          name: string
+          onboarding_completed: boolean | null
+          other_experience: string | null
+          previous_experience: string | null
+          specialist_access: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          baby_avatar?: string | null
+          baby_birth_date?: string | null
+          baby_name?: string | null
+          birth_date?: string | null
+          content_preference?: Json | null
+          created_at?: string
+          first_maternity?: boolean | null
+          id?: string
+          interests?: Json | null
+          join_groups?: string | null
+          name: string
+          onboarding_completed?: boolean | null
+          other_experience?: string | null
+          previous_experience?: string | null
+          specialist_access?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          baby_avatar?: string | null
+          baby_birth_date?: string | null
+          baby_name?: string | null
+          birth_date?: string | null
+          content_preference?: Json | null
+          created_at?: string
+          first_maternity?: boolean | null
+          id?: string
+          interests?: Json | null
+          join_groups?: string | null
+          name?: string
+          onboarding_completed?: boolean | null
+          other_experience?: string | null
+          previous_experience?: string | null
+          specialist_access?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       referral_rewards: {
         Row: {
           applied: boolean | null
