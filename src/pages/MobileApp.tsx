@@ -66,9 +66,11 @@ const MobileApp = () => {
                   className="h-10 w-auto rounded-lg"
                 />
               </div>
-              <div className="w-8 h-8 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-                <Heart className="w-4 h-4 text-primary-foreground" />
-              </div>
+              <img 
+                src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
+                alt="MomWise" 
+                className="w-8 h-8 rounded-full object-contain"
+              />
             </div>
             
             

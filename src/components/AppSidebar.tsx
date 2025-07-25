@@ -146,9 +146,11 @@ export function AppSidebar() {
       {/* Header com logo */}
       <div className="p-4 border-b border-border/50">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-            <Heart className="w-4 h-4 text-primary" />
-          </div>
+          <img 
+            src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
+            alt="MomWise" 
+            className="w-8 h-8 rounded-full object-contain"
+          />
           {!collapsed && (
             <div>
               <h2 className="font-playfair text-lg font-semibold text-sidebar-foreground">
