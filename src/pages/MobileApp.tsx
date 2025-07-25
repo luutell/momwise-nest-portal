@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle, Menu } from 'lucide-react';
@@ -9,11 +10,20 @@ import DailyInsight from '@/components/mobile/DailyInsight';
 import Profile from '@/components/mobile/Profile';
 import Onboarding from '@/components/mobile/Onboarding';
 import ProfileSetup from '@/components/mobile/ProfileSetup';
+import Biblioteca from '@/components/mobile/Biblioteca';
 
 const MobileApp = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('home');
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
+
+  // Set active tab based on route
+  useEffect(() => {
+    if (location.pathname === '/app/biblioteca') {
+      setActiveTab('biblioteca');
+    }
+  }, [location.pathname]);
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false);
@@ -76,10 +86,7 @@ const MobileApp = () => {
               </TabsContent>
               
               <TabsContent value="biblioteca" className="mt-0 p-0">
-                <div className="p-4">
-                  <h2 className="font-playfair text-xl mb-4">Biblioteca</h2>
-                  <p className="text-muted-foreground">Todos os conteúdos organizados por categoria...</p>
-                </div>
+                <Biblioteca />
               </TabsContent>
 
               <TabsContent value="entre-maes" className="mt-0 p-0">
@@ -113,6 +120,7 @@ const MobileApp = () => {
                 <TabsTrigger 
                   value="biblioteca" 
                   className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                  onClick={() => window.history.pushState({}, '', '/app/biblioteca')}
                 >
                   <BookOpen className="w-5 h-5 mb-1" />
                   <span className="text-xs">Biblioteca</span>
