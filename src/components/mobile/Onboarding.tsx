@@ -96,11 +96,11 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
             {/* Icon */}
              <div className="flex justify-center">
                {currentStep === 0 ? (
-                 <div className="w-16 h-16 rounded-full bg-white/50 flex items-center justify-center">
+                 <div className="w-20 h-20 rounded-full bg-white/50 flex items-center justify-center">
                    <img 
                      src="/lovable-uploads/eea7514a-fcb9-43ad-ad9b-2acbd4ee31ea.png" 
                      alt="MomWise Nest Spiral" 
-                     className="w-10 h-10 object-contain" 
+                     className="w-14 h-14 object-contain" 
                    />
                  </div>
                ) : (
