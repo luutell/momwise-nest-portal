@@ -20,6 +20,12 @@ const MobileApp = () => {
   const [showProfileSetup, setShowProfileSetup] = useState(false);
    const { profile, loading } = useProfile();
    
+   // Force clear localStorage on load for testing
+   useEffect(() => {
+     localStorage.removeItem('onboarding_completed');
+     localStorage.removeItem('profile_data');
+   }, []);
+   
    // Check localStorage for onboarding completion
    const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
    
@@ -34,7 +40,8 @@ const MobileApp = () => {
   }, [location.pathname]);
 
   const handleOnboardingComplete = async () => {
-    // Just reload to refresh the app state
+    // Clear any existing onboarding state and reload
+    localStorage.removeItem('onboarding_completed');
     await new Promise(resolve => setTimeout(resolve, 100));
     window.location.reload();
   };
