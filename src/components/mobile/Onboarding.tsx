@@ -51,9 +51,10 @@ const onboardingSteps = [
 interface OnboardingProps {
   onComplete: () => void;
   onSkip?: () => void;
+  onStartPersonalization?: () => void;
 }
 
-const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
+const Onboarding = ({ onComplete, onSkip, onStartPersonalization }: OnboardingProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const { completeOnboarding } = useProfile();
 
@@ -61,7 +62,12 @@ const Onboarding = ({ onComplete, onSkip }: OnboardingProps) => {
     if (currentStep < onboardingSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      onComplete();
+      // Last step - start personalization instead of completing
+      if (onStartPersonalization) {
+        onStartPersonalization();
+      } else {
+        onComplete();
+      }
     }
   };
 

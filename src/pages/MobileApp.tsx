@@ -17,13 +17,14 @@ import Biblioteca from '@/components/mobile/Biblioteca';
 const MobileApp = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('home');
+  const [showProfileSetup, setShowProfileSetup] = useState(false);
    const { profile, loading } = useProfile();
    
    // Check localStorage for onboarding completion
    const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
    
    // Show onboarding if user doesn't have a profile or hasn't completed onboarding
-   const showOnboarding = !loading && !localOnboardingCompleted && (!profile || !profile.onboarding_completed);
+   const showOnboarding = !loading && !localOnboardingCompleted && (!profile || !profile.onboarding_completed) && !showProfileSetup;
 
   // Set active tab based on route
   useEffect(() => {
@@ -40,6 +41,15 @@ const MobileApp = () => {
 
   const handleOnboardingSkip = async () => {
     // For skip, we want to keep the localStorage data and just reload
+    await new Promise(resolve => setTimeout(resolve, 100));
+    window.location.reload();
+  };
+
+  const handleStartPersonalization = () => {
+    setShowProfileSetup(true);
+  };
+
+  const handleProfileSetupComplete = async () => {
     await new Promise(resolve => setTimeout(resolve, 100));
     window.location.reload();
   };
@@ -61,7 +71,11 @@ const MobileApp = () => {
 
   if (showOnboarding) {
     // Always show onboarding first if not completed
-    return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingSkip} />;
+    return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingSkip} onStartPersonalization={handleStartPersonalization} />;
+  }
+
+  if (showProfileSetup) {
+    return <ProfileSetup onComplete={handleProfileSetupComplete} onSkip={handleProfileSetupComplete} />;
   }
 
   return (
