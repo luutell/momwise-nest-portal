@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Upload, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Dialog,
@@ -56,6 +56,8 @@ export default function AdminPanel() {
     practical_tip: '',
     published: false
   });
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingAudio, setUploadingAudio] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -154,6 +156,70 @@ export default function AdminPanel() {
       published: post.published
     });
     setIsDialogOpen(true);
+  };
+
+  const handleImageUpload = async (file: File) => {
+    setUploadingImage(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('post-images')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('post-images')
+        .getPublicUrl(fileName);
+
+      setFormData({ ...formData, image_url: data.publicUrl });
+      toast({
+        title: 'Upload realizado!',
+        description: 'Imagem enviada com sucesso.'
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Erro no upload',
+        description: error.message,
+        variant: 'destructive'
+      });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleAudioUpload = async (file: File) => {
+    setUploadingAudio(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('post-audio')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('post-audio')
+        .getPublicUrl(fileName);
+
+      setFormData({ ...formData, audio_url: data.publicUrl });
+      toast({
+        title: 'Upload realizado!',
+        description: 'Áudio enviado com sucesso.'
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Erro no upload',
+        description: error.message,
+        variant: 'destructive'
+      });
+    } finally {
+      setUploadingAudio(false);
+    }
   };
 
   const handleSave = () => {
@@ -275,24 +341,105 @@ export default function AdminPanel() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="image_url">URL da Imagem</Label>
-                  <Input
-                    id="image_url"
-                    type="url"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    placeholder="https://exemplo.com/imagem.jpg"
-                  />
+                  <Label>Imagem do Post</Label>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleImageUpload(file);
+                        }}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById('image-upload')?.click()}
+                        disabled={uploadingImage}
+                        className="flex-1"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        {uploadingImage ? 'Enviando...' : 'Escolher Imagem'}
+                      </Button>
+                      {formData.image_url && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setFormData({ ...formData, image_url: '' })}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                    {formData.image_url && (
+                      <div className="mt-2">
+                        <img 
+                          src={formData.image_url} 
+                          alt="Preview" 
+                          className="w-full h-20 object-cover rounded border"
+                        />
+                      </div>
+                    )}
+                    <Input
+                      placeholder="Ou cole a URL da imagem"
+                      value={formData.image_url}
+                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                      className="text-sm"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="audio_url">URL do Áudio</Label>
-                  <Input
-                    id="audio_url"
-                    type="url"
-                    value={formData.audio_url}
-                    onChange={(e) => setFormData({ ...formData, audio_url: e.target.value })}
-                    placeholder="https://exemplo.com/audio.mp3"
-                  />
+                  <Label>Áudio do Post</Label>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="file"
+                        accept="audio/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleAudioUpload(file);
+                        }}
+                        className="hidden"
+                        id="audio-upload"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById('audio-upload')?.click()}
+                        disabled={uploadingAudio}
+                        className="flex-1"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        {uploadingAudio ? 'Enviando...' : 'Escolher Áudio'}
+                      </Button>
+                      {formData.audio_url && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setFormData({ ...formData, audio_url: '' })}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                    {formData.audio_url && (
+                      <div className="mt-2 p-2 bg-gray-50 rounded text-sm">
+                        <p className="text-green-600">✓ Áudio carregado</p>
+                        <p className="text-xs text-gray-500 truncate">{formData.audio_url.split('/').pop()}</p>
+                      </div>
+                    )}
+                    <Input
+                      placeholder="Ou cole a URL do áudio"
+                      value={formData.audio_url}
+                      onChange={(e) => setFormData({ ...formData, audio_url: e.target.value })}
+                      className="text-sm"
+                    />
+                  </div>
                 </div>
               </div>
 
