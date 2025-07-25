@@ -21,9 +21,8 @@ const MobileApp = () => {
    
    // Check localStorage for onboarding completion
    const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
-   const localProfileData = localStorage.getItem('profile_data');
    
-   // Show onboarding if user doesn't have a profile or hasn't completed onboarding (either in DB or localStorage)
+   // Show onboarding if user doesn't have a profile or hasn't completed onboarding
    const showOnboarding = !loading && !localOnboardingCompleted && (!profile || !profile.onboarding_completed);
 
   // Set active tab based on route
@@ -34,7 +33,9 @@ const MobileApp = () => {
   }, [location.pathname]);
 
   const handleOnboardingComplete = async () => {
-    // Force profile refresh to check for updates
+    // Clear localStorage and reload to start fresh
+    localStorage.removeItem('onboarding_completed');
+    localStorage.removeItem('profile_data');
     await new Promise(resolve => setTimeout(resolve, 100));
     window.location.reload();
   };
@@ -55,17 +56,8 @@ const MobileApp = () => {
   }
 
   if (showOnboarding) {
-    // If no profile exists and no local onboarding completed, show onboarding first
-    if (!localOnboardingCompleted && (!profile || !profile.onboarding_completed)) {
-      // Try to get local profile data to determine which step to show
-      const localProfile = localProfileData ? JSON.parse(localProfileData) : null;
-      
-      if (!localProfile || !localProfile.name) {
-        return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
-      }
-      // If local profile exists but onboarding not completed, show profile setup
-      return <ProfileSetup onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
-    }
+    // Always show onboarding first if not completed
+    return <Onboarding onComplete={handleOnboardingComplete} onSkip={handleOnboardingComplete} />;
   }
 
   return (
