@@ -128,11 +128,11 @@ const Home = () => {
   // Seções fixas do app
   const sections = [
     {
-      id: 'ritmo-leve',
-      title: 'Ritmo Leve',
-      emoji: '🔄',
+      id: 'sono-do-bebe',
+      title: 'Sono do Bebê',
+      emoji: '🛌',
       icon: RotateCcw,
-      description: 'Rotina, sono, regressões',
+      description: 'Rotina de sono, regressões, rituais noturnos',
       color: 'bg-sage/20 hover:bg-sage/30 text-sage'
     },
     {
@@ -148,7 +148,7 @@ const Home = () => {
       title: 'Primeiras Mordidas',
       emoji: '🍽',
       icon: Utensils,
-      description: 'Alimentação',
+      description: 'Alimentação e relação com o comer',
       color: 'bg-terracotta/20 hover:bg-terracotta/30 text-terracotta'
     },
     {
@@ -156,15 +156,15 @@ const Home = () => {
       title: 'No seu Tempo',
       emoji: '💪',
       icon: Clock,
-      description: 'Atividades de estímulo',
+      description: 'Desenvolvimento e estímulos respeitosos',
       color: 'bg-secondary/20 hover:bg-secondary/30 text-secondary'
     },
     {
-      id: 'amamentacao',
-      title: 'Amamentação',
-      emoji: '🍼',
+      id: 'amamentacao-e-acolhimento',
+      title: 'Amamentação e Acolhimento',
+      emoji: '🤱',
       icon: Heart,
-      description: 'Registro, dicas e comunidade',
+      description: 'Nutrição e pós-parto',
       color: 'bg-primary/20 hover:bg-primary/30 text-primary'
     },
     {
@@ -172,7 +172,7 @@ const Home = () => {
       title: 'Mãe Inteira',
       emoji: '🛀',
       icon: Heart,
-      description: 'Autocuidado, saúde emocional',
+      description: 'Saúde emocional, autocuidado, corpo da mãe',
       color: 'bg-terracotta/20 hover:bg-terracotta/30 text-terracotta'
     },
     {
@@ -180,8 +180,16 @@ const Home = () => {
       title: 'Entre Mães',
       emoji: '🤝',
       icon: Users,
-      description: 'Comunidade e trocas reais',
+      description: 'Rede de apoio, relatos, comunidade',
       color: 'bg-sage/20 hover:bg-sage/30 text-sage'
+    },
+    {
+      id: 'higiene-natural',
+      title: 'Higiene Natural',
+      emoji: '🚼',
+      icon: Users,
+      description: 'Fraldas, EC, cuidados conscientes',
+      color: 'bg-secondary/20 hover:bg-secondary/30 text-secondary'
     }
   ];
 
@@ -190,7 +198,7 @@ const Home = () => {
     const category = sections.find(s => s.id === selectedCategory);
     
     // Componente especial para Amamentação
-    if (selectedCategory === 'amamentacao') {
+    if (selectedCategory === 'amamentacao-e-acolhimento') {
       return (
         <Breastfeeding onBack={() => setSelectedCategory(null)} />
       );
