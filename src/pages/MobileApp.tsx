@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle, Menu } from 'lucide-react';
 import { AppSidebar } from '@/components/AppSidebar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import { useProfile } from '@/hooks/useProfile';
 import Home from '@/components/mobile/Home';
@@ -20,7 +21,8 @@ const MobileApp = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('home');
   const [showProfileSetup, setShowProfileSetup] = useState(false);
-   const { profile, loading } = useProfile();
+  const isMobile = useIsMobile();
+  const { profile, loading } = useProfile();
    
    // Check localStorage for onboarding completion
    const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
@@ -87,16 +89,19 @@ const MobileApp = () => {
   return (
     <SidebarProvider defaultOpen={false}>
       <div className="min-h-screen w-full bg-background font-inter flex overflow-hidden">
-        <AppSidebar />
+        {/* Sidebar - oculto no mobile */}
+        {!isMobile && <AppSidebar />}
         
         <div className="flex-1 flex flex-col min-w-0">
-          {/* Header */}
+          {/* Header - só mostra trigger no desktop */}
           <header className="bg-gradient-warm text-primary-foreground p-4 pb-2 rounded-b-2xl shadow-soft">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <SidebarTrigger className="text-foreground bg-background/90 hover:bg-background rounded-lg p-2 border border-border shadow-sm">
-                  <Menu className="w-5 h-5 text-sidebar-foreground" />
-                </SidebarTrigger>
+                {!isMobile && (
+                  <SidebarTrigger className="text-foreground bg-background/90 hover:bg-background rounded-lg p-2 border border-border shadow-sm">
+                    <Menu className="w-5 h-5 text-sidebar-foreground" />
+                  </SidebarTrigger>
+                )}
                 <img 
                   src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
                   alt="MomWise" 
@@ -104,8 +109,6 @@ const MobileApp = () => {
                 />
               </div>
             </div>
-            
-            
           </header>
 
           {/* Main Content */}
