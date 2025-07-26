@@ -14,6 +14,7 @@ import Onboarding from '@/components/mobile/Onboarding';
 import ProfileSetup from '@/components/mobile/ProfileSetup';
 import Biblioteca from '@/components/mobile/Biblioteca';
 import EntreElas from '@/components/mobile/EntreElas';
+import VideocallsHub from '@/components/mobile/VideocallsHub';
 
 const MobileApp = () => {
   const location = useLocation();
@@ -127,10 +128,7 @@ const MobileApp = () => {
               </TabsContent>
               
               <TabsContent value="chat" className="mt-0 p-0">
-                <div className="p-4">
-                  <h2 className="font-playfair text-xl mb-4">Chat</h2>
-                  <p className="text-muted-foreground">Converse com especialistas...</p>
-                </div>
+                <VideocallsHub />
               </TabsContent>
               
               <TabsContent value="profile" className="mt-0 p-0">
