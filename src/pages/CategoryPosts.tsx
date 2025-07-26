@@ -18,11 +18,11 @@ interface Post {
 }
 
 const categoryMap: { [key: string]: string } = {
-  'ritmo-leve': 'Ritmo Leve',
+  'sono-do-bebe': 'Sono do Bebê',
   'entendendo-o-bebe': 'Entendendo o Bebê',
   'primeiras-mordidas': 'Primeiras Mordidas',
   'no-seu-tempo': 'No seu Tempo',
-  'juntas-no-comeco': 'Juntas no Começo',
+  'amamentacao-e-acolhimento': 'Amamentação e Acolhimento',
   'mae-inteira': 'Mãe Inteira',
   'entre-maes-categoria': 'Entre Mães',
   'higiene-natural': 'Higiene Natural'

@@ -32,11 +32,11 @@ interface Post {
 }
 
 const categories = [
-  'Ritmo Leve',
+  'Sono do Bebê',
   'Entendendo o Bebê',
   'Primeiras Mordidas',
   'No seu Tempo',
-  'Juntas no Começo',
+  'Amamentação e Acolhimento',
   'Mãe Inteira',
   'Entre Mães',
   'Higiene Natural'
@@ -294,11 +294,11 @@ export default function AdminPanel() {
                     <SelectValue placeholder="Selecione uma categoria" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Ritmo Leve">🔄 Ritmo Leve</SelectItem>
+                    <SelectItem value="Sono do Bebê">🛌 Sono do Bebê</SelectItem>
                     <SelectItem value="Entendendo o Bebê">🧠 Entendendo o Bebê</SelectItem>
                     <SelectItem value="Primeiras Mordidas">🍽 Primeiras Mordidas</SelectItem>
                     <SelectItem value="No seu Tempo">💪 No seu Tempo</SelectItem>
-                    <SelectItem value="Juntas no Começo">🤱 Juntas no Começo</SelectItem>
+                    <SelectItem value="Amamentação e Acolhimento">🤱 Amamentação e Acolhimento</SelectItem>
                     <SelectItem value="Mãe Inteira">🛀 Mãe Inteira</SelectItem>
                     <SelectItem value="Entre Mães">🤝 Entre Mães</SelectItem>
                     <SelectItem value="Higiene Natural">🚼 Higiene Natural</SelectItem>

@@ -22,22 +22,22 @@ interface Post {
 }
 
 const categoryIcons = {
-  'Ritmo Leve': '🔄',
+  'Sono do Bebê': '🛌',
   'Entendendo o Bebê': '🧠',
   'Primeiras Mordidas': '🍽',
   'No seu Tempo': '💪',
-  'Juntas no Começo': '🤱',
+  'Amamentação e Acolhimento': '🤱',
   'Mãe Inteira': '🛀',
   'Entre Mães': '🤝',
   'Higiene Natural': '🚼'
 };
 
 const categories = [
-  'Ritmo Leve',
+  'Sono do Bebê',
   'Entendendo o Bebê',
   'Primeiras Mordidas',
   'No seu Tempo',
-  'Juntas no Começo',
+  'Amamentação e Acolhimento',
   'Mãe Inteira',
   'Entre Mães',
   'Higiene Natural'

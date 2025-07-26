@@ -9,9 +9,9 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const categories = [
   {
-    id: 'ritmo-leve',
-    name: 'Ritmo Leve',
-    description: 'Sono, rotina, regressões, autocuidado',
+    id: 'sono-do-bebe',
+    name: 'Sono do Bebê',
+    description: 'Rotina de sono, regressões, rituais noturnos',
     color: 'bg-blue-100 text-blue-800',
     posts: 234
   },
@@ -23,16 +23,16 @@ const categories = [
     posts: 189
   },
   {
-    id: 'amamentacao',
-    name: 'Amamentação',
-    description: 'Dificuldades, pega, desmame, produção de leite',
+    id: 'amamentacao-e-acolhimento',
+    name: 'Amamentação e Acolhimento',
+    description: 'Nutrição e pós-parto',
     color: 'bg-green-100 text-green-800',
     posts: 312
   },
   {
-    id: 'introducao-alimentar',
-    name: 'Introdução Alimentar',
-    description: 'Receitas, BLW, alergias',
+    id: 'primeiras-mordidas',
+    name: 'Primeiras Mordidas',
+    description: 'Alimentação e relação com o comer',
     color: 'bg-orange-100 text-orange-800',
     posts: 156
   },
@@ -44,30 +44,30 @@ const categories = [
     posts: 98
   },
   {
-    id: 'momwise-dois',
-    name: 'MomWise a Dois',
-    description: 'Co-parentalidade, divisão de tarefas, rede de apoio',
+    id: 'no-seu-tempo',
+    name: 'No seu Tempo',
+    description: 'Desenvolvimento e estímulos respeitosos',
     color: 'bg-teal-100 text-teal-800',
     posts: 145
   },
   {
-    id: 'desabafos',
-    name: 'Desabafos Anônimos',
-    description: 'Espaço seguro para desabafar sem julgamentos',
+    id: 'mae-inteira',
+    name: 'Mãe Inteira',
+    description: 'Saúde emocional, autocuidado, corpo da mãe',
     color: 'bg-gray-100 text-gray-800',
     posts: 278
   },
   {
-    id: 'multicultural',
-    name: 'Maternidade Multicultural',
-    description: 'Para mães vivendo fora do país ou em contextos interculturais',
+    id: 'entre-maes',
+    name: 'Entre Mães',
+    description: 'Rede de apoio, relatos, comunidade',
     color: 'bg-indigo-100 text-indigo-800',
     posts: 67
   },
   {
-    id: 'memes',
-    name: 'Aleatoriedades & Memes',
-    description: 'Leveza, humor, conexão',
+    id: 'higiene-natural',
+    name: 'Higiene Natural',
+    description: 'Fraldas, EC, cuidados conscientes',
     color: 'bg-yellow-100 text-yellow-800',
     posts: 423
   }
