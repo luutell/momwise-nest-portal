@@ -1,101 +1,127 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Heart, BookOpen, Moon } from 'lucide-react';
-
-const weeklyContent = {
-  monday: {
-    title: 'Mindful Monday',
-    content: 'Morning reflection: How did you and baby sleep?',
-    type: 'reflection',
-    icon: Heart
-  },
-  tuesday: {
-    title: 'Nourishment Tuesday', 
-    content: 'Focus on hydration and nutrient-rich foods',
-    type: 'nutrition',
-    icon: Heart
-  },
-  wednesday: {
-    title: 'Wisdom Wednesday',
-    content: 'Expert tip: Reading your baby\'s hunger cues',
-    type: 'education',
-    icon: BookOpen
-  },
-  thursday: {
-    title: 'Gentle Thursday',
-    content: 'Self-care ritual: 5-minute breathing exercise',
-    type: 'wellness',
-    icon: Heart
-  },
-  friday: {
-    title: 'Connection Friday',
-    content: 'Story from mama Sarah: Finding my feeding rhythm',
-    type: 'community',
-    icon: Heart
-  },
-  saturday: {
-    title: 'Rest Saturday',
-    content: 'Sleep tip: Creating a calming bedtime routine',
-    type: 'sleep',
-    icon: Moon
-  },
-  sunday: {
-    title: 'Reflection Sunday',
-    content: 'Weekly check-in: What felt good this week?',
-    type: 'reflection',
-    icon: Heart
-  }
-};
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight, Heart, BookOpen, Moon, Play, Clock, Star } from 'lucide-react';
+import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
+import { useProfile } from '@/hooks/useProfile';
 
 const WeeklyCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [currentWeek, setCurrentWeek] = useState(0);
+  const { profile } = useProfile();
+  
+  const babyBirthDate = profile?.baby_birth_date ? new Date(profile.baby_birth_date) : undefined;
+  const { 
+    weeklyContent, 
+    loading, 
+    fetchWeekContent, 
+    getContentTypeIcon, 
+    getContentTypeColor 
+  } = usePersonalizedCalendar(babyBirthDate);
 
-  const getDayName = (date: Date) => {
-    return date.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+  // Calcular datas da semana atual
+  const getWeekDates = (weekOffset: number = 0) => {
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay() + (weekOffset * 7));
+    
+    const weekDates = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+      weekDates.push(date);
+    }
+    return weekDates;
   };
+
+  useEffect(() => {
+    if (babyBirthDate) {
+      const weekDates = getWeekDates(currentWeek);
+      fetchWeekContent(weekDates);
+    }
+  }, [currentWeek, babyBirthDate, fetchWeekContent]);
 
   const getTodaysContent = () => {
     if (!selectedDate) return null;
-    const dayName = getDayName(selectedDate) as keyof typeof weeklyContent;
-    return weeklyContent[dayName];
+    const dateKey = selectedDate.toISOString().split('T')[0];
+    return weeklyContent[dateKey];
+  };
+
+  const getPhaseMessage = () => {
+    if (!babyBirthDate) {
+      return "Configure a data de nascimento do seu bebê para conteúdos personalizados";
+    }
+    
+    const daysDiff = Math.floor((new Date().getTime() - babyBirthDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (daysDiff < 0) {
+      return "Preparando-se para a chegada do bebê";
+    } else if (daysDiff <= 28) {
+      return `Recém-nascido: ${daysDiff} dias de vida`;
+    } else if (daysDiff <= 365) {
+      const months = Math.floor(daysDiff / 30);
+      return `Fase infantil: ${months} ${months === 1 ? 'mês' : 'meses'}`;
+    } else {
+      const years = Math.floor(daysDiff / 365);
+      return `${years} ${years === 1 ? 'ano' : 'anos'} de idade`;
+    }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'reflection': return 'bg-primary/20 text-primary';
-      case 'nutrition': return 'bg-terracotta/20 text-terracotta';
-      case 'education': return 'bg-sage/20 text-sage';
-      case 'wellness': return 'bg-secondary/20 text-secondary';
-      case 'community': return 'bg-primary/20 text-primary';
-      case 'sleep': return 'bg-terracotta/20 text-terracotta';
-      default: return 'bg-muted text-muted-foreground';
+      case 'video': return 'bg-red-100 text-red-800';
+      case 'audio': return 'bg-orange-100 text-orange-800';
+      case 'article': return 'bg-blue-100 text-blue-800';
+      case 'activity': return 'bg-green-100 text-green-800';
+      case 'tip': return 'bg-purple-100 text-purple-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
+  const getDayName = (date: Date) => {
+    return date.toLocaleDateString('pt-BR', { weekday: 'short' });
+  };
+
   const todaysContent = getTodaysContent();
+  const weekDates = getWeekDates(currentWeek);
 
   return (
-    <div className="p-4">
-      <div className="mb-6">
+    <div className="p-4 space-y-6">
+      {/* Header com fase da maternidade */}
+      <div className="text-center">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-playfair text-2xl font-semibold">Your Weekly Journey</h2>
+          <h2 className="font-playfair text-2xl font-semibold">Sua Semana</h2>
           <div className="flex items-center space-x-2">
-            <button onClick={() => setCurrentWeek(prev => prev - 1)}>
-              <ChevronLeft className="w-5 h-5 text-muted-foreground" />
-            </button>
-            <span className="text-sm font-medium">Week {12 + currentWeek}</span>
-            <button onClick={() => setCurrentWeek(prev => prev + 1)}>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </button>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => setCurrentWeek(prev => prev - 1)}
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <span className="text-sm font-medium px-2">
+              {currentWeek === 0 ? 'Esta semana' : `${currentWeek > 0 ? '+' : ''}${currentWeek} semana${Math.abs(currentWeek) !== 1 ? 's' : ''}`}
+            </span>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => setCurrentWeek(prev => prev + 1)}
+            >
+              <ChevronRight className="w-4 h-4" />
+            </Button>
           </div>
         </div>
         
-        <p className="text-muted-foreground text-sm">
-          Each day brings new gentle guidance and connection
-        </p>
+        <div className="bg-primary/5 rounded-lg p-3 mb-4">
+          <p className="text-sm text-primary font-medium">
+            {getPhaseMessage()}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Cada dia traz um novo conteúdo personalizado para sua fase
+          </p>
+        </div>
       </div>
 
       {/* Calendar */}
@@ -114,53 +140,128 @@ const WeeklyCalendar = () => {
         </CardContent>
       </Card>
 
-      {/* Today's Content */}
+      {/* Conteúdo do Dia Selecionado */}
       {todaysContent && (
-        <Card className="border-none shadow-gentle">
+        <Card className="border border-border">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="font-playfair text-lg">
                 {todaysContent.title}
               </CardTitle>
-              <Badge className={getTypeColor(todaysContent.type)}>
-                {todaysContent.type}
-              </Badge>
+              <div className="flex items-center space-x-2">
+                <Badge className={getTypeColor(todaysContent.content_type)}>
+                  {getContentTypeIcon(todaysContent.content_type)} {todaysContent.content_type}
+                </Badge>
+                {todaysContent.is_premium && (
+                  <Badge variant="outline" className="text-yellow-600 border-yellow-600">
+                    <Star className="w-3 h-3 mr-1" />
+                    Premium
+                  </Badge>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex items-start space-x-3">
-              <todaysContent.icon className="w-5 h-5 text-primary mt-0.5" />
+            <div className="space-y-3">
               <p className="text-sm text-foreground leading-relaxed">
-                {todaysContent.content}
+                {todaysContent.description}
               </p>
+              
+              {todaysContent.content_data && (
+                <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                  {todaysContent.duration_minutes && (
+                    <span className="flex items-center">
+                      <Clock className="w-3 h-3 mr-1" />
+                      {todaysContent.duration_minutes} min
+                    </span>
+                  )}
+                  {todaysContent.content_data.expert && (
+                    <span>Com {todaysContent.content_data.expert}</span>
+                  )}
+                </div>
+              )}
+              
+              <Badge variant="secondary" className="text-xs">
+                {todaysContent.category}
+              </Badge>
+              
+              <div className="pt-2">
+                <Button size="sm" className="w-full">
+                  <Play className="w-4 h-4 mr-2" />
+                  {todaysContent.content_type === 'video' ? 'Assistir' : 
+                   todaysContent.content_type === 'audio' ? 'Ouvir' : 
+                   todaysContent.content_type === 'article' ? 'Ler' : 'Ver conteúdo'}
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
       )}
 
-      {/* Weekly Overview */}
-      <div className="mt-6">
-        <h3 className="font-playfair text-lg font-medium mb-4">This Week at a Glance</h3>
-        <div className="space-y-3">
-          {Object.entries(weeklyContent).map(([day, content]) => (
-            <Card key={day} className="border-none shadow-gentle bg-card/50">
-              <CardContent className="p-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <content.icon className="w-4 h-4 text-primary" />
-                    <div>
-                      <p className="font-medium text-sm capitalize">{day}</p>
-                      <p className="text-xs text-muted-foreground">{content.title}</p>
+      {/* Visão Semanal */}
+      <div>
+        <h3 className="font-playfair text-lg font-medium mb-4">Conteúdos da Semana</h3>
+        
+        {loading ? (
+          <div className="text-center py-8">
+            <p className="text-muted-foreground">Carregando conteúdos personalizados...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3">
+            {weekDates.map((date, index) => {
+              const dateKey = date.toISOString().split('T')[0];
+              const content = weeklyContent[dateKey];
+              const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
+              
+              return (
+                <Card 
+                  key={dateKey} 
+                  className={`cursor-pointer transition-all ${isSelected ? 'ring-2 ring-primary' : ''} ${!content ? 'opacity-50' : ''}`}
+                  onClick={() => setSelectedDate(date)}
+                >
+                  <CardContent className="p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="text-center min-w-[50px]">
+                          <p className="text-xs text-muted-foreground capitalize">
+                            {getDayName(date)}
+                          </p>
+                          <p className="font-medium text-sm">
+                            {date.getDate()}
+                          </p>
+                        </div>
+                        <div className="flex-1">
+                          {content ? (
+                            <>
+                              <p className="font-medium text-sm">{content.title}</p>
+                              <p className="text-xs text-muted-foreground truncate">
+                                {content.description}
+                              </p>
+                            </>
+                          ) : (
+                            <p className="text-xs text-muted-foreground italic">
+                              Nenhum conteúdo disponível
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      {content && (
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg">
+                            {getContentTypeIcon(content.content_type)}
+                          </span>
+                          {content.is_premium && (
+                            <Star className="w-3 h-3 text-yellow-600" />
+                          )}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  <Badge className={`${getTypeColor(content.type)} text-xs`}>
-                    {content.type}
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

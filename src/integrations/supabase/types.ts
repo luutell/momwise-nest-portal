@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      calendar_contents: {
+        Row: {
+          baby_age_max_days: number | null
+          baby_age_min_days: number | null
+          category: string
+          content_data: Json | null
+          content_type: string
+          content_url: string | null
+          created_at: string
+          day_of_week: number | null
+          description: string | null
+          duration_minutes: number | null
+          id: string
+          is_premium: boolean | null
+          maternity_phase: string
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          week_offset: number | null
+        }
+        Insert: {
+          baby_age_max_days?: number | null
+          baby_age_min_days?: number | null
+          category: string
+          content_data?: Json | null
+          content_type: string
+          content_url?: string | null
+          created_at?: string
+          day_of_week?: number | null
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          is_premium?: boolean | null
+          maternity_phase: string
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          week_offset?: number | null
+        }
+        Update: {
+          baby_age_max_days?: number | null
+          baby_age_min_days?: number | null
+          category?: string
+          content_data?: Json | null
+          content_type?: string
+          content_url?: string | null
+          created_at?: string
+          day_of_week?: number | null
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          is_premium?: boolean | null
+          maternity_phase?: string
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          week_offset?: number | null
+        }
+        Relationships: []
+      }
       post_feedback: {
         Row: {
           created_at: string
@@ -279,6 +339,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_maternity_phase: {
+        Args: { baby_birth_date: string }
+        Returns: string
+      }
+      get_personalized_calendar_content: {
+        Args: { user_baby_birth_date: string; target_date: string }
+        Returns: {
+          id: string
+          title: string
+          description: string
+          content_type: string
+          content_url: string
+          content_data: Json
+          thumbnail_url: string
+          duration_minutes: number
+          category: string
+          is_premium: boolean
+        }[]
+      }
       get_post_feedback_stats: {
         Args: { post_uuid: string }
         Returns: {
