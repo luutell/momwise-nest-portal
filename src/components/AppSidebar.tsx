@@ -48,9 +48,9 @@ const menuItems = [
 
 const categories = [
   {
-    title: '🔄 Ritmo Leve',
-    description: 'rotina, sono e regressões',
-    url: '/app/ritmo-leve',
+    title: '🛌 Sono do Bebê',
+    description: 'Rotina de sono, regressões, rituais noturnos',
+    url: '/app/sono-do-bebe',
     icon: Calendar,
     color: 'text-terracotta'
   },
@@ -63,42 +63,42 @@ const categories = [
   },
   {
     title: '🍽 Primeiras Mordidas',
-    description: 'alimentação',
+    description: 'Alimentação e relação com o comer',
     url: '/app/primeiras-mordidas',
     icon: BookOpen,
     color: 'text-terracotta'
   },
   {
     title: '💪 No seu Tempo',
-    description: 'atividades de estímulo',
+    description: 'Desenvolvimento e estímulos respeitosos',
     url: '/app/no-seu-tempo',
     icon: Users,
     color: 'text-sage'
   },
   {
-    title: '🤱 Juntas no Começo',
-    description: 'amamentação e pós-parto',
-    url: '/app/juntas-no-comeco',
+    title: '🤱 Amamentação e Acolhimento',
+    description: 'Nutrição e pós-parto',
+    url: '/app/amamentacao-e-acolhimento',
     icon: Heart,
     color: 'text-terracotta'
   },
   {
     title: '🛀 Mãe Inteira',
-    description: 'autocuidado e saúde emocional',
+    description: 'Saúde emocional, autocuidado, corpo da mãe',
     url: '/app/mae-inteira',
     icon: User,
     color: 'text-sage'
   },
   {
     title: '🤝 Entre Mães',
-    description: 'comunidade e trocas reais',
+    description: 'Rede de apoio, relatos, comunidade',
     url: '/app/entre-maes-categoria',
     icon: MessageCircle,
     color: 'text-terracotta'
   },
   {
     title: '🚼 Higiene Natural',
-    description: 'eliminação gentil e sinais do bebê',
+    description: 'Fraldas, EC, cuidados conscientes',
     url: '/app/higiene-natural',
     icon: Home,
     color: 'text-sage'
