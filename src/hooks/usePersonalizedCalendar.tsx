@@ -48,23 +48,41 @@ export const usePersonalizedCalendar = (babyBirthDate?: Date) => {
     const effectiveBabyBirthDate = getBabyBirthDate();
     
     if (!effectiveBabyBirthDate) {
+      console.log('❌ No baby birth date available for calendar content');
       return null;
     }
 
+    const birthDateStr = effectiveBabyBirthDate.toISOString().split('T')[0];
+    const targetDateStr = date.toISOString().split('T')[0];
+    
+    console.log('🔍 Calendar Debug - Baby birth date:', birthDateStr);
+    console.log('🔍 Calendar Debug - Target date:', targetDateStr);
+    
+    // Calculate baby age for debug
+    const ageInDays = Math.ceil((date.getTime() - effectiveBabyBirthDate.getTime()) / (1000 * 60 * 60 * 24));
+    console.log('🔍 Calendar Debug - Baby age on target date:', ageInDays, 'days');
+
     try {
+      console.log('🔍 Calendar Debug - Calling RPC function...');
       const { data, error } = await supabase.rpc('get_personalized_calendar_content', {
-        user_baby_birth_date: effectiveBabyBirthDate.toISOString().split('T')[0],
-        target_date: date.toISOString().split('T')[0]
+        user_baby_birth_date: birthDateStr,
+        target_date: targetDateStr
       });
 
+      console.log('🔍 Calendar Debug - RPC response data:', data);
+      console.log('🔍 Calendar Debug - RPC response error:', error);
+
       if (error) {
-        console.error('Erro ao buscar conteúdo do calendário:', error);
+        console.error('❌ Erro ao buscar conteúdo do calendário:', error);
         return null;
       }
 
-      return data && data.length > 0 ? data[0] : null;
+      const result = data && data.length > 0 ? data[0] : null;
+      console.log('🔍 Calendar Debug - Final result:', result);
+      
+      return result;
     } catch (error) {
-      console.error('Erro ao buscar conteúdo do calendário:', error);
+      console.error('❌ Erro ao buscar conteúdo do calendário:', error);
       return null;
     }
   };

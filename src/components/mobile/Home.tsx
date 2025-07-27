@@ -49,21 +49,42 @@ const Home = () => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   
   useEffect(() => {
-    // Load profile data from localStorage
-    const savedProfile = localStorage.getItem('profile_data');
-    console.log('🔍 Profile data from localStorage:', savedProfile);
+    // Load profile data from localStorage - comprehensive debugging
+    console.log('🔍 All localStorage keys:', Object.keys(localStorage));
     
+    const savedProfile = localStorage.getItem('profile_data');
+    const onboardingData = localStorage.getItem('onboarding_data');
+    const userProfile = localStorage.getItem('user_profile');
+    
+    console.log('🔍 profile_data raw:', savedProfile);
+    console.log('🔍 onboarding_data raw:', onboardingData);
+    console.log('🔍 user_profile raw:', userProfile);
+    
+    // Try profile_data first
     if (savedProfile) {
       try {
         const parsed = JSON.parse(savedProfile);
-        console.log('🔍 Parsed profile data:', parsed);
+        console.log('🔍 Parsed profile_data:', parsed);
         setProfileData(parsed);
+        return;
       } catch (error) {
-        console.error('Error parsing profile data:', error);
+        console.error('Error parsing profile_data:', error);
       }
-    } else {
-      console.log('❌ No profile data found in localStorage');
     }
+    
+    // Try onboarding_data as fallback
+    if (onboardingData) {
+      try {
+        const parsed = JSON.parse(onboardingData);
+        console.log('🔍 Parsed onboarding_data:', parsed);
+        setProfileData(parsed);
+        return;
+      } catch (error) {
+        console.error('Error parsing onboarding_data:', error);
+      }
+    }
+    
+    console.log('❌ No profile data found in any localStorage key');
   }, []);
 
   // Get baby birth date for personalized calendar
