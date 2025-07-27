@@ -124,12 +124,18 @@ const Home = () => {
   useEffect(() => {
     // Load profile data from localStorage
     const savedProfile = localStorage.getItem('profile_data');
+    console.log('🔍 Profile data from localStorage:', savedProfile);
+    
     if (savedProfile) {
       try {
-        setProfileData(JSON.parse(savedProfile));
+        const parsed = JSON.parse(savedProfile);
+        console.log('🔍 Parsed profile data:', parsed);
+        setProfileData(parsed);
       } catch (error) {
         console.error('Error parsing profile data:', error);
       }
+    } else {
+      console.log('❌ No profile data found in localStorage');
     }
   }, []);
 
@@ -150,6 +156,10 @@ const Home = () => {
   // Use personalized data from onboarding
   const userName = profileData?.name || "Mama";
   const babyName = profileData?.baby_name || "seu bebê";
+  
+  console.log('🔍 userName:', userName);
+  console.log('🔍 babyName:', babyName);
+  console.log('🔍 profileData:', profileData);
   
   // Calculate baby age in days
   const calculateBabyAge = (): number => {
