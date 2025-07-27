@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ChevronRight, ChevronLeft, User, Baby, Heart, Brain, Calendar, Loader2 } from 'lucide-react';
 import { useProfile, ProfileData } from '@/hooks/useProfile';
+import { supabase } from '@/integrations/supabase/client';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 interface ProfileSetupProps {
@@ -98,9 +99,15 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
     if (currentStep < setupSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Finalizar onboarding - salvar no Supabase
+      // Finalizar onboarding - garantir autenticação antes de salvar
       setIsSubmitting(true);
       try {
+        // Verificar se está autenticado, se não fazer login anônimo
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          await supabase.auth.signInAnonymously();
+        }
+        
         const completeData = {
           ...profileData,
           birth_date: profileData.birth_date || undefined,
