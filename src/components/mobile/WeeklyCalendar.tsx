@@ -16,19 +16,15 @@ const WeeklyCalendar = () => {
   const getBabyBirthDate = () => {
     // Try profile first
     if (profile?.baby_birth_date) {
-      console.log('Found baby_birth_date in profile:', profile.baby_birth_date);
       return new Date(profile.baby_birth_date);
     }
     
     // Fallback to localStorage
     const localProfile = localStorage.getItem('profile_data');
-    console.log('Checking localStorage profile_data:', localProfile);
     if (localProfile) {
       try {
         const parsed = JSON.parse(localProfile);
-        console.log('Parsed localStorage profile:', parsed);
         if (parsed.baby_birth_date) {
-          console.log('Found baby_birth_date in localStorage:', parsed.baby_birth_date);
           return new Date(parsed.baby_birth_date);
         }
       } catch (e) {
@@ -36,13 +32,10 @@ const WeeklyCalendar = () => {
       }
     }
     
-    console.log('No baby_birth_date found anywhere');
     return undefined;
   };
   
   const babyBirthDate = getBabyBirthDate();
-  console.log('Final babyBirthDate:', babyBirthDate);
-  
   const { 
     weeklyContent, 
     loading, 
