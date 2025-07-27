@@ -60,19 +60,31 @@ export const useProfile = () => {
 
   const updateProfile = async (updates: Partial<ProfileData>) => {
     try {
+      console.log('1. Starting updateProfile with updates:', updates);
+      
       const { data: { user } } = await supabase.auth.getUser();
+      console.log('2. Got user:', user?.id);
+      
       if (!user) throw new Error('User not authenticated');
+
+      const dataToUpsert = {
+        user_id: user.id,
+        ...updates
+      };
+      console.log('3. Data to upsert:', dataToUpsert);
 
       const { data, error } = await supabase
         .from('profiles')
-        .upsert({
-          user_id: user.id,
-          ...updates
-        })
+        .upsert(dataToUpsert)
         .select()
         .single();
 
-      if (error) throw error;
+      console.log('4. Supabase response - data:', data, 'error:', error);
+
+      if (error) {
+        console.error('5. Supabase error details:', error);
+        throw error;
+      }
 
       setProfile(data);
       
