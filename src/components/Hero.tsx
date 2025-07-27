@@ -81,13 +81,19 @@ const Hero = () => {
         
         {/* Mobile App Preview */}
         <div className="mb-8">
-          <Link to="/app">
-            <Button variant="outline" className="btn-organic-outline group">
-              <Smartphone className="mr-2 h-4 w-4" />
-              Preview Mobile App
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
+          <Button 
+            variant="outline" 
+            className="btn-organic-outline group"
+            onClick={() => {
+              // Reset onboarding to ensure it shows when coming from site
+              localStorage.removeItem('onboarding_completed');
+              window.location.href = '/app';
+            }}
+          >
+            <Smartphone className="mr-2 h-4 w-4" />
+            Preview Mobile App
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
         
         {/* Trust Badge */}
