@@ -17,79 +17,6 @@ interface WeeklyContent {
   };
 }
 
-const weeklyContents: WeeklyContent[] = [
-  {
-    day: 'SEG',
-    date: 14,
-    content: {
-      type: 'video',
-      title: 'Primeiros sinais de fome',
-      duration: '3 min',
-      completed: true
-    }
-  },
-  {
-    day: 'TER',
-    date: 15,
-    content: {
-      type: 'article',
-      title: 'Cólicas do bebê: como aliviar',
-      duration: '5 min',
-      completed: true
-    }
-  },
-  {
-    day: 'QUA',
-    date: 16,
-    content: {
-      type: 'audio',
-      title: 'Meditação para mães',
-      duration: '10 min',
-      completed: false
-    }
-  },
-  {
-    day: 'QUI',
-    date: 17,
-    content: {
-      type: 'video',
-      title: 'Massagem relaxante no bebê',
-      duration: '4 min',
-      completed: false
-    }
-  },
-  {
-    day: 'SEX',
-    date: 18,
-    content: {
-      type: 'article',
-      title: 'Desenvolvimento motor: 3 semanas',
-      duration: '6 min',
-      completed: false
-    }
-  },
-  {
-    day: 'SAB',
-    date: 19,
-    content: {
-      type: 'audio',
-      title: 'Sons da natureza para dormir',
-      duration: '15 min',
-      completed: false
-    }
-  },
-  {
-    day: 'DOM',
-    date: 20,
-    content: {
-      type: 'video',
-      title: 'Tempo de qualidade em família',
-      duration: '5 min',
-      completed: false
-    }
-  }
-];
-
 const getContentIcon = (type: string) => {
   switch (type) {
     case 'video':
@@ -148,7 +75,7 @@ const Home = () => {
   };
 
   const babyBirthDate = getBabyBirthDate();
-  const { weeklyContent, loading } = usePersonalizedCalendar(babyBirthDate);
+  const { weeklyContent, loading, fetchWeekContent } = usePersonalizedCalendar(babyBirthDate);
   
   const today = new Date();
   const currentDay = today.getDate();
@@ -169,6 +96,53 @@ const Home = () => {
   };
   
   const babyAge = calculateBabyAge();
+  
+  // Generate current week dates
+  const getCurrentWeekDates = (): Date[] => {
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay()); // Start on Sunday
+    
+    const weekDates = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+      weekDates.push(date);
+    }
+    return weekDates;
+  };
+  
+  const currentWeekDates = getCurrentWeekDates();
+  
+  // Load week content when baby birth date changes
+  useEffect(() => {
+    if (babyBirthDate && fetchWeekContent) {
+      console.log('🔍 Loading week content for baby age:', babyAge, 'days');
+      fetchWeekContent(currentWeekDates);
+    }
+  }, [babyBirthDate, babyAge]);
+  
+  // Convert weekly content to the format expected by the UI
+  const weeklyContents = currentWeekDates.map((date, index) => {
+    const dateKey = date.toISOString().split('T')[0];
+    const content = weeklyContent[dateKey];
+    const dayNames = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
+    
+    return {
+      day: dayNames[date.getDay()],
+      date: date.getDate(),
+      content: content ? {
+        type: content.content_type as 'video' | 'article' | 'audio',
+        title: content.title,
+        duration: content.duration_minutes ? `${content.duration_minutes} min` : '5 min',
+        completed: false
+      } : {
+        type: 'article' as const,
+        title: 'Conteúdo em preparação',
+        duration: '5 min',
+        completed: false
+      }
+    };
+  });
 
   // Seções fixas do app
   const sections = [
