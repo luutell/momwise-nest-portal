@@ -98,10 +98,9 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
     if (currentStep < setupSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Finalizar onboarding - salvar localmente
+      // Finalizar onboarding - salvar no Supabase
       setIsSubmitting(true);
       try {
-        // For now, save to localStorage until user actually signs in
         const completeData = {
           ...profileData,
           birth_date: profileData.birth_date || undefined,
@@ -109,12 +108,23 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
           onboarding_completed: true
         };
         
+        // Save to Supabase
+        await completeOnboarding(completeData);
+        
+        // Also save to localStorage for immediate use
         localStorage.setItem('onboarding_completed', 'true');
         localStorage.setItem('profile_data', JSON.stringify(completeData));
         
         onComplete();
       } catch (error) {
         console.error('Error completing onboarding:', error);
+        // Even if Supabase fails, continue with localStorage
+        localStorage.setItem('onboarding_completed', 'true');
+        localStorage.setItem('profile_data', JSON.stringify({
+          ...profileData,
+          onboarding_completed: true
+        }));
+        onComplete();
       } finally {
         setIsSubmitting(false);
       }

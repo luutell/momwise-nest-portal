@@ -7,6 +7,7 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 import { useProfile } from '@/hooks/useProfile';
+import { supabase } from '@/integrations/supabase/client';
 import Home from '@/components/mobile/Home';
 import WeeklyCalendar from '@/components/mobile/WeeklyCalendar';
 import DailyInsight from '@/components/mobile/DailyInsight';
@@ -23,6 +24,17 @@ const MobileApp = () => {
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const isMobile = useIsMobile();
   const { profile, loading } = useProfile();
+  
+  // Auto-login anonymously if no user exists
+  useEffect(() => {
+    const autoLogin = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        await supabase.auth.signInAnonymously();
+      }
+    };
+    autoLogin();
+  }, []);
    
    // Check localStorage for onboarding completion
    const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
