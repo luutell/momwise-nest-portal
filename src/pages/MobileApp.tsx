@@ -25,12 +25,11 @@ const MobileApp = () => {
   const isMobile = useIsMobile();
   const { profile, loading } = useProfile();
   
+  // Simple check for onboarding completion
+  const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
   
-   // Check localStorage for onboarding completion
-   const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
-   
-   // Show onboarding if user hasn't completed onboarding locally (no auth required)
-   const showOnboarding = !loading && !localOnboardingCompleted && !showProfileSetup;
+  // Show onboarding if not completed (regardless of loading state)
+  const showOnboarding = !localOnboardingCompleted && !showProfileSetup;
 
   // Set active tab based on route
   useEffect(() => {
