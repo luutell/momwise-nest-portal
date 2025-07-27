@@ -27,8 +27,13 @@ const MobileApp = () => {
    // Check localStorage for onboarding completion
    const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
    
+   // Reset onboarding for testing - clear localStorage on load
+   useEffect(() => {
+     localStorage.removeItem('onboarding_completed');
+   }, []);
+   
    // Show onboarding if user doesn't have a profile or hasn't completed onboarding
-   const showOnboarding = !loading && !localOnboardingCompleted && (!profile || !profile.onboarding_completed) && !showProfileSetup;
+   const showOnboarding = !loading && (!profile || !profile.onboarding_completed) && !showProfileSetup;
 
   // Set active tab based on route
   useEffect(() => {
