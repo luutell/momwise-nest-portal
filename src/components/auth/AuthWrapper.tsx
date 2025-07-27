@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import spiralLogo from '@/assets/spiral-logo.png';
+import nestSpiralLogo from '@/assets/nest-spiral-logo.png';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -106,7 +106,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
            <CardHeader className="text-center">
              <div className="flex flex-col items-center space-y-4 mb-4">
                <img 
-                 src={spiralLogo} 
+                 src={nestSpiralLogo} 
                  alt="MomWise Spiral Logo" 
                  className="h-16 w-16 object-contain"
                />
