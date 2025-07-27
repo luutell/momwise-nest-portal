@@ -25,16 +25,6 @@ const MobileApp = () => {
   const isMobile = useIsMobile();
   const { profile, loading } = useProfile();
   
-  // Auto-login anonymously if no user exists
-  useEffect(() => {
-    const autoLogin = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        await supabase.auth.signInAnonymously();
-      }
-    };
-    autoLogin();
-  }, []);
   
    
    // Check localStorage for onboarding completion

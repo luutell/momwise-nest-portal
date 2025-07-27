@@ -12,7 +12,30 @@ const WeeklyCalendar = () => {
   const [currentWeek, setCurrentWeek] = useState(0);
   const { profile } = useProfile();
   
-  const babyBirthDate = profile?.baby_birth_date ? new Date(profile.baby_birth_date) : undefined;
+  // Get baby birth date from profile or localStorage
+  const getBabyBirthDate = () => {
+    // Try profile first
+    if (profile?.baby_birth_date) {
+      return new Date(profile.baby_birth_date);
+    }
+    
+    // Fallback to localStorage
+    const localProfile = localStorage.getItem('profile_data');
+    if (localProfile) {
+      try {
+        const parsed = JSON.parse(localProfile);
+        if (parsed.baby_birth_date) {
+          return new Date(parsed.baby_birth_date);
+        }
+      } catch (e) {
+        console.error('Error parsing local profile:', e);
+      }
+    }
+    
+    return undefined;
+  };
+  
+  const babyBirthDate = getBabyBirthDate();
   const { 
     weeklyContent, 
     loading, 

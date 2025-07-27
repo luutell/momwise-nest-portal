@@ -99,15 +99,9 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
     if (currentStep < setupSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Finalizar onboarding - garantir autenticação antes de salvar
+      // Finalizar onboarding - salvar no localStorage
       setIsSubmitting(true);
       try {
-        // Verificar se está autenticado, se não fazer login anônimo
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          await supabase.auth.signInAnonymously();
-        }
-        
         const completeData = {
           ...profileData,
           birth_date: profileData.birth_date || undefined,
@@ -115,22 +109,20 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
           onboarding_completed: true
         };
         
-        // Save to Supabase
-        await completeOnboarding(completeData);
-        
-        // Also save to localStorage for immediate use
+        // Save to localStorage for immediate use
         localStorage.setItem('onboarding_completed', 'true');
         localStorage.setItem('profile_data', JSON.stringify(completeData));
+        
+        // Try to save to Supabase but don't fail if it doesn't work
+        try {
+          await completeOnboarding(completeData);
+        } catch (error) {
+          console.log('Note: Could not save to database, but continuing with local storage');
+        }
         
         onComplete();
       } catch (error) {
         console.error('Error completing onboarding:', error);
-        // Even if Supabase fails, continue with localStorage
-        localStorage.setItem('onboarding_completed', 'true');
-        localStorage.setItem('profile_data', JSON.stringify({
-          ...profileData,
-          onboarding_completed: true
-        }));
         onComplete();
       } finally {
         setIsSubmitting(false);
