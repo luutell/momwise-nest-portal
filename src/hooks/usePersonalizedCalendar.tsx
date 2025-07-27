@@ -18,14 +18,42 @@ export const usePersonalizedCalendar = (babyBirthDate?: Date) => {
   const [weeklyContent, setWeeklyContent] = useState<Record<string, CalendarContent | null>>({});
   const [loading, setLoading] = useState(false);
 
+  // Get baby birth date from props, localStorage, or use default
+  const getBabyBirthDate = (): Date | null => {
+    if (babyBirthDate) return babyBirthDate;
+    
+    try {
+      // Try to get from localStorage
+      const localProfile = localStorage.getItem('profile_data');
+      if (localProfile) {
+        const parsedProfile = JSON.parse(localProfile);
+        if (parsedProfile.baby_birth_date) {
+          return new Date(parsedProfile.baby_birth_date);
+        }
+      }
+      
+      // Default: use test date for demonstration (1 month old baby)
+      const testDate = new Date();
+      testDate.setMonth(testDate.getMonth() - 1);
+      return testDate;
+    } catch {
+      // If all fails, return test date
+      const testDate = new Date();
+      testDate.setMonth(testDate.getMonth() - 1);
+      return testDate;
+    }
+  };
+
   const getContentForDate = async (date: Date): Promise<CalendarContent | null> => {
-    if (!babyBirthDate) {
+    const effectiveBabyBirthDate = getBabyBirthDate();
+    
+    if (!effectiveBabyBirthDate) {
       return null;
     }
 
     try {
       const { data, error } = await supabase.rpc('get_personalized_calendar_content', {
-        user_baby_birth_date: babyBirthDate.toISOString().split('T')[0],
+        user_baby_birth_date: effectiveBabyBirthDate.toISOString().split('T')[0],
         target_date: date.toISOString().split('T')[0]
       });
 
