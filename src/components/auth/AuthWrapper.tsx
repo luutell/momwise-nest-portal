@@ -89,17 +89,28 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background via-primary/5 to-sage/10">
-        <Card className="w-full max-w-md">
+      <div 
+        className="min-h-screen flex items-center justify-center p-6 relative"
+        style={{
+          backgroundImage: `url('/src/assets/watercolor-hero-bg.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        {/* Overlay for better readability */}
+        <div className="absolute inset-0 bg-background/80"></div>
+        
+        <Card className="w-full max-w-md relative z-10">
           <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center items-center space-x-3 mb-4">
               <img 
                 src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
                 alt="MomWise" 
-                className="h-16 w-16 rounded-full object-contain"
+                className="h-12 w-12 rounded-full object-contain"
               />
+              <CardTitle className="text-2xl font-playfair">Bem-vinda ao MomWise</CardTitle>
             </div>
-            <CardTitle className="text-2xl font-playfair">Bem-vinda ao MomWise</CardTitle>
             <p className="text-muted-foreground">
               Acesse sua conta para continuar sua jornada maternal
             </p>
