@@ -29,8 +29,8 @@ export const useProfile = () => {
     try {
       setLoading(true);
       
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (!session?.user) {
         setProfile(null);
         return;
       }
@@ -38,7 +38,7 @@ export const useProfile = () => {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', session.user.id)
         .single();
 
       if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
@@ -62,13 +62,16 @@ export const useProfile = () => {
     try {
       console.log('1. Starting updateProfile with updates:', updates);
       
-      const { data: { user } } = await supabase.auth.getUser();
-      console.log('2. Got user:', user?.id);
+      // Get session instead of user for better reliability
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      console.log('2. Got session:', session?.user?.id, 'sessionError:', sessionError);
       
-      if (!user) throw new Error('User not authenticated');
+      if (!session?.user) {
+        throw new Error('User not authenticated - no active session');
+      }
 
       const dataToUpsert = {
-        user_id: user.id,
+        user_id: session.user.id,
         ...updates
       };
       console.log('3. Data to upsert:', dataToUpsert);
