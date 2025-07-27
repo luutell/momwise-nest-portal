@@ -5,11 +5,67 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { Settings, Baby, Heart, Calendar, BookOpen, Bell, Globe, UserX, Edit, CheckSquare } from 'lucide-react';
+import { useProfile } from '@/hooks/useProfile';
+import { useState, useEffect } from 'react';
+
+interface ProfileData {
+  name?: string;
+  baby_name?: string;
+  baby_birth_date?: string;
+  birth_date?: string;
+  baby_avatar?: string;
+  interests?: string[];
+  content_preference?: string[];
+  first_maternity?: boolean;
+  join_groups?: string;
+  specialist_access?: string;
+  previous_experience?: string;
+  other_experience?: string;
+}
 
 const Profile = () => {
-  // Calculate baby's age (mock data for now)
+  const { profile: supabaseProfile } = useProfile();
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+
+  useEffect(() => {
+    // First try to get from Supabase
+    if (supabaseProfile) {
+      setProfileData(supabaseProfile);
+      return;
+    }
+
+    // Fallback to localStorage
+    const savedProfile = localStorage.getItem('profile_data') || localStorage.getItem('onboarding_data');
+    if (savedProfile) {
+      try {
+        const parsed = JSON.parse(savedProfile);
+        setProfileData(parsed);
+      } catch (error) {
+        console.error('Error parsing profile data:', error);
+      }
+    }
+  }, [supabaseProfile]);
+
+  // Calculate baby's age based on actual birth date
   const calculateBabyAge = () => {
-    return "3 meses e 21 dias";
+    if (!profileData?.baby_birth_date) return "Não informado";
+    
+    const birthDate = new Date(profileData.baby_birth_date);
+    const today = new Date();
+    const diffTime = today.getTime() - birthDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 30) {
+      return `${diffDays} dias`;
+    } else if (diffDays < 365) {
+      const months = Math.floor(diffDays / 30);
+      const days = diffDays % 30;
+      return `${months} meses e ${days} dias`;
+    } else {
+      const years = Math.floor(diffDays / 365);
+      const months = Math.floor((diffDays % 365) / 30);
+      return `${years} anos e ${months} meses`;
+    }
   };
 
   return (
@@ -25,7 +81,7 @@ const Profile = () => {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <h1 className="font-playfair text-2xl font-semibold text-foreground">Mama</h1>
+              <h1 className="font-playfair text-2xl font-semibold text-foreground">{profileData?.name || 'Mama'}</h1>
               <p className="text-muted-foreground text-sm">Seu bebê tem {calculateBabyAge()}</p>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-sm">🍼 Fase: Transição do 4º trimestre</span>
@@ -54,11 +110,11 @@ const Profile = () => {
           <div className="grid grid-cols-1 gap-3">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Nome do bebê</p>
-              <p className="text-foreground">Miguel (da personalização)</p>
+              <p className="text-foreground">{profileData?.baby_name || 'Não informado'}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Data de nascimento</p>
-              <p className="text-foreground">1 de julho de 2024 (da personalização)</p>
+              <p className="text-foreground">{profileData?.baby_birth_date ? new Date(profileData.baby_birth_date).toLocaleDateString('pt-BR') : 'Não informado'}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Peso estimado</p>

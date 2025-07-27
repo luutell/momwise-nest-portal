@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import CategoryDetail from './CategoryDetail';
 import Breastfeeding from './Breastfeeding';
 import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
+import { useProfile } from '@/hooks/useProfile';
 import { ProfileData } from '@/hooks/useProfile';
 
 interface WeeklyContent {
@@ -46,46 +47,27 @@ const getContentColor = (type: string) => {
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const { profile: supabaseProfile } = useProfile();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   
   useEffect(() => {
-    // Load profile data from localStorage - comprehensive debugging
-    console.log('🔍 All localStorage keys:', Object.keys(localStorage));
-    
-    const savedProfile = localStorage.getItem('profile_data');
-    const onboardingData = localStorage.getItem('onboarding_data');
-    const userProfile = localStorage.getItem('user_profile');
-    
-    console.log('🔍 profile_data raw:', savedProfile);
-    console.log('🔍 onboarding_data raw:', onboardingData);
-    console.log('🔍 user_profile raw:', userProfile);
-    
-    // Try profile_data first
+    // First try to get from Supabase
+    if (supabaseProfile) {
+      setProfileData(supabaseProfile);
+      return;
+    }
+
+    // Fallback to localStorage
+    const savedProfile = localStorage.getItem('profile_data') || localStorage.getItem('onboarding_data');
     if (savedProfile) {
       try {
         const parsed = JSON.parse(savedProfile);
-        console.log('🔍 Parsed profile_data:', parsed);
         setProfileData(parsed);
-        return;
       } catch (error) {
-        console.error('Error parsing profile_data:', error);
+        console.error('Error parsing profile data:', error);
       }
     }
-    
-    // Try onboarding_data as fallback
-    if (onboardingData) {
-      try {
-        const parsed = JSON.parse(onboardingData);
-        console.log('🔍 Parsed onboarding_data:', parsed);
-        setProfileData(parsed);
-        return;
-      } catch (error) {
-        console.error('Error parsing onboarding_data:', error);
-      }
-    }
-    
-    console.log('❌ No profile data found in any localStorage key');
-  }, []);
+  }, [supabaseProfile]);
 
   // Get baby birth date for personalized calendar
   const getBabyBirthDate = (): Date | null => {
