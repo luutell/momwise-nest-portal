@@ -40,16 +40,16 @@ const MobileApp = () => {
   }, [location.pathname]);
 
   const handleOnboardingComplete = async () => {
-    // Mark onboarding as completed and reload
+    // Mark onboarding as completed and force state update
     localStorage.setItem('onboarding_completed', 'true');
-    await new Promise(resolve => setTimeout(resolve, 100));
+    console.log('Onboarding completed, reloading...');
     window.location.reload();
   };
 
   const handleOnboardingSkip = async () => {
-    // Mark onboarding as completed and reload
+    // Mark onboarding as completed and force state update
     localStorage.setItem('onboarding_completed', 'true');
-    await new Promise(resolve => setTimeout(resolve, 100));
+    console.log('Onboarding skipped, reloading...');
     window.location.reload();
   };
 
@@ -58,9 +58,9 @@ const MobileApp = () => {
   };
 
   const handleProfileSetupComplete = async () => {
-    // Mark onboarding as completed and reload
+    // Mark onboarding as completed and force state update
     localStorage.setItem('onboarding_completed', 'true');
-    await new Promise(resolve => setTimeout(resolve, 100));
+    console.log('Profile setup completed, reloading...');
     window.location.reload();
   };
 

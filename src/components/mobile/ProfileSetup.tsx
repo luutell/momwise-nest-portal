@@ -99,7 +99,7 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
     if (currentStep < setupSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Finalizar onboarding - aguardar autenticação e salvar
+      // Finalizar onboarding
       setIsSubmitting(true);
       try {
         const completeData = {
@@ -113,31 +113,10 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
         localStorage.setItem('onboarding_completed', 'true');
         localStorage.setItem('profile_data', JSON.stringify(completeData));
         
-        // Wait for authentication to be ready before trying Supabase
-        console.log('Waiting for authentication...');
-        let attempts = 0;
-        let session = null;
-        
-        while (attempts < 10 && !session) {
-          const { data } = await supabase.auth.getSession();
-          session = data.session;
-          if (!session) {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            attempts++;
-          }
-        }
-        
-        if (session) {
-          console.log('Auth ready, saving to Supabase...');
-          await completeOnboarding(completeData);
-        } else {
-          console.log('Auth not ready after waiting, using localStorage only');
-        }
-        
+        console.log('Profile setup completed, calling onComplete...');
         onComplete();
       } catch (error) {
-        console.error('Error completing onboarding:', error);
-        // Even if Supabase fails, continue with localStorage data
+        console.error('Error completing profile setup:', error);
         onComplete();
       } finally {
         setIsSubmitting(false);

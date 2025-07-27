@@ -20,6 +20,7 @@ const Index = () => {
     // Listen for auth changes (when user clicks email link)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
+        // Ensure we redirect to app immediately after sign in
         navigate('/app');
       }
     });
