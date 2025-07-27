@@ -28,21 +28,33 @@ const Profile = () => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
 
   useEffect(() => {
+    console.log('🔍 useEffect Profile - supabaseProfile:', supabaseProfile);
+    
     // First try to get from Supabase
     if (supabaseProfile) {
+      console.log('✅ Using Supabase profile data in Profile');
       setProfileData(supabaseProfile);
       return;
     }
 
     // Fallback to localStorage
-    const savedProfile = localStorage.getItem('profile_data') || localStorage.getItem('onboarding_data');
+    const profileData = localStorage.getItem('profile_data');
+    const onboardingData = localStorage.getItem('onboarding_data');
+    
+    console.log('🔍 Profile - localStorage profile_data:', profileData);
+    console.log('🔍 Profile - localStorage onboarding_data:', onboardingData);
+    
+    const savedProfile = profileData || onboardingData;
     if (savedProfile) {
       try {
         const parsed = JSON.parse(savedProfile);
+        console.log('✅ Using localStorage profile data in Profile:', parsed);
         setProfileData(parsed);
       } catch (error) {
-        console.error('Error parsing profile data:', error);
+        console.error('❌ Error parsing profile data in Profile:', error);
       }
+    } else {
+      console.log('❌ No profile data found in localStorage for Profile');
     }
   }, [supabaseProfile]);
 
