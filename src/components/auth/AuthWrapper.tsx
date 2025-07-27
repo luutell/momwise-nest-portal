@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import spiralLogo from '@/assets/spiral-logo.png';
+import spiralLogo from '/lovable-uploads/c0c3ac5d-4ca0-4dc0-adbc-c73c918e741c.png';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
