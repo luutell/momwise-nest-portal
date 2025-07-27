@@ -23,7 +23,9 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  // Fixed language - change 'pt' to 'en' for English version
+  const [language] = useState<Language>('pt');
+  const setLanguage = () => {}; // Disabled language switching
 
   const translations = {
     en: {
