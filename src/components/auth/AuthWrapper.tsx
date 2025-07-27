@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import spiralLogo from '@/assets/spiral-logo.png';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -101,20 +102,20 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
         {/* Overlay for better readability */}
         <div className="absolute inset-0 bg-background/80"></div>
         
-        <Card className="w-full max-w-md relative z-10">
-          <CardHeader className="text-center">
-            <div className="flex justify-center items-center space-x-3 mb-4">
-              <img 
-                src="/lovable-uploads/edecb7d9-f5ad-4b7d-b3eb-1da61c76e533.png" 
-                alt="MomWise" 
-                className="h-12 w-12 rounded-full object-contain"
-              />
-              <CardTitle className="text-2xl font-playfair">Bem-vinda ao MomWise</CardTitle>
-            </div>
-            <p className="text-muted-foreground">
-              Acesse sua conta para continuar sua jornada maternal
-            </p>
-          </CardHeader>
+         <Card className="w-full max-w-md relative z-10">
+           <CardHeader className="text-center">
+             <div className="flex flex-col items-center space-y-4 mb-4">
+               <img 
+                 src={spiralLogo} 
+                 alt="MomWise Spiral Logo" 
+                 className="h-16 w-16 object-contain"
+               />
+               <CardTitle className="text-2xl font-playfair">Bem-vinda ao MomWise</CardTitle>
+             </div>
+             <p className="text-muted-foreground">
+               Acesse sua conta para continuar sua jornada maternal
+             </p>
+           </CardHeader>
           <CardContent>
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
