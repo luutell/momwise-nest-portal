@@ -3,6 +3,7 @@ import { Calendar, Play, BookOpen, Headphones, RotateCcw, Baby, Utensils, Clock,
 import { Card, CardContent } from '@/components/ui/card';
 import CategoryDetail from './CategoryDetail';
 import Breastfeeding from './Breastfeeding';
+import DayContent from './DayContent';
 import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
 import { useProfile } from '@/hooks/useProfile';
 import { ProfileData } from '@/hooks/useProfile';
@@ -47,6 +48,7 @@ const getContentColor = (type: string) => {
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedDayContent, setSelectedDayContent] = useState<any | null>(null);
   const { profile: supabaseProfile } = useProfile();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   
@@ -215,6 +217,18 @@ const Home = () => {
     }
   ];
 
+  // Se um conteúdo de dia específico está selecionado, mostra o DayContent
+  if (selectedDayContent) {
+    const selectedDate = currentWeekDates.find(date => date.getDate() === selectedDayContent.day);
+    return (
+      <DayContent 
+        content={selectedDayContent.content}
+        date={selectedDate || new Date()}
+        onBack={() => setSelectedDayContent(null)}
+      />
+    );
+  }
+
   // Se uma categoria está selecionada, mostra o componente apropriado
   if (selectedCategory) {
     const category = sections.find(s => s.id === selectedCategory);
@@ -328,7 +342,15 @@ const Home = () => {
                   
                   {/* Card do conteúdo - apenas ícone */}
                   <Card 
-                    onClick={() => setSelectedDay(isSelected ? null : item.date)}
+                    onClick={() => {
+                      const dateKey = currentWeekDates[index].toISOString().split('T')[0];
+                      const content = weeklyContent[dateKey];
+                      if (content) {
+                        setSelectedDayContent({ day: item.date, content });
+                      } else {
+                        setSelectedDay(isSelected ? null : item.date);
+                      }
+                    }}
                     className={`
                       ${isToday ? 'ring-2 ring-primary' : ''} 
                       ${isSelected ? 'ring-2 ring-primary bg-primary/10' : 'bg-background'} 

@@ -117,24 +117,22 @@ const Profile = () => {
               <p className="text-foreground">{profileData?.baby_birth_date ? new Date(profileData.baby_birth_date).toLocaleDateString('pt-BR') : 'Não informado'}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Peso estimado</p>
-              <p className="text-foreground">4.2 kg (baseado na curva de crescimento)</p>
+              <p className="text-sm font-medium text-muted-foreground">Idade atual</p>
+              <p className="text-foreground">{calculateBabyAge()}</p>
             </div>
-          </div>
-
-          <div className="space-y-3">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground mb-2">Marco atual:</p>
-              <div className="space-y-1">
-                <p className="text-sm flex items-center gap-2">→ "Explorando os sons"</p>
-                <p className="text-sm flex items-center gap-2">→ "Começando a pegar objetos com as mãos"</p>
+            {profileData?.baby_avatar && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Avatar escolhido</p>
+                <p className="text-foreground">
+                  {profileData.baby_avatar === 'apple' && '🍎 Maçã'}
+                  {profileData.baby_avatar === 'flower' && '🌸 Flor'}
+                  {profileData.baby_avatar === 'seed' && '🌱 Semente'}
+                  {profileData.baby_avatar === 'orange' && '🍊 Laranja'}
+                  {profileData.baby_avatar === 'cherry' && '🍒 Cereja'}
+                  {profileData.baby_avatar === 'sunflower' && '🌻 Girassol'}
+                </p>
               </div>
-            </div>
-            
-            <div>
-              <p className="text-sm font-medium text-muted-foreground mb-2">Próximo marco esperado:</p>
-              <p className="text-sm flex items-center gap-2 text-primary">→ "Pode começar a rolar de barriga para cima para barriga para baixo em breve!"</p>
-            </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -150,32 +148,82 @@ const Profile = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <p className="text-sm font-medium text-muted-foreground">Estado emocional recente</p>
-            <p className="text-foreground">(resumo do Mood Tracker da semana)</p>
+            <p className="text-sm font-medium text-muted-foreground">Nome</p>
+            <p className="text-foreground">{profileData?.name || 'Não informado'}</p>
           </div>
           
-          <div>
-            <p className="text-sm font-medium text-muted-foreground">Desafios que você mencionou</p>
-            <p className="text-foreground">(puxado do Weekly Check-in)</p>
-          </div>
+          {profileData?.birth_date && (
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Data de nascimento</p>
+              <p className="text-foreground">{new Date(profileData.birth_date).toLocaleDateString('pt-BR')}</p>
+            </div>
+          )}
 
           <div>
-            <p className="text-sm font-medium text-muted-foreground mb-3">Conteúdos sugeridos:</p>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <CheckSquare className="w-4 h-4 text-sage" />
-                <span className="text-sm">Um artigo sobre regressão de sono</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckSquare className="w-4 h-4 text-sage" />
-                <span className="text-sm">Uma meditação guiada de 3 minutos</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckSquare className="w-4 h-4 text-sage" />
-                <span className="text-sm">Dica prática: como estimular o tempo de barriga</span>
+            <p className="text-sm font-medium text-muted-foreground">Primeira maternidade</p>
+            <p className="text-foreground">
+              {profileData?.first_maternity === true ? 'Sim' : 
+               profileData?.first_maternity === false ? 'Não' : 'Não informado'}
+            </p>
+          </div>
+
+          {profileData?.previous_experience && (
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Experiência anterior</p>
+              <p className="text-foreground">
+                {profileData.previous_experience === 'perdi-gravidez' && 'Já perdi uma gravidez'}
+                {profileData.previous_experience === 'dois-filhos' && 'Tenho 2 filhos'}
+                {profileData.previous_experience === 'mais-dois-filhos' && 'Tenho mais de 2 filhos'}
+                {profileData.previous_experience === 'outra' && profileData.other_experience}
+              </p>
+            </div>
+          )}
+
+          <div>
+            <p className="text-sm font-medium text-muted-foreground">Participar de grupos</p>
+            <p className="text-foreground">
+              {profileData?.join_groups === 'sim' ? 'Sim, gostaria de participar' :
+               profileData?.join_groups === 'nao' ? 'Não' :
+               profileData?.join_groups === 'talvez' ? 'Talvez depois' : 'Não informado'}
+            </p>
+          </div>
+
+          {profileData?.interests && profileData.interests.length > 0 && (
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-2">Seus interesses</p>
+              <div className="flex flex-wrap gap-2">
+                {profileData.interests.map((interest, index) => (
+                  <Badge key={index} variant="secondary" className="text-xs">
+                    {interest}
+                  </Badge>
+                ))}
               </div>
             </div>
-          </div>
+          )}
+
+          {profileData?.content_preference && profileData.content_preference.length > 0 && (
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-2">Preferências de conteúdo</p>
+              <div className="flex flex-wrap gap-2">
+                {profileData.content_preference.map((preference, index) => (
+                  <Badge key={index} variant="outline" className="text-xs">
+                    {preference}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {profileData?.specialist_access && (
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Acesso a especialista</p>
+              <p className="text-foreground">
+                {profileData.specialist_access === 'essencial' && 'Sim, isso é essencial para mim'}
+                {profileData.specialist_access === 'as-vezes' && 'Seria ótimo às vezes'}
+                {profileData.specialist_access === 'so-conteudo' && 'Prefiro só os conteúdos por agora'}
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
