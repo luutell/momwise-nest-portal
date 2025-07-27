@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, Play, BookOpen, Headphones, RotateCcw, Baby, Utensils, Clock, Heart, Users, Phone } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import CategoryDetail from './CategoryDetail';
 import Breastfeeding from './Breastfeeding';
+import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
+import { ProfileData } from '@/hooks/useProfile';
 
 interface WeeklyContent {
   day: string;
@@ -117,13 +119,46 @@ const getContentColor = (type: string) => {
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  
+  useEffect(() => {
+    // Load profile data from localStorage
+    const savedProfile = localStorage.getItem('profile_data');
+    if (savedProfile) {
+      try {
+        setProfileData(JSON.parse(savedProfile));
+      } catch (error) {
+        console.error('Error parsing profile data:', error);
+      }
+    }
+  }, []);
+
+  // Get baby birth date for personalized calendar
+  const getBabyBirthDate = (): Date | null => {
+    if (profileData?.baby_birth_date) {
+      return new Date(profileData.baby_birth_date);
+    }
+    return null;
+  };
+
+  const babyBirthDate = getBabyBirthDate();
+  const { weeklyContent, loading } = usePersonalizedCalendar(babyBirthDate);
   
   const today = new Date();
   const currentDay = today.getDate();
   
-  // Mock user data - in real app this would come from user profile
-  const userName = "Luiza";
-  const postPartumDay = 23;
+  // Use personalized data from onboarding
+  const userName = profileData?.name || "Mama";
+  const babyName = profileData?.baby_name || "seu bebê";
+  
+  // Calculate baby age in days
+  const calculateBabyAge = (): number => {
+    if (!babyBirthDate) return 0;
+    const diffTime = Math.abs(today.getTime() - babyBirthDate.getTime());
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  };
+  
+  const babyAge = calculateBabyAge();
 
   // Seções fixas do app
   const sections = [
@@ -230,6 +265,45 @@ const Home = () => {
   return (
     <div className="pb-6">
       <div className="space-y-6">
+
+        {/* Seção de Boas-vindas Personalizada */}
+        {profileData && (
+          <div className="space-y-4 px-4">
+            <Card className="bg-gradient-to-br from-primary/10 via-background to-sage/5 border-none shadow-soft">
+              <CardContent className="p-6 space-y-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="font-playfair text-lg font-medium text-foreground">
+                      Olá, {userName}! 💛
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      {babyAge > 0 
+                        ? `${babyName} tem ${babyAge} dias de vida`
+                        : `Em breve ${babyName} chegará!`
+                      }
+                    </p>
+                  </div>
+                </div>
+                
+                {profileData.interests && profileData.interests.length > 0 && (
+                  <div className="pt-2">
+                    <p className="text-xs text-muted-foreground mb-2">Seus interesses:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {profileData.interests.map((interest, index) => (
+                        <span key={index} className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
+                          {interest}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Calendário Semanal */}
         <div className="space-y-4 px-4">
