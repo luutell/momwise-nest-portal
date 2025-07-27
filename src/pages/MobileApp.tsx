@@ -26,7 +26,12 @@ const MobileApp = () => {
   const { profile, loading } = useProfile();
   
   
-   
+  // Reset onboarding for testing
+  useEffect(() => {
+    localStorage.removeItem('onboarding_completed');
+    localStorage.removeItem('profile_data');
+  }, []);
+  
    // Check localStorage for onboarding completion
    const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
    
