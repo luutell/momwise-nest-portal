@@ -23,8 +23,14 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
-  // Fixed language - change 'pt' to 'en' for English version
-  const [language] = useState<Language>('pt');
+  // Auto-detect language from URL path
+  const getLanguageFromPath = (): Language => {
+    const path = window.location.pathname;
+    if (path.startsWith('/en')) return 'en';
+    return 'pt'; // Default to Portuguese
+  };
+
+  const [language] = useState<Language>(getLanguageFromPath());
   const setLanguage = () => {}; // Disabled language switching
 
   const translations = {
@@ -78,7 +84,10 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 
       // Language switcher
       'language.english': 'English',
-      'language.portuguese': 'Português'
+      'language.portuguese': 'Português',
+      
+      // Hero additional
+      'hero.preview.app': 'Preview Mobile App'
     },
     pt: {
       // Hero section
@@ -130,7 +139,10 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 
       // Language switcher
       'language.english': 'English',
-      'language.portuguese': 'Português'
+      'language.portuguese': 'Português',
+      
+      // Hero additional
+      'hero.preview.app': 'Visualizar App Mobile'
     }
   };
 

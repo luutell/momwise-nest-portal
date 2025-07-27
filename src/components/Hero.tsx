@@ -87,11 +87,13 @@ const Hero = () => {
             onClick={() => {
               // Reset onboarding to ensure it shows when coming from site
               localStorage.removeItem('onboarding_completed');
-              window.location.href = '/app';
+              // Navigate to app with correct language prefix
+              const isEnglish = window.location.pathname.startsWith('/en');
+              window.location.href = isEnglish ? '/en/app' : '/app';
             }}
           >
             <Smartphone className="mr-2 h-4 w-4" />
-            Preview Mobile App
+            {t('hero.preview.app')}
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>

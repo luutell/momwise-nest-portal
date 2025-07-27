@@ -24,6 +24,7 @@ const App = () => (
         
         <BrowserRouter>
           <Routes>
+            {/* Portuguese routes (default) */}
             <Route path="/" element={<Index />} />
             <Route path="/app" element={<MobileApp />} />
             <Route path="/app/biblioteca" element={<MobileApp />} />
@@ -37,6 +38,22 @@ const App = () => (
             <Route path="/app/entre-maes-categoria" element={<CategoryPosts />} />
             <Route path="/app/higiene-natural" element={<CategoryPosts />} />
             <Route path="/app/post/:id" element={<PostDetail />} />
+            
+            {/* English routes */}
+            <Route path="/en" element={<Index />} />
+            <Route path="/en/app" element={<MobileApp />} />
+            <Route path="/en/app/biblioteca" element={<MobileApp />} />
+            <Route path="/en/admin" element={<AdminPanel />} />
+            <Route path="/en/app/ritmo-leve" element={<CategoryPosts />} />
+            <Route path="/en/app/entendendo-o-bebe" element={<CategoryPosts />} />
+            <Route path="/en/app/primeiras-mordidas" element={<CategoryPosts />} />
+            <Route path="/en/app/no-seu-tempo" element={<CategoryPosts />} />
+            <Route path="/en/app/juntas-no-comeco" element={<CategoryPosts />} />
+            <Route path="/en/app/mae-inteira" element={<CategoryPosts />} />
+            <Route path="/en/app/entre-maes-categoria" element={<CategoryPosts />} />
+            <Route path="/en/app/higiene-natural" element={<CategoryPosts />} />
+            <Route path="/en/app/post/:id" element={<PostDetail />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
