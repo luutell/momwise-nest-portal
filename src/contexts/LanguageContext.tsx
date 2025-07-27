@@ -23,15 +23,37 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
-  // Auto-detect language from URL path
-  const getLanguageFromPath = (): Language => {
+  // Auto-detect language from URL path with real-time updates
+  const [language, setLanguageState] = useState<Language>(() => {
     const path = window.location.pathname;
-    if (path.startsWith('/en')) return 'en';
-    return 'pt'; // Default to Portuguese
-  };
+    console.log('🌍 Initial path:', path);
+    if (path.startsWith('/en')) {
+      console.log('✅ Detected English from path');
+      return 'en';
+    }
+    console.log('✅ Defaulting to Portuguese');
+    return 'pt';
+  });
 
-  const [language] = useState<Language>(getLanguageFromPath());
-  const setLanguage = () => {}; // Disabled language switching
+  // Listen for route changes
+  React.useEffect(() => {
+    const handleLocationChange = () => {
+      const path = window.location.pathname;
+      console.log('🔄 Path changed to:', path);
+      const newLang = path.startsWith('/en') ? 'en' : 'pt';
+      console.log('🌍 Setting language to:', newLang);
+      setLanguageState(newLang);
+    };
+
+    // Listen for popstate events (back/forward navigation)
+    window.addEventListener('popstate', handleLocationChange);
+    
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+    };
+  }, []);
+
+  const setLanguage = () => {}; // Disabled manual language switching
 
   const translations = {
     en: {
