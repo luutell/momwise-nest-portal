@@ -117,7 +117,7 @@ export default function Biblioteca() {
               size="sm"
               onClick={() => setSelectedCategory(null)}
             >
-              Ver todas
+              {t('app.biblioteca.view.all')}
             </Button>
           )}
         </div>
@@ -126,7 +126,7 @@ export default function Biblioteca() {
           // Category overview
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              {t('language') === 'en' ? 'Explore content organized by category' : 'Explore conteúdos organizados por categoria'}
+              {t('app.biblioteca.explore.content')}
             </p>
             
             <div className="grid gap-3">
@@ -147,7 +147,7 @@ export default function Biblioteca() {
                           <div>
                             <h3 className="font-medium">{category}</h3>
                             <p className="text-sm text-muted-foreground">
-                              {categoryPosts.length} artigo{categoryPosts.length !== 1 ? 's' : ''}
+                              {categoryPosts.length} {categoryPosts.length === 1 ? t('app.biblioteca.article') : t('app.biblioteca.articles')}
                             </p>
                           </div>
                         </div>
@@ -176,7 +176,7 @@ export default function Biblioteca() {
                 <CardContent className="p-6 text-center">
                   <BookOpen className="w-12 h-12 mx-auto text-muted-foreground mb-2" />
                   <p className="text-muted-foreground">
-                    Nenhum conteúdo encontrado nesta categoria
+                    {t('app.biblioteca.no.content')}
                   </p>
                 </CardContent>
               </Card>
@@ -206,13 +206,13 @@ export default function Biblioteca() {
                           </p>
                           <div className="flex items-center justify-between">
                             <span className="text-xs text-muted-foreground">
-                              Por {post.author}
+                              {t('app.biblioteca.by.author').replace('{author}', post.author)}
                             </span>
                             <div className="flex items-center space-x-2">
                               {post.audio_url && (
                                 <div className="flex items-center space-x-1">
                                   <Play className="w-3 h-3 text-primary" />
-                                  <span className="text-xs text-primary">Áudio</span>
+                                  <span className="text-xs text-primary">{t('app.biblioteca.audio')}</span>
                                 </div>
                               )}
                               <Clock className="w-3 h-3 text-muted-foreground" />

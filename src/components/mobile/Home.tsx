@@ -501,10 +501,10 @@ const Home = () => {
       <div className="space-y-4">
         <div className="px-4">
           <h3 className="font-playfair text-lg font-medium text-foreground">
-            Explore por Temas
+            {t('language') === 'en' ? 'Explore by Topics' : 'Explore por Temas'}
           </h3>
           <p className="text-sm text-muted-foreground">
-            Navegue pelos conteúdos organizados para sua jornada
+            {t('language') === 'en' ? 'Browse content organized for your journey' : 'Navegue pelos conteúdos organizados para sua jornada'}
           </p>
         </div>
         
