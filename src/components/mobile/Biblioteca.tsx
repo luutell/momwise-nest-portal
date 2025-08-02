@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BookOpen, Clock, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Post {
   id: string;
@@ -46,6 +47,7 @@ const categories = [
 export default function Biblioteca() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   // Fetch all published posts
   const { data: posts, isLoading } = useQuery({
@@ -108,7 +110,7 @@ export default function Biblioteca() {
     <div className="p-4 space-y-6">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="font-playfair text-2xl text-foreground">Biblioteca</h1>
+          <h1 className="font-playfair text-2xl text-foreground">{t('app.biblioteca.title')}</h1>
           {selectedCategory && (
             <Button 
               variant="outline" 
@@ -124,7 +126,7 @@ export default function Biblioteca() {
           // Category overview
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              Explore conteúdos organizados por categoria
+              {t('language') === 'en' ? 'Explore content organized by category' : 'Explore conteúdos organizados por categoria'}
             </p>
             
             <div className="grid gap-3">

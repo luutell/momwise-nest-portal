@@ -19,6 +19,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface BreastfeedingProps {
   onBack: () => void;
@@ -30,6 +31,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
   const [selectedSide, setSelectedSide] = useState<'left' | 'right' | 'both'>('left');
   const [notes, setNotes] = useState('');
   const [showNotes, setShowNotes] = useState(false);
+  const { t } = useLanguage();
   
   // Mock user data
   const babyAge = 3; // meses
@@ -155,7 +157,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
           </Button>
           <div className="text-2xl">🍼</div>
           <h1 className="font-playfair text-2xl font-semibold text-foreground">
-            Amamentação
+            {t('app.breastfeeding.title')}
           </h1>
         </div>
         

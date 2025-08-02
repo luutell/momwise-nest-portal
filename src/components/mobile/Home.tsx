@@ -6,6 +6,7 @@ import Breastfeeding from './Breastfeeding';
 import DayContent from './DayContent';
 import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
 import { useProfile } from '@/hooks/useProfile';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { ProfileData } from '@/hooks/useProfile';
 
 interface WeeklyContent {
@@ -51,6 +52,7 @@ const Home = () => {
   const [selectedDayContent, setSelectedDayContent] = useState<any | null>(null);
   const { profile: supabaseProfile } = useProfile();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const { t } = useLanguage();
   
   useEffect(() => {
     console.log('🔍 useEffect Home - supabaseProfile:', supabaseProfile);
@@ -142,7 +144,9 @@ const Home = () => {
   const weeklyContents = currentWeekDates.map((date, index) => {
     const dateKey = date.toISOString().split('T')[0];
     const content = weeklyContent[dateKey];
-    const dayNames = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
+    const dayNames = t('language') === 'en' 
+      ? ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+      : ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
     
     return {
       day: dayNames[date.getDay()],
@@ -264,14 +268,18 @@ const Home = () => {
   }
   
   const formatDate = (date: Date) => {
-    const days = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
-    const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+    const days = t('language') === 'en' 
+      ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      : ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+    const months = t('language') === 'en'
+      ? ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      : ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
     
     const dayName = days[date.getDay()];
     const day = date.getDate();
     const month = months[date.getMonth()];
     
-    return `Hoje é ${dayName}, ${day} de ${month}`;
+    return t('language') === 'en' ? `Today is ${dayName}, ${month} ${day}` : `Hoje é ${dayName}, ${day} de ${month}`;
   };
 
 
@@ -289,13 +297,17 @@ const Home = () => {
                     <Heart className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h2 className="font-playfair text-lg font-medium text-foreground">
-                      Olá, {userName}! 💛
+                     <h2 className="font-playfair text-lg font-medium text-foreground">
+                      {t('language') === 'en' ? `Hello, ${userName}! 💛` : `Olá, ${userName}! 💛`}
                     </h2>
                     <p className="text-sm text-muted-foreground">
                       {babyAge > 0 
-                        ? `${babyName} tem ${babyAge} dias de vida`
-                        : `Em breve ${babyName} chegará!`
+                        ? (t('language') === 'en' 
+                          ? `${babyName} is ${babyAge} days old`
+                          : `${babyName} tem ${babyAge} dias de vida`)
+                        : (t('language') === 'en' 
+                          ? `${babyName} will arrive soon!`
+                          : `Em breve ${babyName} chegará!`)
                       }
                     </p>
                   </div>
