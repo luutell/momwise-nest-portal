@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -41,7 +41,8 @@ const WeeklyCalendar = () => {
     loading, 
     fetchWeekContent, 
     getContentTypeIcon, 
-    getContentTypeColor 
+    getContentTypeColor,
+    getCategoryIcon
   } = usePersonalizedCalendar(babyBirthDate);
 
   // Calcular datas da semana atual
@@ -173,7 +174,8 @@ const WeeklyCalendar = () => {
               </CardTitle>
               <div className="flex items-center space-x-2">
                 <Badge className={getTypeColor(todaysContent.content_type)}>
-                  {getContentTypeIcon(todaysContent.content_type)} {todaysContent.content_type}
+                  {React.createElement(getContentTypeIcon(todaysContent.content_type), { className: "w-3 h-3 mr-1" })}
+                  {todaysContent.content_type}
                 </Badge>
                 {todaysContent.is_premium && (
                   <Badge variant="outline" className="text-yellow-600 border-yellow-600">
@@ -210,7 +212,7 @@ const WeeklyCalendar = () => {
               
               <div className="pt-2">
                 <Button size="sm" className="w-full">
-                  <Play className="w-4 h-4 mr-2" />
+                  {React.createElement(getContentTypeIcon(todaysContent.content_type), { className: "w-4 h-4 mr-2" })}
                   {todaysContent.content_type === 'video' ? 'Assistir' : 
                    todaysContent.content_type === 'audio' ? 'Ouvir' : 
                    todaysContent.content_type === 'article' ? 'Ler' : 'Ver conteúdo'}
@@ -270,9 +272,11 @@ const WeeklyCalendar = () => {
                       </div>
                       {content && (
                         <div className="flex items-center space-x-2">
-                          <span className="text-lg">
-                            {getContentTypeIcon(content.content_type)}
-                          </span>
+                          {/* Show category icon instead of content type icon */}
+                          {React.createElement(getCategoryIcon(content.category), { 
+                            className: "w-5 h-5",
+                            style: { color: 'hsl(var(--primary))' }
+                          })}
                           {content.is_premium && (
                             <Star className="w-3 h-3 text-yellow-600" />
                           )}

@@ -1,5 +1,21 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { 
+  Play, 
+  Headphones, 
+  BookOpen, 
+  Target, 
+  Lightbulb, 
+  FileText,
+  Heart,
+  Moon,
+  Baby,
+  Users,
+  Briefcase,
+  Sparkles,
+  HandHeart,
+  UserCheck
+} from 'lucide-react';
 
 export interface CalendarContent {
   id: string;
@@ -114,20 +130,44 @@ export const usePersonalizedCalendar = (babyBirthDate?: Date) => {
     }
   };
 
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'Amamentação e alimentação':
+        return Heart;
+      case 'Puerpério emocional':
+        return Sparkles;
+      case 'Desenvolvimento do bebê':
+        return Baby;
+      case 'Sono e rotina':
+      case 'Sono do Bebê':
+        return Moon;
+      case 'Trabalho e maternidade':
+        return Briefcase;
+      case 'Autocuidado e identidade':
+        return UserCheck;
+      case 'Relações e rede de apoio':
+        return Users;
+      case 'Parto e gestação':
+        return HandHeart;
+      default:
+        return BookOpen;
+    }
+  };
+
   const getContentTypeIcon = (type: string) => {
     switch (type) {
       case 'video':
-        return '▶️';
+        return Play;
       case 'audio':
-        return '🎧';
+        return Headphones;
       case 'article':
-        return '📖';
+        return BookOpen;
       case 'activity':
-        return '🎯';
+        return Target;
       case 'tip':
-        return '💡';
+        return Lightbulb;
       default:
-        return '📝';
+        return FileText;
     }
   };
 
@@ -154,6 +194,7 @@ export const usePersonalizedCalendar = (babyBirthDate?: Date) => {
     fetchWeekContent,
     getContentForDate,
     getContentTypeIcon,
-    getContentTypeColor
+    getContentTypeColor,
+    getCategoryIcon
   };
 };
