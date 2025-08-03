@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronRight, ChevronLeft, User, Baby, Heart, Brain, Calendar, Loader2 } from 'lucide-react';
 import { useProfile, ProfileData } from '@/hooks/useProfile';
 import { supabase } from '@/integrations/supabase/client';
@@ -78,7 +79,7 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   
   const [profileData, setProfileData] = useState<ProfileData>({
     name: '',
-    birth_date: '',
+    age: undefined,
     first_maternity: undefined,
     previous_experience: '',
     other_experience: '',
@@ -104,7 +105,6 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
       try {
         const completeData = {
           ...profileData,
-          birth_date: profileData.birth_date || undefined,
           baby_birth_date: profileData.baby_birth_date || undefined,
           onboarding_completed: true
         };
@@ -164,13 +164,22 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="birthDate">Qual sua data de nascimento? (opcional)</Label>
-              <Input
-                id="birthDate"
-                type="date"
-                value={profileData.birth_date}
-                onChange={(e) => updateProfileData('birth_date', e.target.value)}
-              />
+              <Label htmlFor="age">Qual sua idade? (opcional)</Label>
+              <Select
+                value={profileData.age?.toString() || ''}
+                onValueChange={(value) => updateProfileData('age', value ? parseInt(value) : undefined)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione sua idade" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Array.from({ length: 43 }, (_, i) => i + 18).map((age) => (
+                    <SelectItem key={age} value={age.toString()}>
+                      {age} anos
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-3">

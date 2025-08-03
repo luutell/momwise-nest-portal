@@ -6,6 +6,7 @@ export interface ProfileData {
   id?: string;
   user_id?: string;
   name: string;
+  age?: number;
   birth_date?: string;
   first_maternity?: boolean;
   previous_experience?: string;
