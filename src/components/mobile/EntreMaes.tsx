@@ -76,43 +76,107 @@ export default function EntreMaes() {
   const queryClient = useQueryClient();
 
   // Fetch posts with counts
-  const { data: posts = [], isLoading } = useQuery({
+  const { data: posts = [], isLoading, error } = useQuery({
     queryKey: ['community-posts', selectedCategory, searchQuery],
     queryFn: async () => {
-      let query = supabase
+      console.log('Fetching posts...', { selectedCategory, searchQuery });
+      
+      // First try a simpler query to check if basic data loading works
+      let baseQuery = supabase
         .from('community_posts')
-        .select(`
-          *,
-          comment_count:community_comments(count),
-          reaction_count:community_reactions(count),
-          user_reacted:community_reactions!left(id),
-          user_saved:saved_posts!left(id),
-          profiles:user_id(name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (selectedCategory !== 'Todas') {
-        query = query.eq('category', selectedCategory);
+        baseQuery = baseQuery.eq('category', selectedCategory);
       }
 
       if (searchQuery) {
-        query = query.ilike('content', `%${searchQuery}%`);
+        baseQuery = baseQuery.ilike('content', `%${searchQuery}%`);
       }
 
-      const { data, error } = await query;
-      if (error) throw error;
+      const { data: basePosts, error: baseError } = await baseQuery;
+      console.log('Base query result:', { basePosts, baseError });
+      
+      if (baseError) {
+        console.error('Error fetching posts:', baseError);
+        throw baseError;
+      }
 
-      // Process data to add computed fields
-      return data.map(post => ({
-        ...post,
-        comment_count: post.comment_count?.[0]?.count || 0,
-        reaction_count: post.reaction_count?.[0]?.count || 0,
-        user_reacted: post.user_reacted?.length > 0,
-        user_saved: post.user_saved?.length > 0,
-        is_recent: new Date(post.created_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
-      }));
+      if (!basePosts || basePosts.length === 0) {
+        console.log('No posts found');
+        return [];
+      }
+
+      // Now fetch additional data for each post
+      const postsWithCounts = await Promise.all(
+        basePosts.map(async (post) => {
+          // Get current user
+          const { data: { user } } = await supabase.auth.getUser();
+          
+          // Count comments
+          const { count: commentCount } = await supabase
+            .from('community_comments')
+            .select('*', { count: 'exact', head: true })
+            .eq('post_id', post.id);
+
+          // Count reactions
+          const { count: reactionCount } = await supabase
+            .from('community_reactions')
+            .select('*', { count: 'exact', head: true })
+            .eq('post_id', post.id);
+
+          // Check if user reacted (only if authenticated)
+          let userReacted = false;
+          if (user) {
+            const { data: userReaction } = await supabase
+              .from('community_reactions')
+              .select('id')
+              .eq('post_id', post.id)
+              .eq('user_id', user.id)
+              .maybeSingle();
+            userReacted = !!userReaction;
+          }
+
+          // Check if user saved (only if authenticated)
+          let userSaved = false;
+          if (user) {
+            const { data: savedPost } = await supabase
+              .from('saved_posts')
+              .select('id')
+              .eq('post_id', post.id)
+              .eq('user_id', user.id)
+              .maybeSingle();
+            userSaved = !!savedPost;
+          }
+
+          return {
+            ...post,
+            comment_count: commentCount || 0,
+            reaction_count: reactionCount || 0,
+            user_reacted: userReacted,
+            user_saved: userSaved,
+            is_recent: new Date(post.created_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+          };
+        })
+      );
+      
+      console.log('Processed posts:', postsWithCounts);
+      return postsWithCounts;
     }
   });
+
+  // Log any query errors
+  React.useEffect(() => {
+    if (error) {
+      console.error('Posts query error:', error);
+      toast({
+        title: "Erro ao carregar postagens",
+        description: "Houve um problema ao carregar as postagens. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  }, [error]);
 
   // Fetch featured posts (top 2 with most interactions)
   const { data: featuredPosts = [] } = useQuery({
