@@ -19,6 +19,7 @@ interface Post {
   practical_tip?: string;
   published: boolean;
   created_at: string;
+  language: string;
 }
 
 interface CategoryDetailProps {
@@ -138,15 +139,33 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
   
   const categoryName = categoryMap[categoryId] || title;
   
-  // Buscar posts da categoria
+  // Buscar posts da categoria filtrados por idioma baseado na moeda de pagamento
   const { data: posts, isLoading } = useQuery({
     queryKey: ['category-posts', categoryName],
     queryFn: async () => {
+      // Primeiro verificar a moeda de pagamento do usuário
+      const { data: { user } } = await supabase.auth.getUser();
+      let userLanguage = 'pt'; // default para português
+      
+      if (user?.email) {
+        const { data: subscriber } = await supabase
+          .from('subscribers')
+          .select('payment_currency')
+          .eq('email', user.email)
+          .single();
+        
+        // Se paga em USD, mostrar conteúdo em inglês
+        if (subscriber?.payment_currency === 'USD') {
+          userLanguage = 'en';
+        }
+      }
+      
       const { data, error } = await supabase
         .from('posts')
         .select('*')
         .eq('category', categoryName)
         .eq('published', true)
+        .eq('language', userLanguage)
         .order('created_at', { ascending: false });
       
       if (error) throw error;

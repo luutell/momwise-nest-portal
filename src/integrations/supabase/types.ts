@@ -119,6 +119,7 @@ export type Database = {
           id: string
           image_url: string | null
           introduction: string | null
+          language: string | null
           practical_tip: string | null
           published: boolean | null
           title: string
@@ -133,6 +134,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           introduction?: string | null
+          language?: string | null
           practical_tip?: string | null
           published?: boolean | null
           title: string
@@ -147,6 +149,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           introduction?: string | null
+          language?: string | null
           practical_tip?: string | null
           published?: boolean | null
           title?: string
@@ -286,6 +289,7 @@ export type Database = {
           email: string
           free_months_remaining: number | null
           id: string
+          payment_currency: string | null
           stripe_customer_id: string | null
           subscribed: boolean
           subscription_end: string | null
@@ -298,6 +302,7 @@ export type Database = {
           email: string
           free_months_remaining?: number | null
           id?: string
+          payment_currency?: string | null
           stripe_customer_id?: string | null
           subscribed?: boolean
           subscription_end?: string | null
@@ -310,6 +315,7 @@ export type Database = {
           email?: string
           free_months_remaining?: number | null
           id?: string
+          payment_currency?: string | null
           stripe_customer_id?: string | null
           subscribed?: boolean
           subscription_end?: string | null
