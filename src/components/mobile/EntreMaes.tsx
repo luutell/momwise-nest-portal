@@ -33,31 +33,31 @@ interface Profile {
 }
 
 const categories = [
-  'Todas',
-  'Amamentação e Acolhimento',
-  'Sono do Bebê',
-  'Primeiras Mordidas',
-  'No seu Tempo',
-  'Mãe Inteira',
-  'Higiene Natural'
+  'All',
+  'Breastfeeding & Comfort',
+  'Baby Sleep',
+  'First Bites',
+  'In Your Own Time',
+  'Complete Mother',
+  'Natural Hygiene'
 ];
 
 const quickComments = [
-  "Obrigada por compartilhar 💛",
-  "Passei por algo parecido",
-  "Você quer conversar mais sobre isso?"
+  "Thank you for sharing 💛",
+  "I went through something similar",
+  "Would you like to talk more about this?"
 ];
 
 const emojiReactions = [
-  { emoji: '🤍', label: 'Te entendo', type: 'understanding' },
-  { emoji: '🫂', label: 'Você não está sozinha', type: 'support' },
-  { emoji: '🌈', label: 'Me deu esperança', type: 'hope' },
-  { emoji: '💡', label: 'Dica útil', type: 'helpful' }
+  { emoji: '🤍', label: 'I understand you', type: 'understanding' },
+  { emoji: '🫂', label: 'You are not alone', type: 'support' },
+  { emoji: '🌈', label: 'It gave me hope', type: 'hope' },
+  { emoji: '💡', label: 'Useful tip', type: 'helpful' }
 ];
 
 export default function EntreMaes() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Todas');
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [showNewPostModal, setShowNewPostModal] = useState(false);
   const [showPostDetail, setShowPostDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState<CommunityPost | null>(null);
@@ -87,7 +87,7 @@ export default function EntreMaes() {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (selectedCategory !== 'Todas') {
+      if (selectedCategory !== 'All') {
         baseQuery = baseQuery.eq('category', selectedCategory);
       }
 
@@ -171,8 +171,8 @@ export default function EntreMaes() {
     if (error) {
       console.error('Erro na consulta de postagens:', error);
       toast({
-        title: "Erro ao carregar postagens",
-        description: "Houve um problema ao carregar as postagens. Tente novamente.",
+        title: "Error loading posts",
+        description: "There was a problem loading the posts. Please try again.",
         variant: "destructive",
       });
     }
@@ -256,14 +256,14 @@ export default function EntreMaes() {
         allow_private_messages: false
       });
       toast({
-        title: "Postagem criada!",
-        description: "Sua postagem foi publicada com sucesso.",
+        title: "Post created!",
+        description: "Your post has been published successfully.",
       });
     },
     onError: (error) => {
       toast({
-        title: "Erro",
-        description: "Não foi possível criar a postagem. Tente novamente.",
+        title: "Error",
+        description: "Could not create the post. Please try again.",
         variant: "destructive",
       });
     }
@@ -330,8 +330,8 @@ export default function EntreMaes() {
           .eq('id', existingSave.id);
         if (error) throw error;
         toast({
-          title: "Post removido dos salvos",
-          description: "O post foi removido da sua lista de salvos.",
+          title: "Post removed from saved",
+          description: "The post has been removed from your saved list.",
         });
       } else {
         // Add save
@@ -343,8 +343,8 @@ export default function EntreMaes() {
           });
         if (error) throw error;
         toast({
-          title: "Post salvo!",
-          description: "Post adicionado aos seus salvos.",
+          title: "Post saved!",
+          description: "Post added to your saved list.",
         });
       }
     },
@@ -380,8 +380,8 @@ export default function EntreMaes() {
       queryClient.invalidateQueries({ queryKey: ['community-posts'] });
       setNewComment({ content: '', is_anonymous: false });
       toast({
-        title: "Comentário adicionado!",
-        description: "Seu comentário foi publicado com sucesso.",
+        title: "Comment added!",
+        description: "Your comment has been published successfully.",
       });
     }
   });
@@ -389,8 +389,8 @@ export default function EntreMaes() {
   const handleCreatePost = () => {
     if (!newPost.category || !newPost.content.trim()) {
       toast({
-        title: "Campos obrigatórios",
-        description: "Categoria e texto são obrigatórios.",
+        title: "Required fields",
+        description: "Category and text are required.",
         variant: "destructive",
       });
       return;
@@ -398,8 +398,8 @@ export default function EntreMaes() {
 
     if (newPost.content.length > 1200) {
       toast({
-        title: "Texto muito longo",
-        description: "O texto deve ter no máximo 1200 caracteres.",
+        title: "Text too long",
+        description: "The text must be at most 1200 characters.",
         variant: "destructive",
       });
       return;
@@ -416,8 +416,8 @@ export default function EntreMaes() {
   };
 
   const getDisplayName = (post: any) => {
-    if (post.is_anonymous) return 'Mãe Anônima';
-    return post.profiles?.name || 'Mãe';
+    if (post.is_anonymous) return 'Anonymous Mother';
+    return post.profiles?.name || 'Mother';
   };
 
   const openPostDetail = (post: CommunityPost) => {
@@ -436,10 +436,10 @@ export default function EntreMaes() {
         {/* Banner fixo */}
         <div className="bg-primary/10 border-l-4 border-primary p-4 mb-6">
           <p className="text-sm text-primary font-medium">
-            🧡 Este é um espaço de apoio e escuta entre mães. Escreva com carinho, leia com empatia.
+            🧡 This is a space for support and listening between mothers. Write with care, read with empathy.
           </p>
           <button className="text-primary text-xs underline mt-1">
-            Conheça as regras da comunidade
+            Learn the community rules
           </button>
         </div>
 
@@ -448,7 +448,7 @@ export default function EntreMaes() {
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Buscar postagens..."
+              placeholder="Search posts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -475,7 +475,7 @@ export default function EntreMaes() {
         {featuredPosts.length > 0 && (
           <div className="px-4 mb-6">
             <h3 className="text-lg font-semibold mb-3 text-primary">
-              ❤️ Conversas que tocaram corações
+              ❤️ Conversations that touched hearts
             </h3>
             <div className="space-y-3">
               {featuredPosts.map((post) => (
@@ -519,11 +519,11 @@ export default function EntreMaes() {
         <div className="px-4 space-y-4 pb-20">
           {isLoading ? (
             <div className="text-center py-8">
-              <p className="text-muted-foreground">Carregando postagens...</p>
+              <p className="text-muted-foreground">Loading posts...</p>
             </div>
           ) : posts.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-muted-foreground">Nenhuma postagem encontrada.</p>
+              <p className="text-muted-foreground">No posts found.</p>
             </div>
           ) : (
             posts.map((post) => (
@@ -539,7 +539,7 @@ export default function EntreMaes() {
                       </Badge>
                       {post.is_recent && (
                         <Badge variant="destructive" className="text-xs">
-                          Novo
+                          New
                         </Badge>
                       )}
                     </div>
@@ -555,15 +555,15 @@ export default function EntreMaes() {
                           toggleSavePostMutation.mutate(post.id);
                         }}>
                           <Bookmark className="h-4 w-4 mr-2" />
-                          Salvar
+                          Save
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           <Share className="h-4 w-4 mr-2" />
-                          Compartilhar
+                          Share
                         </DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive">
                           <Flag className="h-4 w-4 mr-2" />
-                          Denunciar
+                          Report
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -636,14 +636,14 @@ export default function EntreMaes() {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>📝 Criar nova postagem</DialogTitle>
+              <DialogTitle>📝 Create new post</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium">Categoria *</label>
+                <label className="text-sm font-medium">Category *</label>
                 <Select value={newPost.category} onValueChange={(value) => setNewPost({...newPost, category: value})}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione uma categoria" />
+                    <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent className="bg-background border z-50">
                     {categories.slice(1).map((category) => (
@@ -656,16 +656,16 @@ export default function EntreMaes() {
               </div>
               
               <div>
-                <label className="text-sm font-medium">Texto *</label>
+                <label className="text-sm font-medium">Text *</label>
                 <Textarea
-                  placeholder="Compartilhe sua experiência..."
+                  placeholder="Share your experience..."
                   value={newPost.content}
                   onChange={(e) => setNewPost({...newPost, content: e.target.value})}
                   maxLength={1200}
                   className="min-h-[120px]"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  {newPost.content.length}/1200 caracteres
+                  {newPost.content.length}/1200 characters
                 </p>
               </div>
               
@@ -677,7 +677,7 @@ export default function EntreMaes() {
                     onCheckedChange={(checked) => setNewPost({...newPost, is_anonymous: !!checked})}
                   />
                   <label htmlFor="anonymous" className="text-sm">
-                    Publicar como Anônima
+                    Post as Anonymous
                   </label>
                 </div>
                 
@@ -688,7 +688,7 @@ export default function EntreMaes() {
                     onCheckedChange={(checked) => setNewPost({...newPost, allow_private_messages: !!checked})}
                   />
                   <label htmlFor="private-messages" className="text-sm">
-                    Aceitar mensagens privadas sobre este post?
+                    Accept private messages about this post?
                   </label>
                 </div>
               </div>
@@ -698,7 +698,7 @@ export default function EntreMaes() {
                 className="w-full"
                 disabled={createPostMutation.isPending}
               >
-                {createPostMutation.isPending ? 'Publicando...' : 'Criar Postagem'}
+                {createPostMutation.isPending ? 'Publishing...' : 'Create Post'}
               </Button>
             </div>
           </DialogContent>
@@ -745,11 +745,11 @@ export default function EntreMaes() {
                   <DropdownMenuContent align="end" className="bg-background border z-50">
                     <DropdownMenuItem onClick={() => toggleSavePostMutation.mutate(selectedPost.id)}>
                       <Bookmark className="h-4 w-4 mr-2" />
-                      Salvar
+                      Save
                     </DropdownMenuItem>
                     <DropdownMenuItem className="text-destructive">
                       <Flag className="h-4 w-4 mr-2" />
-                      Denunciar
+                      Report
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -760,17 +760,17 @@ export default function EntreMaes() {
               <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
                 <span className="flex items-center gap-1">
                   <Heart className="h-3 w-3" />
-                  {selectedPost.reaction_count} curtidas
+                  {selectedPost.reaction_count} likes
                 </span>
                 <span className="flex items-center gap-1">
                   <MessageCircle className="h-3 w-3" />
-                  {selectedPost.comment_count} comentários
+                  {selectedPost.comment_count} comments
                 </span>
               </div>
 
               {/* Emoji reactions */}
               <div className="border-t pt-4">
-                <p className="text-xs font-medium mb-3">Reações rápidas:</p>
+                <p className="text-xs font-medium mb-3">Quick reactions:</p>
                 <div className="grid grid-cols-2 gap-2">
                   {emojiReactions.map((reaction) => (
                     <Button
@@ -791,7 +791,7 @@ export default function EntreMaes() {
 
           {/* Comments section */}
           <div className="space-y-4">
-            <h3 className="font-semibold">Comentários ({comments.length})</h3>
+            <h3 className="font-semibold">Comments ({comments.length})</h3>
             
             {/* Comments list */}
             <div className="space-y-4">
@@ -800,7 +800,7 @@ export default function EntreMaes() {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="font-medium text-sm">
-                        {comment.is_anonymous ? 'Anônima' : comment.profiles?.name || 'Mãe'}
+                        {comment.is_anonymous ? 'Anonymous' : comment.profiles?.name || 'Mother'}
                       </span>
                       <span className="text-xs text-muted-foreground">
                         {new Date(comment.created_at).toLocaleDateString('pt-BR')}
@@ -814,7 +814,7 @@ export default function EntreMaes() {
 
             {/* Quick comment suggestions */}
             <div className="space-y-3">
-              <p className="text-xs font-medium">Frases sugeridas:</p>
+              <p className="text-xs font-medium">Suggested phrases:</p>
               <div className="flex flex-wrap gap-2">
                 {quickComments.map((comment, index) => (
                   <Button
@@ -836,7 +836,7 @@ export default function EntreMaes() {
               <CardContent className="p-4">
                 <div className="space-y-3">
                   <Textarea
-                    placeholder="Escreva uma resposta..."
+                    placeholder="Write a response..."
                     value={newComment.content}
                     onChange={(e) => setNewComment({...newComment, content: e.target.value})}
                     className="min-h-[80px]"
@@ -850,7 +850,7 @@ export default function EntreMaes() {
                         onCheckedChange={(checked) => setNewComment({...newComment, is_anonymous: !!checked})}
                       />
                       <label htmlFor="anonymous-comment" className="text-xs">
-                        Comentar como Anônima
+                        Comment as Anonymous
                       </label>
                     </div>
                     
@@ -860,7 +860,7 @@ export default function EntreMaes() {
                       disabled={!newComment.content.trim() || addCommentMutation.isPending}
                     >
                       <Send className="h-3 w-3 mr-1" />
-                      {addCommentMutation.isPending ? 'Enviando...' : 'Enviar comentário'}
+                      {addCommentMutation.isPending ? 'Sending...' : 'Send comment'}
                     </Button>
                   </div>
                 </div>
