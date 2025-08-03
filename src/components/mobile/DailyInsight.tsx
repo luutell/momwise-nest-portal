@@ -1,46 +1,79 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-const insights = [
-  {
-    title: "Morning Reflection",
-    text: "What does your body need today? Take a moment to tune in.",
-    type: "reflection"
-  },
-  {
-    title: "Gentle Reminder", 
-    text: "Your baby's rhythm is unique. Trust the process and your intuition.",
-    type: "wisdom"
-  },
-  {
-    title: "Nourishment Note",
-    text: "Remember to drink water when baby feeds. You're nourishing two hearts.",
-    type: "care"
-  },
-  {
-    title: "Connection Moment",
-    text: "You're doing beautifully. Every mother's journey is sacred and valid.",
-    type: "affirmation"
-  },
-  {
-    title: "Natural Rhythm",
-    text: "Notice your baby's patterns today. What are they telling you?",
-    type: "observation"
-  }
-];
+const insights = {
+  en: [
+    {
+      title: "Morning Reflection",
+      text: "What does your body need today? Take a moment to tune in.",
+      type: "reflection"
+    },
+    {
+      title: "Gentle Reminder", 
+      text: "Your baby's rhythm is unique. Trust the process and your intuition.",
+      type: "wisdom"
+    },
+    {
+      title: "Nourishment Note",
+      text: "Remember to drink water when baby feeds. You're nourishing two hearts.",
+      type: "care"
+    },
+    {
+      title: "Connection Moment",
+      text: "You're doing beautifully. Every mother's journey is sacred and valid.",
+      type: "affirmation"
+    },
+    {
+      title: "Natural Rhythm",
+      text: "Notice your baby's patterns today. What are they telling you?",
+      type: "observation"
+    }
+  ],
+  pt: [
+    {
+      title: "Reflexão Matinal",
+      text: "O que seu corpo precisa hoje? Reserve um momento para se conectar.",
+      type: "reflection"
+    },
+    {
+      title: "Lembrete Suave", 
+      text: "O ritmo do seu bebê é único. Confie no processo e na sua intuição.",
+      type: "wisdom"
+    },
+    {
+      title: "Nota de Nutrição",
+      text: "Lembre-se de beber água quando o bebê mamar. Você está nutrindo dois corações.",
+      type: "care"
+    },
+    {
+      title: "Momento de Conexão",
+      text: "Você está indo maravilhosamente bem. A jornada de cada mãe é sagrada e válida.",
+      type: "affirmation"
+    },
+    {
+      title: "Ritmo Natural",
+      text: "Observe os padrões do seu bebê hoje. O que eles estão te dizendo?",
+      type: "observation"
+    }
+  ]
+};
 
 const DailyInsight = () => {
   const [currentInsight, setCurrentInsight] = useState(0);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Rotate through insights daily
     const today = new Date().getDay();
-    setCurrentInsight(today % insights.length);
-  }, []);
+    const currentInsights = insights[t('language') === 'en' ? 'en' : 'pt'];
+    setCurrentInsight(today % currentInsights.length);
+  }, [t]);
 
-  const insight = insights[currentInsight];
+  const currentInsights = insights[t('language') === 'en' ? 'en' : 'pt'];
+  const insight = currentInsights[currentInsight];
 
   const handleAudioToggle = () => {
     setIsAudioPlaying(!isAudioPlaying);
@@ -61,7 +94,7 @@ const DailyInsight = () => {
           <div className="flex items-center space-x-2 mb-2">
             <Sparkles className="w-4 h-4 text-primary-foreground/80" />
             <span className="text-xs text-primary-foreground/80 uppercase tracking-wide font-medium">
-              Today's Gentle Guidance
+              {t('language') === 'en' ? "Today's Gentle Guidance" : 'Orientação Suave de Hoje'}
             </span>
           </div>
           

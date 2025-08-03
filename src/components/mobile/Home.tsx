@@ -158,7 +158,7 @@ const Home = () => {
         completed: false
       } : {
         type: 'article' as const,
-        title: 'Conteúdo em preparação',
+        title: t('language') === 'en' ? 'Content in preparation' : 'Conteúdo em preparação',
         duration: '5 min',
         completed: false
       }
@@ -169,66 +169,66 @@ const Home = () => {
   const sections = [
     {
       id: 'sono-do-bebe',
-      title: 'Sono do Bebê',
+      title: t('language') === 'en' ? 'Baby Sleep' : 'Sono do Bebê',
       emoji: '🛌',
       icon: RotateCcw,
-      description: 'Rotina de sono, regressões, rituais noturnos',
+      description: t('language') === 'en' ? 'Sleep routine, regressions, night rituals' : 'Rotina de sono, regressões, rituais noturnos',
       color: 'bg-sage/20 hover:bg-sage/30 text-sage'
     },
     {
       id: 'entendendo-bebe',
-      title: 'Entendendo o Bebê',
+      title: t('language') === 'en' ? 'Understanding Baby' : 'Entendendo o Bebê',
       emoji: '🧠',
       icon: Baby,
-      description: 'Choro, marcos, mitos',
+      description: t('language') === 'en' ? 'Crying, milestones, myths' : 'Choro, marcos, mitos',
       color: 'bg-primary/20 hover:bg-primary/30 text-primary'
     },
     {
       id: 'primeiras-mordidas',
-      title: 'Primeiras Mordidas',
+      title: t('language') === 'en' ? 'First Bites' : 'Primeiras Mordidas',
       emoji: '🍽',
       icon: Utensils,
-      description: 'Alimentação e relação com o comer',
+      description: t('language') === 'en' ? 'Feeding and relationship with food' : 'Alimentação e relação com o comer',
       color: 'bg-terracotta/20 hover:bg-terracotta/30 text-terracotta'
     },
     {
       id: 'no-seu-tempo',
-      title: 'No seu Tempo',
+      title: t('language') === 'en' ? 'At Your Pace' : 'No seu Tempo',
       emoji: '💪',
       icon: Clock,
-      description: 'Desenvolvimento e estímulos respeitosos',
+      description: t('language') === 'en' ? 'Development and respectful stimulation' : 'Desenvolvimento e estímulos respeitosos',
       color: 'bg-secondary/20 hover:bg-secondary/30 text-secondary'
     },
     {
       id: 'amamentacao-e-acolhimento',
-      title: 'Amamentação e Acolhimento',
+      title: t('language') === 'en' ? 'Breastfeeding & Support' : 'Amamentação e Acolhimento',
       emoji: '🤱',
       icon: Heart,
-      description: 'Nutrição e pós-parto',
+      description: t('language') === 'en' ? 'Nutrition and postpartum' : 'Nutrição e pós-parto',
       color: 'bg-primary/20 hover:bg-primary/30 text-primary'
     },
     {
       id: 'mae-inteira',
-      title: 'Mãe Inteira',
+      title: t('language') === 'en' ? 'Whole Mother' : 'Mãe Inteira',
       emoji: '🛀',
       icon: Heart,
-      description: 'Saúde emocional, autocuidado, corpo da mãe',
+      description: t('language') === 'en' ? 'Emotional health, self-care, maternal body' : 'Saúde emocional, autocuidado, corpo da mãe',
       color: 'bg-terracotta/20 hover:bg-terracotta/30 text-terracotta'
     },
     {
       id: 'entre-maes',
-      title: 'Entre Mães',
+      title: t('language') === 'en' ? 'Between Mothers' : 'Entre Mães',
       emoji: '🤝',
       icon: Users,
-      description: 'Rede de apoio, relatos, comunidade',
+      description: t('language') === 'en' ? 'Support network, stories, community' : 'Rede de apoio, relatos, comunidade',
       color: 'bg-sage/20 hover:bg-sage/30 text-sage'
     },
     {
       id: 'higiene-natural',
-      title: 'Higiene Natural',
+      title: t('language') === 'en' ? 'Natural Hygiene' : 'Higiene Natural',
       emoji: '🚼',
       icon: Users,
-      description: 'Fraldas, EC, cuidados conscientes',
+      description: t('language') === 'en' ? 'Diapers, EC, conscious care' : 'Fraldas, EC, cuidados conscientes',
       color: 'bg-secondary/20 hover:bg-secondary/30 text-secondary'
     }
   ];
@@ -315,7 +315,9 @@ const Home = () => {
                 
                 {profileData.interests && profileData.interests.length > 0 && (
                   <div className="pt-2">
-                    <p className="text-xs text-muted-foreground mb-2">Seus interesses:</p>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    {t('language') === 'en' ? 'Your interests:' : 'Seus interesses:'}
+                  </p>
                     <div className="flex flex-wrap gap-1">
                       {profileData.interests.map((interest, index) => (
                         <span key={index} className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
@@ -335,12 +337,12 @@ const Home = () => {
           <div className="flex items-center space-x-2">
             <Calendar className="w-5 h-5 text-primary" />
             <h2 className="font-playfair text-lg font-medium text-foreground">
-              Sua Semana
+              {t('language') === 'en' ? 'Your Week' : 'Sua Semana'}
             </h2>
           </div>
           
           <p className="text-muted-foreground text-sm">
-            Cada dia traz um novo conteúdo personalizado para sua fase
+            {t('language') === 'en' ? 'Each day brings new personalized content for your phase' : 'Cada dia traz um novo conteúdo personalizado para sua fase'}
           </p>
 
           {/* Grid do calendário */}
@@ -420,7 +422,9 @@ const Home = () => {
                           {selectedContent.content.title}
                         </h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          Conteúdo especialmente selecionado para o dia {selectedContent.date} da sua jornada.
+                          {t('language') === 'en' 
+                            ? `Content specially selected for day ${selectedContent.date} of your journey.`
+                            : `Conteúdo especialmente selecionado para o dia ${selectedContent.date} da sua jornada.`}
                         </p>
                         <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                           <span>{selectedContent.content.duration}</span>
@@ -429,7 +433,7 @@ const Home = () => {
                           {selectedContent.content.completed && (
                             <>
                               <span>•</span>
-                              <span className="text-primary">✓ Concluído</span>
+                              <span className="text-primary">{t('language') === 'en' ? '✓ Completed' : '✓ Concluído'}</span>
                             </>
                           )}
                         </div>
@@ -445,7 +449,7 @@ const Home = () => {
         {/* Conteúdo em destaque do dia */}
         <div className="space-y-4 px-4">
           <h3 className="font-playfair text-lg font-medium text-foreground">
-            Destaque de Hoje
+            {t('language') === 'en' ? "Today's Highlight" : 'Destaque de Hoje'}
           </h3>
           
           <Card className="bg-gradient-to-br from-primary/10 via-background to-sage/5 border-none shadow-soft">
@@ -456,18 +460,19 @@ const Home = () => {
                 </div>
                 <div className="space-y-2">
                   <h4 className="font-playfair font-medium text-foreground">
-                    Massagem relaxante no bebê
+                    {t('language') === 'en' ? 'Relaxing baby massage' : 'Massagem relaxante no bebê'}
                   </h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Aprenda técnicas suaves de massagem que ajudam a acalmar seu bebê 
-                    e fortalecer o vínculo entre vocês.
+                    {t('language') === 'en' 
+                      ? 'Learn gentle massage techniques that help soothe your baby and strengthen the bond between you.'
+                      : 'Aprenda técnicas suaves de massagem que ajudam a acalmar seu bebê e fortalecer o vínculo entre vocês.'}
                   </p>
                   <div className="flex items-center space-x-4 text-xs text-muted-foreground">
-                    <span>4 minutos</span>
+                    <span>{t('language') === 'en' ? '4 minutes' : '4 minutos'}</span>
                     <span>•</span>
-                    <span>Vídeo</span>
+                    <span>{t('language') === 'en' ? 'Video' : 'Vídeo'}</span>
                     <span>•</span>
-                    <span>Com especialista</span>
+                    <span>{t('language') === 'en' ? 'With specialist' : 'Com especialista'}</span>
                   </div>
                 </div>
               </div>
@@ -485,10 +490,10 @@ const Home = () => {
                 </div>
                 <div className="space-y-1">
                   <h4 className="font-playfair font-semibold text-foreground">
-                    📞 Tire dúvidas ao vivo com especialista
+                    {t('language') === 'en' ? '📞 Ask questions live with specialist' : '📞 Tire dúvidas ao vivo com especialista'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
-                    Nesta sexta às 10h! Clique para participar
+                    {t('language') === 'en' ? 'This Friday at 10am! Click to participate' : 'Nesta sexta às 10h! Clique para participar'}
                   </p>
                 </div>
               </div>
