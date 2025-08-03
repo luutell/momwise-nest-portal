@@ -3,14 +3,22 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, Video, MessageCircle, CheckCircle, Bookmark, User, Clock8, Baby, Moon, Sparkles, Wind, TreePine, Sun } from 'lucide-react';
 import AudioPlayer from './AudioPlayer';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
 
-interface Article {
+interface Post {
   id: string;
   title: string;
-  excerpt: string;
-  readTime: string;
-  type: 'article' | 'audio' | 'reflection';
-  duration?: string;
+  content: string;
+  author: string;
+  category: string;
+  image_url?: string;
+  audio_url?: string;
+  introduction?: string;
+  practical_tip?: string;
+  published: boolean;
+  created_at: string;
 }
 
 interface CategoryDetailProps {
@@ -114,6 +122,53 @@ const interactiveTools = [
 ];
 
 const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDetailProps) => {
+  const navigate = useNavigate();
+  
+  // Mapear categoryId para nome da categoria no banco de dados
+  const categoryMap: { [key: string]: string } = {
+    'sono-do-bebe': 'Sono do Bebê',
+    'entendendo-bebe': 'Entendendo o Bebê',
+    'primeiras-mordidas': 'Primeiras Mordidas',
+    'no-seu-tempo': 'No seu Tempo',
+    'amamentacao-e-acolhimento': 'Amamentação e Acolhimento',
+    'mae-inteira': 'Mãe Inteira',
+    'entre-maes': 'Entre Mães',
+    'higiene-natural': 'Higiene Natural'
+  };
+  
+  const categoryName = categoryMap[categoryId] || title;
+  
+  // Buscar posts da categoria
+  const { data: posts, isLoading } = useQuery({
+    queryKey: ['category-posts', categoryName],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('category', categoryName)
+        .eq('published', true)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      return data as Post[];
+    },
+    enabled: !!categoryName
+  });
+
+  const handlePostClick = (postId: string) => {
+    navigate(`/app/post/${postId}`);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-teal-50/50 relative overflow-hidden">
       {/* Elementos decorativos de fundo */}
@@ -142,16 +197,15 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
               <div className="flex items-center space-x-3">
                 <div className="text-4xl">⏳</div>
                 <div>
-                  <h1 className="font-playfair text-2xl font-bold text-slate-800">Ritmo Leve</h1>
-                  <p className="text-emerald-600 font-semibold text-sm">Sono, rotina e organização</p>
+                  <h1 className="font-playfair text-2xl font-bold text-slate-800">{title}</h1>
+                  <p className="text-emerald-600 font-semibold text-sm">{description}</p>
                 </div>
               </div>
             </div>
             
             <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 shadow-lg">
               <p className="text-slate-700 text-sm leading-relaxed text-center">
-                Aqui você encontra conteúdos para ajudar sua família a viver os dias com mais calma. 
-                Respeitando o ritmo do bebê e o seu, sem rigidez, com sabedoria e afeto.
+                {posts?.length || 0} {posts?.length === 1 ? 'artigo encontrado' : 'artigos encontrados'} nesta categoria
               </p>
             </div>
           </div>
@@ -159,40 +213,73 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
       </div>
 
       <div className="relative z-10 p-4 space-y-8">
-        {/* 🟤 2. MENU PRINCIPAL DE TEMAS - Redesenhado */}
+        {/* Posts da categoria */}
         <div className="space-y-6">
           <div className="text-center space-y-2">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800">Temas Principais</h2>
-            <p className="text-slate-600">Escolha o tema que mais precisa hoje</p>
+            <h2 className="font-playfair text-2xl font-bold text-slate-800">Artigos</h2>
+            <p className="text-slate-600">Conteúdos selecionados para você</p>
           </div>
-          <div className="space-y-4">
-            {ritmoLeveThemes.map((theme) => {
-              const Icon = theme.icon;
-              return (
-                <Card key={theme.id} className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group">
-                  <div className={`bg-gradient-to-r ${theme.gradient} relative`}>
-                    <div className="absolute top-4 right-4 text-3xl opacity-20">{theme.emoji}</div>
-                    <CardContent className="p-6 relative">
-                      <div className="flex items-center space-x-5">
-                        <div className="w-16 h-16 bg-white/40 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                          <Icon className="w-8 h-8 text-slate-700" />
-                        </div>
-                        <div className="space-y-2 flex-1">
-                          <h3 className="font-playfair text-lg font-bold text-slate-800">{theme.title}</h3>
-                          <p className="text-slate-600 text-sm">{theme.description}</p>
-                          <div className="flex items-center space-x-2 text-xs text-slate-500">
-                            <Play className="w-3 h-3" />
-                            <span>Vídeo • Texto • Dica prática</span>
+          
+          {posts?.length === 0 ? (
+            <Card className="border-none shadow-lg">
+              <CardContent className="p-8 text-center">
+                <BookOpen className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                <h3 className="font-medium text-foreground mb-2">
+                  Nenhum artigo encontrado
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Ainda não temos conteúdo publicado nesta categoria
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {posts?.map((post) => (
+                <Card 
+                  key={post.id} 
+                  className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group"
+                  onClick={() => handlePostClick(post.id)}
+                >
+                  <CardContent className="p-6">
+                    <div className="flex space-x-4">
+                      {post.image_url && (
+                        <img 
+                          src={post.image_url} 
+                          alt={post.title}
+                          className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                        />
+                      )}
+                      <div className="flex-1 space-y-2">
+                        <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="text-sm text-slate-600 line-clamp-2">
+                          {post.introduction || post.content.substring(0, 150) + '...'}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-slate-500">
+                            Por {post.author}
+                          </span>
+                          <div className="flex items-center space-x-2">
+                            {post.audio_url && (
+                              <div className="flex items-center space-x-1">
+                                <Play className="w-3 h-3 text-primary" />
+                                <span className="text-xs text-primary">Áudio</span>
+                              </div>
+                            )}
+                            <Clock className="w-3 h-3 text-slate-500" />
+                            <span className="text-xs text-slate-500">
+                              {Math.ceil(post.content.length / 200)} min
+                            </span>
                           </div>
                         </div>
-                        <ArrowLeft className="w-5 h-5 text-slate-400 rotate-180 group-hover:translate-x-1 transition-transform" />
                       </div>
-                    </CardContent>
-                  </div>
+                    </div>
+                  </CardContent>
                 </Card>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 🟤 4. ESPECIALISTA DA SEMANA - Redesenhado */}
