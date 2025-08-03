@@ -2,6 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Play, BookOpen, Headphones, Clock, Star, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 interface CalendarContent {
   id: string;
@@ -26,6 +29,44 @@ interface DayContentProps {
 }
 
 const DayContent = ({ content, date, onBack }: DayContentProps) => {
+  const navigate = useNavigate();
+  
+  // Try to find corresponding post for articles
+  const { data: correspondingPost } = useQuery({
+    queryKey: ['corresponding-post', content.title, content.category],
+    queryFn: async () => {
+      if (content.content_type !== 'article') return null;
+      
+      const { data, error } = await supabase
+        .from('posts')
+        .select('id')
+        .eq('category', content.category)
+        .eq('published', true)
+        .limit(1);
+      
+      if (error) {
+        console.error('Error finding corresponding post:', error);
+        return null;
+      }
+      
+      // Return the first post in the same category
+      return data && data.length > 0 ? data[0] : null;
+    },
+    enabled: content.content_type === 'article'
+  });
+
+  const handleActionClick = () => {
+    if (content.content_type === 'article' && correspondingPost?.id) {
+      // Navigate to the post detail page
+      navigate(`/app/post/${correspondingPost.id}`);
+    } else if (content.content_url) {
+      // Open external URL
+      window.open(content.content_url, '_blank');
+    } else {
+      // Show content inline or handle other content types
+      console.log('Showing content:', content);
+    }
+  };
   const getContentIcon = (type: string) => {
     switch (type) {
       case 'video':
@@ -166,7 +207,7 @@ const DayContent = ({ content, date, onBack }: DayContentProps) => {
             )}
 
             <div className="pt-4">
-              <Button size="lg" className="w-full">
+              <Button size="lg" className="w-full" onClick={handleActionClick}>
                 {getContentIcon(content.content_type)}
                 <span className="ml-2">{getActionText(content.content_type)}</span>
               </Button>
