@@ -33,31 +33,31 @@ interface Profile {
 }
 
 const categories = [
-  'All',
-  'Breastfeeding & Comfort',
-  'Baby Sleep',
-  'First Bites',
-  'In Your Own Time',
-  'Complete Mother',
-  'Natural Hygiene'
+  'Todas',
+  'Amamentação e Colo',
+  'Sono do Bebê',
+  'Primeiras Comidas',
+  'No Seu Tempo',
+  'Mãe Completa',
+  'Higiene Natural'
 ];
 
 const quickComments = [
-  "Thank you for sharing 💛",
-  "I went through something similar",
-  "Would you like to talk more about this?"
+  "Obrigada por compartilhar 💛",
+  "Passei por algo similar",
+  "Gostaria de conversar mais sobre isso?"
 ];
 
 const emojiReactions = [
-  { emoji: '🤍', label: 'I understand you', type: 'understanding' },
-  { emoji: '🫂', label: 'You are not alone', type: 'support' },
-  { emoji: '🌈', label: 'It gave me hope', type: 'hope' },
-  { emoji: '💡', label: 'Useful tip', type: 'helpful' }
+  { emoji: '🤍', label: 'Te entendo', type: 'understanding' },
+  { emoji: '🫂', label: 'Você não está sozinha', type: 'support' },
+  { emoji: '🌈', label: 'Me deu esperança', type: 'hope' },
+  { emoji: '💡', label: 'Dica útil', type: 'helpful' }
 ];
 
 export default function EntreMaes() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [showNewPostModal, setShowNewPostModal] = useState(false);
   const [showPostDetail, setShowPostDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState<CommunityPost | null>(null);
@@ -87,7 +87,7 @@ export default function EntreMaes() {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (selectedCategory !== 'All') {
+      if (selectedCategory !== 'Todas') {
         baseQuery = baseQuery.eq('category', selectedCategory);
       }
 
@@ -171,8 +171,8 @@ export default function EntreMaes() {
     if (error) {
       console.error('Erro na consulta de postagens:', error);
       toast({
-        title: "Error loading posts",
-        description: "There was a problem loading the posts. Please try again.",
+        title: "Erro ao carregar posts",
+        description: "Houve um problema ao carregar os posts. Tente novamente.",
         variant: "destructive",
       });
     }
@@ -256,14 +256,14 @@ export default function EntreMaes() {
         allow_private_messages: false
       });
       toast({
-        title: "Post created!",
-        description: "Your post has been published successfully.",
+        title: "Post criado!",
+        description: "Seu post foi publicado com sucesso.",
       });
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: "Could not create the post. Please try again.",
+        title: "Erro",
+        description: "Não foi possível criar o post. Tente novamente.",
         variant: "destructive",
       });
     }
@@ -330,8 +330,8 @@ export default function EntreMaes() {
           .eq('id', existingSave.id);
         if (error) throw error;
         toast({
-          title: "Post removed from saved",
-          description: "The post has been removed from your saved list.",
+          title: "Post removido dos salvos",
+          description: "O post foi removido da sua lista de salvos.",
         });
       } else {
         // Add save
@@ -343,8 +343,8 @@ export default function EntreMaes() {
           });
         if (error) throw error;
         toast({
-          title: "Post saved!",
-          description: "Post added to your saved list.",
+          title: "Post salvo!",
+          description: "Post adicionado à sua lista de salvos.",
         });
       }
     },
@@ -380,8 +380,8 @@ export default function EntreMaes() {
       queryClient.invalidateQueries({ queryKey: ['community-posts'] });
       setNewComment({ content: '', is_anonymous: false });
       toast({
-        title: "Comment added!",
-        description: "Your comment has been published successfully.",
+        title: "Comentário adicionado!",
+        description: "Seu comentário foi publicado com sucesso.",
       });
     }
   });
@@ -389,8 +389,8 @@ export default function EntreMaes() {
   const handleCreatePost = () => {
     if (!newPost.category || !newPost.content.trim()) {
       toast({
-        title: "Required fields",
-        description: "Category and text are required.",
+        title: "Campos obrigatórios",
+        description: "Categoria e texto são obrigatórios.",
         variant: "destructive",
       });
       return;
@@ -398,8 +398,8 @@ export default function EntreMaes() {
 
     if (newPost.content.length > 1200) {
       toast({
-        title: "Text too long",
-        description: "The text must be at most 1200 characters.",
+        title: "Texto muito longo",
+        description: "O texto deve ter no máximo 1200 caracteres.",
         variant: "destructive",
       });
       return;
@@ -416,8 +416,8 @@ export default function EntreMaes() {
   };
 
   const getDisplayName = (post: any) => {
-    if (post.is_anonymous) return 'Anonymous Mother';
-    return post.profiles?.name || 'Mother';
+    if (post.is_anonymous) return 'Mãe Anônima';
+    return post.profiles?.name || 'Mãe';
   };
 
   const openPostDetail = (post: CommunityPost) => {
@@ -436,10 +436,10 @@ export default function EntreMaes() {
         {/* Banner fixo */}
         <div className="bg-primary/10 border-l-4 border-primary p-4 mb-6">
           <p className="text-sm text-primary font-medium">
-            🧡 This is a space for support and listening between mothers. Write with care, read with empathy.
+            🧡 Este é um espaço de apoio e escuta entre mães. Escreva com carinho, leia com empatia.
           </p>
           <button className="text-primary text-xs underline mt-1">
-            Learn the community rules
+            Conheça as regras da comunidade
           </button>
         </div>
 
@@ -448,7 +448,7 @@ export default function EntreMaes() {
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search posts..."
+              placeholder="Buscar posts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -475,7 +475,7 @@ export default function EntreMaes() {
         {featuredPosts.length > 0 && (
           <div className="px-4 mb-6">
             <h3 className="text-lg font-semibold mb-3 text-primary">
-              ❤️ Conversations that touched hearts
+              ❤️ Conversas que tocaram corações
             </h3>
             <div className="space-y-3">
               {featuredPosts.map((post) => (
@@ -519,11 +519,11 @@ export default function EntreMaes() {
         <div className="px-4 space-y-4 pb-20">
           {isLoading ? (
             <div className="text-center py-8">
-              <p className="text-muted-foreground">Loading posts...</p>
+              <p className="text-muted-foreground">Carregando posts...</p>
             </div>
           ) : posts.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-muted-foreground">No posts found.</p>
+              <p className="text-muted-foreground">Nenhum post encontrado.</p>
             </div>
           ) : (
             posts.map((post) => (
@@ -539,7 +539,7 @@ export default function EntreMaes() {
                       </Badge>
                       {post.is_recent && (
                         <Badge variant="destructive" className="text-xs">
-                          New
+                          Novo
                         </Badge>
                       )}
                     </div>
@@ -550,21 +550,21 @@ export default function EntreMaes() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="bg-background border z-50">
-                        <DropdownMenuItem onClick={(e) => {
-                          e.stopPropagation();
-                          toggleSavePostMutation.mutate(post.id);
-                        }}>
-                          <Bookmark className="h-4 w-4 mr-2" />
-                          Save
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Share className="h-4 w-4 mr-2" />
-                          Share
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          <Flag className="h-4 w-4 mr-2" />
-                          Report
-                        </DropdownMenuItem>
+                         <DropdownMenuItem onClick={(e) => {
+                           e.stopPropagation();
+                           toggleSavePostMutation.mutate(post.id);
+                         }}>
+                           <Bookmark className="h-4 w-4 mr-2" />
+                           Salvar
+                         </DropdownMenuItem>
+                         <DropdownMenuItem>
+                           <Share className="h-4 w-4 mr-2" />
+                           Compartilhar
+                         </DropdownMenuItem>
+                         <DropdownMenuItem className="text-destructive">
+                           <Flag className="h-4 w-4 mr-2" />
+                           Reportar
+                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -636,14 +636,14 @@ export default function EntreMaes() {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>📝 Create new post</DialogTitle>
+              <DialogTitle>📝 Criar novo post</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium">Category *</label>
+                <label className="text-sm font-medium">Categoria *</label>
                 <Select value={newPost.category} onValueChange={(value) => setNewPost({...newPost, category: value})}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
+                    <SelectValue placeholder="Selecione uma categoria" />
                   </SelectTrigger>
                   <SelectContent className="bg-background border z-50">
                     {categories.slice(1).map((category) => (
@@ -656,16 +656,16 @@ export default function EntreMaes() {
               </div>
               
               <div>
-                <label className="text-sm font-medium">Text *</label>
+                <label className="text-sm font-medium">Texto *</label>
                 <Textarea
-                  placeholder="Share your experience..."
+                  placeholder="Compartilhe sua experiência..."
                   value={newPost.content}
                   onChange={(e) => setNewPost({...newPost, content: e.target.value})}
                   maxLength={1200}
                   className="min-h-[120px]"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
-                  {newPost.content.length}/1200 characters
+                  {newPost.content.length}/1200 caracteres
                 </p>
               </div>
               
