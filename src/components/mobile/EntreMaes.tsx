@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { Heart, MessageCircle, MoreHorizontal, Plus, Search, Bookmark, Flag, Share } from 'lucide-react';
+import { Heart, MessageCircle, MoreHorizontal, Plus, Search, Bookmark, Flag, Share, ArrowLeft, Send, Trash, ChevronDown } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface CommunityPost {
@@ -42,11 +42,24 @@ const categories = [
   'Higiene Natural'
 ];
 
+const quickComments = [
+  "Obrigada por compartilhar 💛",
+  "Passei por algo parecido",
+  "Você quer conversar mais sobre isso?"
+];
+
+const emojiReactions = [
+  { emoji: '🤍', label: 'Te entendo', type: 'understanding' },
+  { emoji: '🫂', label: 'Você não está sozinha', type: 'support' },
+  { emoji: '🌈', label: 'Me deu esperança', type: 'hope' },
+  { emoji: '💡', label: 'Dica útil', type: 'helpful' }
+];
+
 export default function EntreMaes() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [showNewPostModal, setShowNewPostModal] = useState(false);
-  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [showPostDetail, setShowPostDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState<CommunityPost | null>(null);
   const [newPost, setNewPost] = useState({
     category: '',
@@ -72,8 +85,9 @@ export default function EntreMaes() {
           *,
           comment_count:community_comments(count),
           reaction_count:community_reactions(count),
-          user_reacted:community_reactions!inner(id),
-          user_saved:saved_posts!inner(id)
+          user_reacted:community_reactions!left(id),
+          user_saved:saved_posts!left(id),
+          profiles:user_id(name)
         `)
         .order('created_at', { ascending: false });
 
@@ -109,7 +123,8 @@ export default function EntreMaes() {
         .select(`
           *,
           comment_count:community_comments(count),
-          reaction_count:community_reactions(count)
+          reaction_count:community_reactions(count),
+          profiles:user_id(name)
         `)
         .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
         .order('created_at', { ascending: false })
@@ -168,6 +183,7 @@ export default function EntreMaes() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['community-posts'] });
+      queryClient.invalidateQueries({ queryKey: ['featured-posts'] });
       setShowNewPostModal(false);
       setNewPost({
         category: '',
@@ -201,7 +217,7 @@ export default function EntreMaes() {
         .select('id')
         .eq('post_id', postId)
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (existingReaction) {
         // Remove reaction
@@ -224,6 +240,7 @@ export default function EntreMaes() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['community-posts'] });
+      queryClient.invalidateQueries({ queryKey: ['featured-posts'] });
     }
   });
 
@@ -239,7 +256,7 @@ export default function EntreMaes() {
         .select('id')
         .eq('post_id', postId)
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (existingSave) {
         // Remove save
@@ -248,6 +265,10 @@ export default function EntreMaes() {
           .delete()
           .eq('id', existingSave.id);
         if (error) throw error;
+        toast({
+          title: "Post removido dos salvos",
+          description: "O post foi removido da sua lista de salvos.",
+        });
       } else {
         // Add save
         const { error } = await supabase
@@ -257,21 +278,21 @@ export default function EntreMaes() {
             user_id: user.id
           });
         if (error) throw error;
+        toast({
+          title: "Post salvo!",
+          description: "Post adicionado aos seus salvos.",
+        });
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['community-posts'] });
-      toast({
-        title: "Post salvo!",
-        description: "Você pode encontrar posts salvos no seu perfil.",
-      });
     }
   });
 
   // Add comment mutation
   const addCommentMutation = useMutation({
-    mutationFn: async () => {
-      if (!selectedPost?.id || !newComment.content.trim()) return;
+    mutationFn: async (content: string) => {
+      if (!selectedPost?.id || !content.trim()) return;
       
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('User not authenticated');
@@ -281,7 +302,7 @@ export default function EntreMaes() {
         .insert({
           post_id: selectedPost.id,
           user_id: user.id,
-          content: newComment.content,
+          content: content,
           is_anonymous: newComment.is_anonymous
         })
         .select()
@@ -323,65 +344,126 @@ export default function EntreMaes() {
     createPostMutation.mutate(newPost);
   };
 
-  const truncateContent = (content: string, maxLength: number = 400) => {
+  const truncateContent = (content: string, lines: number = 3) => {
+    // Simular 3 linhas (aproximadamente 120 caracteres por linha)
+    const maxLength = lines * 120;
     if (content.length <= maxLength) return content;
     return content.substring(0, maxLength) + '...';
   };
 
-  const getDisplayName = (post: CommunityPost, profile?: Profile) => {
+  const getDisplayName = (post: any) => {
     if (post.is_anonymous) return 'Mãe Anônima';
-    return profile?.name || 'Mãe';
+    return post.profiles?.name || 'Mãe';
   };
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Banner fixo */}
-      <div className="bg-primary/10 border-l-4 border-primary p-4 mb-6">
-        <p className="text-sm text-primary font-medium">
-          🧡 Este é um espaço de apoio e escuta entre mães. Escreva com carinho, leia com empatia.
-        </p>
-        <button className="text-primary text-xs underline mt-1">
-          Conheça as regras da comunidade
-        </button>
-      </div>
+  const openPostDetail = (post: CommunityPost) => {
+    setSelectedPost(post);
+    setShowPostDetail(true);
+  };
 
-      {/* Barra de busca */}
-      <div className="p-4 space-y-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Buscar postagens..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
-          />
+  const addQuickComment = (comment: string) => {
+    addCommentMutation.mutate(comment);
+  };
+
+  // Main feed view
+  if (!showPostDetail) {
+    return (
+      <div className="min-h-screen bg-background">
+        {/* Banner fixo */}
+        <div className="bg-primary/10 border-l-4 border-primary p-4 mb-6">
+          <p className="text-sm text-primary font-medium">
+            🧡 Este é um espaço de apoio e escuta entre mães. Escreva com carinho, leia com empatia.
+          </p>
+          <button className="text-primary text-xs underline mt-1">
+            Conheça as regras da comunidade
+          </button>
         </div>
 
-        {/* Filtros por categoria */}
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
-              size="sm"
-              className="whitespace-nowrap"
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </Button>
-          ))}
-        </div>
-      </div>
+        {/* Barra de busca */}
+        <div className="p-4 space-y-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Buscar postagens..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
 
-      {/* Posts em destaque */}
-      {featuredPosts.length > 0 && (
-        <div className="px-4 mb-6">
-          <h3 className="text-lg font-semibold mb-3 text-primary">
-            ❤️ Conversas que tocaram corações
-          </h3>
-          <div className="space-y-3">
-            {featuredPosts.map((post) => (
-              <Card key={post.id} className="border-primary/20">
+          {/* Filtros por categoria */}
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                className="whitespace-nowrap"
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Posts em destaque */}
+        {featuredPosts.length > 0 && (
+          <div className="px-4 mb-6">
+            <h3 className="text-lg font-semibold mb-3 text-primary">
+              ❤️ Conversas que tocaram corações
+            </h3>
+            <div className="space-y-3">
+              {featuredPosts.map((post) => (
+                <Card 
+                  key={post.id} 
+                  className="border-primary/20 cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => openPostDetail(post)}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-sm">
+                          {getDisplayName(post)}
+                        </span>
+                        <Badge variant="secondary" className="text-xs">
+                          {post.category}
+                        </Badge>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {truncateContent(post.content)}
+                    </p>
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <MessageCircle className="h-3 w-3" />
+                        {post.comment_count}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Heart className="h-3 w-3" />
+                        {post.reaction_count}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Feed de postagens */}
+        <div className="px-4 space-y-4 pb-20">
+          {isLoading ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Carregando postagens...</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Nenhuma postagem encontrada.</p>
+            </div>
+          ) : (
+            posts.map((post) => (
+              <Card key={post.id} className="cursor-pointer hover:shadow-md transition-shadow">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
@@ -391,275 +473,338 @@ export default function EntreMaes() {
                       <Badge variant="secondary" className="text-xs">
                         {post.category}
                       </Badge>
+                      {post.is_recent && (
+                        <Badge variant="destructive" className="text-xs">
+                          Novo
+                        </Badge>
+                      )}
                     </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="bg-background border z-50">
+                        <DropdownMenuItem onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSavePostMutation.mutate(post.id);
+                        }}>
+                          <Bookmark className="h-4 w-4 mr-2" />
+                          Salvar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Share className="h-4 w-4 mr-2" />
+                          Compartilhar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">
+                          <Flag className="h-4 w-4 mr-2" />
+                          Denunciar
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-3">
+                  
+                  <p 
+                    className="text-sm text-muted-foreground mb-3 cursor-pointer"
+                    onClick={() => openPostDetail(post)}
+                  >
                     {truncateContent(post.content)}
                   </p>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
+                  
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openPostDetail(post);
+                      }}
+                      className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary"
+                    >
                       <MessageCircle className="h-3 w-3" />
                       {post.comment_count}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Heart className="h-3 w-3" />
-                      {post.reaction_count}
-                    </span>
+                    </button>
+                    
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleReactionMutation.mutate(post.id);
+                      }}
+                      className={`flex items-center gap-1 text-xs transition-colors ${
+                        post.user_reacted 
+                          ? 'text-red-500 hover:text-red-600' 
+                          : 'text-muted-foreground hover:text-red-500'
+                      }`}
+                    >
+                      <Heart className={`h-3 w-3 ${post.user_reacted ? 'fill-current' : ''}`} />
+                      🤍 {post.reaction_count}
+                    </button>
+                    
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSavePostMutation.mutate(post.id);
+                      }}
+                      className={`flex items-center gap-1 text-xs transition-colors ${
+                        post.user_saved 
+                          ? 'text-primary hover:text-primary/80' 
+                          : 'text-muted-foreground hover:text-primary'
+                      }`}
+                    >
+                      <Bookmark className={`h-3 w-3 ${post.user_saved ? 'fill-current' : ''}`} />
+                      📌
+                    </button>
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+            ))
+          )}
         </div>
-      )}
 
-      {/* Feed de postagens */}
-      <div className="px-4 space-y-4 pb-20">
-        {isLoading ? (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">Carregando postagens...</p>
-          </div>
-        ) : posts.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">Nenhuma postagem encontrada.</p>
-          </div>
-        ) : (
-          posts.map((post) => (
-            <Card key={post.id} className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm">
-                      {getDisplayName(post)}
-                    </span>
-                    <Badge variant="secondary" className="text-xs">
-                      {post.category}
-                    </Badge>
-                    {post.is_recent && (
-                      <Badge variant="destructive" className="text-xs">
-                        Recente
-                      </Badge>
-                    )}
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => toggleSavePostMutation.mutate(post.id)}>
-                        <Bookmark className="h-4 w-4 mr-2" />
-                        {post.user_saved ? 'Remover dos salvos' : 'Salvar'}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Share className="h-4 w-4 mr-2" />
-                        Compartilhar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive">
-                        <Flag className="h-4 w-4 mr-2" />
-                        Denunciar
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                
-                <p 
-                  className="text-sm text-muted-foreground mb-3 cursor-pointer"
-                  onClick={() => {
-                    setSelectedPost(post);
-                    setShowCommentsModal(true);
-                  }}
-                >
-                  {truncateContent(post.content)}
-                  {post.content.length > 400 && (
-                    <span className="text-primary ml-1">Ver mais</span>
-                  )}
-                </p>
-                
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => {
-                      setSelectedPost(post);
-                      setShowCommentsModal(true);
-                    }}
-                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary"
-                  >
-                    <MessageCircle className="h-3 w-3" />
-                    {post.comment_count} comentários
-                  </button>
-                  
-                  <button
-                    onClick={() => toggleReactionMutation.mutate(post.id)}
-                    className={`flex items-center gap-1 text-xs transition-colors ${
-                      post.user_reacted 
-                        ? 'text-red-500 hover:text-red-600' 
-                        : 'text-muted-foreground hover:text-red-500'
-                    }`}
-                  >
-                    <Heart className={`h-3 w-3 ${post.user_reacted ? 'fill-current' : ''}`} />
-                    {post.user_reacted ? 'Te entendo' : 'Me tocou'} ({post.reaction_count})
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        )}
-      </div>
-
-      {/* Botão flutuante */}
-      <Dialog open={showNewPostModal} onOpenChange={setShowNewPostModal}>
-        <DialogTrigger asChild>
-          <Button 
-            className="fixed bottom-20 right-4 rounded-full h-14 w-14 shadow-lg"
-            size="icon"
-          >
-            <Plus className="h-6 w-6" />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>📝 Criar nova postagem</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Categoria *</label>
-              <Select value={newPost.category} onValueChange={(value) => setNewPost({...newPost, category: value})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione uma categoria" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.slice(1).map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div>
-              <label className="text-sm font-medium">Texto *</label>
-              <Textarea
-                placeholder="Compartilhe sua experiência..."
-                value={newPost.content}
-                onChange={(e) => setNewPost({...newPost, content: e.target.value})}
-                maxLength={1200}
-                className="min-h-[120px]"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                {newPost.content.length}/1200 caracteres
-              </p>
-            </div>
-            
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="anonymous"
-                  checked={newPost.is_anonymous}
-                  onCheckedChange={(checked) => setNewPost({...newPost, is_anonymous: !!checked})}
-                />
-                <label htmlFor="anonymous" className="text-sm">
-                  Publicar como anônima
-                </label>
+        {/* Botão flutuante */}
+        <Dialog open={showNewPostModal} onOpenChange={setShowNewPostModal}>
+          <DialogTrigger asChild>
+            <Button 
+              className="fixed bottom-20 right-4 rounded-full h-14 w-14 shadow-lg"
+              size="icon"
+            >
+              <Plus className="h-6 w-6" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>📝 Criar nova postagem</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Categoria *</label>
+                <Select value={newPost.category} onValueChange={(value) => setNewPost({...newPost, category: value})}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione uma categoria" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border z-50">
+                    {categories.slice(1).map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="private-messages"
-                  checked={newPost.allow_private_messages}
-                  onCheckedChange={(checked) => setNewPost({...newPost, allow_private_messages: !!checked})}
+              <div>
+                <label className="text-sm font-medium">Texto *</label>
+                <Textarea
+                  placeholder="Compartilhe sua experiência..."
+                  value={newPost.content}
+                  onChange={(e) => setNewPost({...newPost, content: e.target.value})}
+                  maxLength={1200}
+                  className="min-h-[120px]"
                 />
-                <label htmlFor="private-messages" className="text-sm">
-                  Aceitar mensagens privadas
-                </label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {newPost.content.length}/1200 caracteres
+                </p>
               </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="anonymous"
+                    checked={newPost.is_anonymous}
+                    onCheckedChange={(checked) => setNewPost({...newPost, is_anonymous: !!checked})}
+                  />
+                  <label htmlFor="anonymous" className="text-sm">
+                    Publicar como Anônima
+                  </label>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="private-messages"
+                    checked={newPost.allow_private_messages}
+                    onCheckedChange={(checked) => setNewPost({...newPost, allow_private_messages: !!checked})}
+                  />
+                  <label htmlFor="private-messages" className="text-sm">
+                    Aceitar mensagens privadas sobre este post?
+                  </label>
+                </div>
+              </div>
+              
+              <Button 
+                onClick={handleCreatePost}
+                className="w-full"
+                disabled={createPostMutation.isPending}
+              >
+                {createPostMutation.isPending ? 'Publicando...' : 'Criar Postagem'}
+              </Button>
             </div>
-            
-            <Button 
-              onClick={handleCreatePost}
-              className="w-full"
-              disabled={createPostMutation.isPending}
-            >
-              {createPostMutation.isPending ? 'Publicando...' : 'Publicar postagem'}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  }
 
-      {/* Modal de comentários */}
-      <Dialog open={showCommentsModal} onOpenChange={setShowCommentsModal}>
-        <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>💬 Comentários</DialogTitle>
-          </DialogHeader>
-          
-          {selectedPost && (
-            <div className="space-y-4">
-              {/* Post original */}
-              <div className="border-b pb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="font-medium text-sm">
+  // Post detail view
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="sticky top-0 bg-background border-b p-4 flex items-center gap-3 z-10">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={() => setShowPostDetail(false)}
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <h1 className="font-semibold">Post</h1>
+      </div>
+
+      {selectedPost && (
+        <div className="p-4 space-y-6">
+          {/* Post content */}
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">
                     {getDisplayName(selectedPost)}
                   </span>
                   <Badge variant="secondary" className="text-xs">
                     {selectedPost.category}
                   </Badge>
                 </div>
-                <p className="text-sm">{selectedPost.content}</p>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-background border z-50">
+                    <DropdownMenuItem onClick={() => toggleSavePostMutation.mutate(selectedPost.id)}>
+                      <Bookmark className="h-4 w-4 mr-2" />
+                      Salvar
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-destructive">
+                      <Flag className="h-4 w-4 mr-2" />
+                      Denunciar
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               
-              {/* Lista de comentários */}
-              <div className="space-y-3">
-                {comments.map((comment) => (
-                  <div key={comment.id} className="bg-muted/50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-xs">
+              <p className="text-sm leading-relaxed mb-4">{selectedPost.content}</p>
+              
+              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
+                <span className="flex items-center gap-1">
+                  <Heart className="h-3 w-3" />
+                  {selectedPost.reaction_count} curtidas
+                </span>
+                <span className="flex items-center gap-1">
+                  <MessageCircle className="h-3 w-3" />
+                  {selectedPost.comment_count} comentários
+                </span>
+              </div>
+
+              {/* Emoji reactions */}
+              <div className="border-t pt-4">
+                <p className="text-xs font-medium mb-3">Reações rápidas:</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {emojiReactions.map((reaction) => (
+                    <Button
+                      key={reaction.type}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 justify-start text-xs h-10"
+                      onClick={() => toggleReactionMutation.mutate(selectedPost.id)}
+                    >
+                      <span className="text-base">{reaction.emoji}</span>
+                      <span>{reaction.label}</span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Comments section */}
+          <div className="space-y-4">
+            <h3 className="font-semibold">Comentários ({comments.length})</h3>
+            
+            {/* Comments list */}
+            <div className="space-y-4">
+              {comments.map((comment) => (
+                <Card key={comment.id}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="font-medium text-sm">
                         {comment.is_anonymous ? 'Anônima' : comment.profiles?.name || 'Mãe'}
                       </span>
                       <span className="text-xs text-muted-foreground">
-                        {new Date(comment.created_at).toLocaleDateString()}
+                        {new Date(comment.created_at).toLocaleDateString('pt-BR')}
                       </span>
                     </div>
                     <p className="text-sm">{comment.content}</p>
-                  </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Quick comment suggestions */}
+            <div className="space-y-3">
+              <p className="text-xs font-medium">Frases sugeridas:</p>
+              <div className="flex flex-wrap gap-2">
+                {quickComments.map((comment, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="sm"
+                    className="text-xs"
+                    onClick={() => addQuickComment(comment)}
+                    disabled={addCommentMutation.isPending}
+                  >
+                    {comment}
+                  </Button>
                 ))}
               </div>
-              
-              {/* Novo comentário */}
-              <div className="border-t pt-4 space-y-3">
-                <Textarea
-                  placeholder="Escreva um comentário..."
-                  value={newComment.content}
-                  onChange={(e) => setNewComment({...newComment, content: e.target.value})}
-                  className="min-h-[80px]"
-                />
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="anonymous-comment"
-                      checked={newComment.is_anonymous}
-                      onCheckedChange={(checked) => setNewComment({...newComment, is_anonymous: !!checked})}
-                    />
-                    <label htmlFor="anonymous-comment" className="text-xs">
-                      Comentar anonimamente
-                    </label>
-                  </div>
-                  
-                  <Button 
-                    onClick={() => addCommentMutation.mutate()}
-                    size="sm"
-                    disabled={!newComment.content.trim() || addCommentMutation.isPending}
-                  >
-                    {addCommentMutation.isPending ? 'Enviando...' : 'Comentar'}
-                  </Button>
-                </div>
-              </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+
+            {/* New comment form */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <Textarea
+                    placeholder="Escreva uma resposta..."
+                    value={newComment.content}
+                    onChange={(e) => setNewComment({...newComment, content: e.target.value})}
+                    className="min-h-[80px]"
+                  />
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="anonymous-comment"
+                        checked={newComment.is_anonymous}
+                        onCheckedChange={(checked) => setNewComment({...newComment, is_anonymous: !!checked})}
+                      />
+                      <label htmlFor="anonymous-comment" className="text-xs">
+                        Comentar como Anônima
+                      </label>
+                    </div>
+                    
+                    <Button 
+                      onClick={() => addCommentMutation.mutate(newComment.content)}
+                      size="sm"
+                      disabled={!newComment.content.trim() || addCommentMutation.isPending}
+                    >
+                      <Send className="h-3 w-3 mr-1" />
+                      {addCommentMutation.isPending ? 'Enviando...' : 'Enviar comentário'}
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
