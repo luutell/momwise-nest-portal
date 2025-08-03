@@ -79,9 +79,9 @@ export default function EntreMaes() {
   const { data: posts = [], isLoading, error } = useQuery({
     queryKey: ['community-posts', selectedCategory, searchQuery],
     queryFn: async () => {
-      console.log('Fetching posts...', { selectedCategory, searchQuery });
+      console.log('Buscando postagens...', { selectedCategory, searchQuery });
       
-      // First try a simpler query to check if basic data loading works
+      // Primeiro uma consulta simples para verificar se o carregamento básico funciona
       let baseQuery = supabase
         .from('community_posts')
         .select('*')
@@ -96,19 +96,19 @@ export default function EntreMaes() {
       }
 
       const { data: basePosts, error: baseError } = await baseQuery;
-      console.log('Base query result:', { basePosts, baseError });
+      console.log('Resultado da consulta base:', { basePosts, baseError });
       
       if (baseError) {
-        console.error('Error fetching posts:', baseError);
+        console.error('Erro ao buscar postagens:', baseError);
         throw baseError;
       }
 
       if (!basePosts || basePosts.length === 0) {
-        console.log('No posts found');
+        console.log('Nenhuma postagem encontrada');
         return [];
       }
 
-      // Now fetch additional data for each post
+      // Agora buscar dados adicionais para cada postagem
       const postsWithCounts = await Promise.all(
         basePosts.map(async (post) => {
           // Get current user
@@ -161,7 +161,7 @@ export default function EntreMaes() {
         })
       );
       
-      console.log('Processed posts:', postsWithCounts);
+      console.log('Postagens processadas:', postsWithCounts);
       return postsWithCounts;
     }
   });
@@ -169,7 +169,7 @@ export default function EntreMaes() {
   // Log any query errors
   React.useEffect(() => {
     if (error) {
-      console.error('Posts query error:', error);
+      console.error('Erro na consulta de postagens:', error);
       toast({
         title: "Erro ao carregar postagens",
         description: "Houve um problema ao carregar as postagens. Tente novamente.",
