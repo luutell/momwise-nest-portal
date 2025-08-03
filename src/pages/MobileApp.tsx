@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle, Menu } from 'lucide-react';
+import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle, Menu, Video } from 'lucide-react';
 import { AppSidebar } from '@/components/AppSidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AuthWrapper from '@/components/auth/AuthWrapper';
@@ -164,7 +164,7 @@ const MobileApp = () => {
                     value="entre-maes" 
                     className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                   >
-                    <Heart className="w-5 h-5 mb-1" />
+                    <MessageCircle className="w-5 h-5 mb-1" />
                     <span className="text-xs">Entre Mães</span>
                   </TabsTrigger>
                   
@@ -172,7 +172,7 @@ const MobileApp = () => {
                     value="chat" 
                     className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                   >
-                    <MessageCircle className="w-5 h-5 mb-1" />
+                    <Video className="w-5 h-5 mb-1" />
                     <span className="text-xs">Chat</span>
                   </TabsTrigger>
                   
