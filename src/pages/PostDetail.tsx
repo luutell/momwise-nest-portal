@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -22,6 +22,7 @@ interface Post {
 
 export default function PostDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   
   const { data: post, isLoading } = useQuery({
     queryKey: ['post', id],
@@ -52,9 +53,9 @@ export default function PostDetail() {
       <div className="p-6 max-w-4xl mx-auto">
         <div className="text-center py-8">
           <p className="text-gray-600 mb-4">Post não encontrado.</p>
-          <Link to="/app">
-            <Button variant="outline">Voltar ao início</Button>
-          </Link>
+          <Button variant="outline" onClick={() => navigate('/app')}>
+            Voltar ao início
+          </Button>
         </div>
       </div>
     );
@@ -63,13 +64,14 @@ export default function PostDetail() {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-6">
-        <Link 
-          to={`/app/${post.category.toLowerCase()}`} 
+        <Button 
+          variant="ghost"
+          onClick={() => navigate(-1)} 
           className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-4"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Voltar para {post.category}
-        </Link>
+          Voltar
+        </Button>
       </div>
 
       <article className="bg-white rounded-lg shadow-sm">
@@ -152,12 +154,13 @@ export default function PostDetail() {
 
         <div className="mt-8 pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center">
-            <Link 
-              to={`/app/${post.category.toLowerCase().replace(/\s+/g, '-')}`}
+            <Button 
+              variant="ghost"
+              onClick={() => navigate('/app')}
               className="text-terracotta hover:text-terracotta/80 font-medium"
             >
               ← Ver mais posts de {post.category}
-            </Link>
+            </Button>
             
             <Button 
               variant="outline"
