@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +20,7 @@ interface CalendarContent {
   content_data?: {
     expert?: string;
     tips?: string[];
+    full_content?: string;
   };
 }
 
@@ -37,36 +39,53 @@ const DayContent = ({ content, date, onBack }: DayContentProps) => {
     queryFn: async () => {
       if (content.content_type !== 'article') return null;
       
+      console.log('🔍 Looking for corresponding post for:', content.title, 'in category:', content.category);
+      
       const { data, error } = await supabase
         .from('posts')
-        .select('id')
+        .select('id, title')
         .eq('category', content.category)
         .eq('published', true)
         .limit(1);
       
       if (error) {
-        console.error('Error finding corresponding post:', error);
+        console.error('❌ Error finding corresponding post:', error);
         return null;
       }
       
+      console.log('✅ Found posts in category:', data);
+      
       // Return the first post in the same category
-      return data && data.length > 0 ? data[0] : null;
+      const result = data && data.length > 0 ? data[0] : null;
+      console.log('📖 Using post:', result);
+      return result;
     },
     enabled: content.content_type === 'article'
   });
 
   const handleActionClick = () => {
+    console.log('🖱️ Action clicked! Content type:', content.content_type);
+    console.log('📝 Corresponding post:', correspondingPost);
+    
     if (content.content_type === 'article' && correspondingPost?.id) {
+      console.log('➡️ Navigating to post:', correspondingPost.id);
       // Navigate to the post detail page
       navigate(`/app/post/${correspondingPost.id}`);
     } else if (content.content_url) {
+      console.log('🔗 Opening external URL:', content.content_url);
       // Open external URL
       window.open(content.content_url, '_blank');
+    } else if (content.content_type === 'article') {
+      // If no corresponding post found, show expanded content inline
+      console.log('📖 Showing content inline');
+      setShowExpandedContent(true);
     } else {
-      // Show content inline or handle other content types
-      console.log('Showing content:', content);
+      console.log('❓ No action available for this content');
+      console.log('Content details:', content);
     }
   };
+
+  const [showExpandedContent, setShowExpandedContent] = useState(false);
   const getContentIcon = (type: string) => {
     switch (type) {
       case 'video':
@@ -212,6 +231,24 @@ const DayContent = ({ content, date, onBack }: DayContentProps) => {
                 <span className="ml-2">{getActionText(content.content_type)}</span>
               </Button>
             </div>
+
+            {/* Show expanded content if no post found */}
+            {showExpandedContent && content.content_data?.full_content && (
+              <div className="mt-6 p-4 bg-primary/5 rounded-lg border">
+                <h4 className="font-medium text-foreground mb-3">Conteúdo completo:</h4>
+                <div className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                  {content.content_data.full_content}
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setShowExpandedContent(false)}
+                  className="mt-3"
+                >
+                  Fechar
+                </Button>
+              </div>
+            )}
 
             <div className="text-center">
               <Badge variant="secondary" className="text-xs">
