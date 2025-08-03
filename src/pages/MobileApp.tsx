@@ -16,7 +16,7 @@ import Profile from '@/components/mobile/Profile';
 import Onboarding from '@/components/mobile/Onboarding';
 import ProfileSetup from '@/components/mobile/ProfileSetup';
 import Biblioteca from '@/components/mobile/Biblioteca';
-import EntreElas from '@/components/mobile/EntreElas';
+import EntreMaes from '@/components/mobile/EntreMaes';
 import VideocallsHub from '@/components/mobile/VideocallsHub';
 
 const MobileApp = () => {
@@ -130,7 +130,7 @@ const MobileApp = () => {
                 </TabsContent>
 
                 <TabsContent value="entre-maes" className="mt-0 p-0">
-                  <EntreElas />
+                  <EntreMaes />
                 </TabsContent>
                 
                 <TabsContent value="chat" className="mt-0 p-0">
