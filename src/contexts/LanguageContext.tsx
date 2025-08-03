@@ -156,7 +156,20 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       'app.biblioteca.by.author': 'By {author}',
       'app.biblioteca.audio': 'Audio',
       'app.biblioteca.articles': 'articles',
-      'app.biblioteca.article': 'article'
+      'app.biblioteca.article': 'article',
+      
+      // Profile Setup
+      'profile.setup.step1.title': 'About you',
+      'profile.setup.step1.description': 'Let\'s get to know each other better',
+      'profile.setup.step2.title': 'About your baby',
+      'profile.setup.step2.description': 'Tell us about your little one',
+      'profile.setup.step3.title': 'Your interests',
+      'profile.setup.step3.description': 'What makes the most sense right now',
+      'profile.setup.step4.title': 'Your style',
+      'profile.setup.step4.description': 'How you prefer to learn',
+      'profile.setup.age.label': 'What is your age? (optional)',
+      'profile.setup.age.placeholder': 'Select your age',
+      'profile.setup.age.years': 'years old'
     },
     pt: {
       // Hero section
@@ -258,7 +271,20 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       'app.biblioteca.by.author': 'Por {author}',
       'app.biblioteca.audio': 'Áudio',
       'app.biblioteca.articles': 'artigos',
-      'app.biblioteca.article': 'artigo'
+      'app.biblioteca.article': 'artigo',
+      
+      // Profile Setup
+      'profile.setup.step1.title': 'Sobre você',
+      'profile.setup.step1.description': 'Vamos nos conhecer melhor',
+      'profile.setup.step2.title': 'Sobre seu bebê',
+      'profile.setup.step2.description': 'Conte sobre seu pequeno',
+      'profile.setup.step3.title': 'Seus interesses',
+      'profile.setup.step3.description': 'O que mais faz sentido agora',
+      'profile.setup.step4.title': 'Seu estilo',
+      'profile.setup.step4.description': 'Como você prefere aprender',
+      'profile.setup.age.label': 'Qual sua idade? (opcional)',
+      'profile.setup.age.placeholder': 'Selecione sua idade',
+      'profile.setup.age.years': 'anos'
     }
   };
 

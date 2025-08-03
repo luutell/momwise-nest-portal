@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ChevronRight, ChevronLeft, User, Baby, Heart, Brain, Calendar, Loader2 } from 'lucide-react';
 import { useProfile, ProfileData } from '@/hooks/useProfile';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
 
 interface ProfileSetupProps {
@@ -21,26 +22,26 @@ const setupSteps = [
   {
     id: 1,
     icon: User,
-    title: 'Sobre você',
-    description: 'Vamos nos conhecer melhor'
+    titleKey: 'profile.setup.step1.title',
+    descriptionKey: 'profile.setup.step1.description'
   },
   {
     id: 2,
     icon: Baby,
-    title: 'Sobre seu bebê',
-    description: 'Conte sobre seu pequeno'
+    titleKey: 'profile.setup.step2.title',
+    descriptionKey: 'profile.setup.step2.description'
   },
   {
     id: 3,
     icon: Heart,
-    title: 'Seus interesses',
-    description: 'O que mais faz sentido agora'
+    titleKey: 'profile.setup.step3.title',
+    descriptionKey: 'profile.setup.step3.description'
   },
   {
     id: 4,
     icon: Brain,
-    title: 'Seu estilo',
-    description: 'Como você prefere aprender'
+    titleKey: 'profile.setup.step4.title',
+    descriptionKey: 'profile.setup.step4.description'
   }
 ];
 
@@ -76,6 +77,7 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { completeOnboarding } = useProfile();
+  const { t } = useLanguage();
   
   const [profileData, setProfileData] = useState<ProfileData>({
     name: '',
@@ -164,18 +166,18 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="age">Qual sua idade? (opcional)</Label>
+              <Label htmlFor="age">{t('profile.setup.age.label')}</Label>
               <Select
                 value={profileData.age?.toString() || ''}
                 onValueChange={(value) => updateProfileData('age', value ? parseInt(value) : undefined)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione sua idade" />
+                  <SelectValue placeholder={t('profile.setup.age.placeholder')} />
                 </SelectTrigger>
                 <SelectContent>
                   {Array.from({ length: 43 }, (_, i) => i + 18).map((age) => (
                     <SelectItem key={age} value={age.toString()}>
-                      {age} anos
+                      {age} {t('profile.setup.age.years')}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -444,10 +446,10 @@ const ProfileSetup = ({ onComplete, onSkip }: ProfileSetupProps) => {
               </div>
             </div>
             <CardTitle className="text-xl font-semibold">
-              {currentStepData.title}
+              {t(currentStepData.titleKey)}
             </CardTitle>
             <p className="text-sm text-muted-foreground">
-              {currentStepData.description}
+              {t(currentStepData.descriptionKey)}
             </p>
           </CardHeader>
 
