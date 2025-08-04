@@ -3,6 +3,7 @@ import { Calendar, Play, BookOpen, Headphones, RotateCcw, Baby, Utensils, Clock,
 import { Card, CardContent } from '@/components/ui/card';
 import CategoryDetail from './CategoryDetail';
 import Breastfeeding from './Breastfeeding';
+import PrimeirasMordidas from './PrimeirasMordidas';
 import DayContent from './DayContent';
 import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
 import { useProfile } from '@/hooks/useProfile';
@@ -253,6 +254,13 @@ const Home = () => {
     if (selectedCategory === 'amamentacao-e-acolhimento') {
       return (
         <Breastfeeding onBack={() => setSelectedCategory(null)} />
+      );
+    }
+    
+    // Componente especial para Primeiras Mordidas
+    if (selectedCategory === 'primeiras-mordidas') {
+      return (
+        <PrimeirasMordidas onBack={() => setSelectedCategory(null)} />
       );
     }
     
