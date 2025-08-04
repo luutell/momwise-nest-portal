@@ -179,32 +179,21 @@ export const Sono = () => {
           </h1>
         </div>
 
-        {/* Featured Article */}
-        <Card className="border border-muted/30">
+        {/* 1. Personalized Message */}
+        <Card className="border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
           <CardContent className="p-4">
-            <div className="space-y-3">
-              <h3 className="font-medium text-foreground text-base">
-                "Como criar rotinas de sono que respeitam o ritmo natural do bebê"
-              </h3>
-              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>Por Luiza Telles</span>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => toggleAudio('featured-article')}
-                    className="h-6 px-2 text-primary"
-                  >
-                    {audioPlaying === 'featured-article' ? (
-                      <Pause className="w-4 h-4 mr-1" />
-                    ) : (
-                      <Play className="w-4 h-4 mr-1" />
-                    )}
-                    Áudio
-                  </Button>
-                  <Clock className="w-4 h-4" />
-                  <span>6 min</span>
-                </div>
+            <div className="flex items-start gap-3">
+              {getTimeIcon()}
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground mb-2">
+                  {currentContent.personalizedMessage.greeting}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-2">
+                  {currentContent.personalizedMessage.content}
+                </p>
+                <p className="text-sm font-medium text-primary">
+                  {currentContent.personalizedMessage.tip}
+                </p>
               </div>
             </div>
           </CardContent>
