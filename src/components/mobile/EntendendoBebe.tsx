@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { ChevronLeft, BookOpen, Heart, MessageCircle, Play, Pause, Save } from 'lucide-react';
+import { ChevronLeft, BookOpen, Heart, MessageCircle, Play, Pause, Save, Star, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useProfile } from "@/hooks/useProfile";
 
 interface EntendendoBebeProps {
   onBack: () => void;
@@ -11,15 +13,104 @@ interface EntendendoBebeProps {
 
 const EntendendoBebe: React.FC<EntendendoBebeProps> = ({ onBack }) => {
   const { language } = useLanguage();
+  const { profile } = useProfile();
   const [expandedSection, setExpandedSection] = useState<number | null>(null);
   const [audioPlaying, setAudioPlaying] = useState<number | null>(null);
   const [savedSections, setSavedSections] = useState<number[]>([]);
   const [personalNotes, setPersonalNotes] = useState<Record<number, string>>({});
+  const [weeklyAudioPlaying, setWeeklyAudioPlaying] = useState(false);
+
+  // Calculate baby's age in weeks
+  const getBabyWeeks = (): number => {
+    const profileData = profile || JSON.parse(localStorage.getItem('profile_data') || '{}');
+    if (!profileData?.baby_birth_date) return 1;
+    
+    const birthDate = new Date(profileData.baby_birth_date);
+    const today = new Date();
+    const diffTime = Math.abs(today.getTime() - birthDate.getTime());
+    const diffWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7));
+    return Math.max(1, diffWeeks);
+  };
+
+  const babyWeeks = getBabyWeeks();
+
+  // Weekly insights based on baby's age
+  const getWeeklyInsight = (weeks: number) => {
+    const insights = {
+      pt: [
+        {
+          week: 1,
+          title: "Primeiros Dias",
+          content: "Seu bebê está adaptando-se ao mundo externo. Choros frequentes são normais - é sua única forma de comunicação. Responda com presença e calma."
+        },
+        {
+          week: 11,
+          title: "Reconhecimento de Voz",
+          content: "Seu bebê pode começar a diferenciar sua voz de outras. Essa escuta seletiva fortalece o vínculo e também influencia a forma como ele se autorregula. Responder com uma voz calma e familiar, especialmente nos momentos de choro, ajuda a desenvolver segurança e previsibilidade."
+        },
+        {
+          week: 8,
+          title: "Primeiros Sorrisos",
+          content: "O sorriso social está emergindo! Não é apenas reflexo, é o início da comunicação intencional. Cada sorriso seu de volta fortalece as conexões neurais do bebê."
+        },
+        {
+          week: 16,
+          title: "Descobrindo as Mãos",
+          content: "Seu bebê está descobrindo que tem controle sobre suas mãos. Esse é um marco importante da consciência corporal. Permita que explore sem pressa."
+        },
+        {
+          week: 24,
+          title: "Exploração Sensorial",
+          content: "Tudo vai à boca! Esta é a principal forma de exploração do bebê. Ofereça objetos seguros e variados. É neuroplasticidade em ação."
+        }
+      ],
+      en: [
+        {
+          week: 1,
+          title: "First Days",
+          content: "Your baby is adapting to the outside world. Frequent crying is normal - it's their only form of communication. Respond with presence and calm."
+        },
+        {
+          week: 11,
+          title: "Voice Recognition",
+          content: "Your baby may start to differentiate your voice from others. This selective listening strengthens bonding and also influences how they self-regulate. Responding with a calm and familiar voice, especially during crying moments, helps develop security and predictability."
+        },
+        {
+          week: 8,
+          title: "First Smiles",
+          content: "Social smiling is emerging! It's not just reflex, it's the beginning of intentional communication. Each smile you give back strengthens the baby's neural connections."
+        },
+        {
+          week: 16,
+          title: "Discovering Hands",
+          content: "Your baby is discovering they have control over their hands. This is an important milestone in body awareness. Allow them to explore without rushing."
+        },
+        {
+          week: 24,
+          title: "Sensory Exploration",
+          content: "Everything goes to the mouth! This is the baby's main form of exploration. Offer safe and varied objects. It's neuroplasticity in action."
+        }
+      ]
+    };
+
+    const weeklyInsights = insights[language as keyof typeof insights];
+    // Find the closest week or use the last available insight
+    const insight = weeklyInsights.find(i => i.week === weeks) || 
+                   weeklyInsights.find(i => i.week <= weeks) || 
+                   weeklyInsights[0];
+    
+    return insight;
+  };
+
+  const weeklyInsight = getWeeklyInsight(babyWeeks);
 
   const content = {
     pt: {
       title: "Entendendo o Bebê — Choro, Marcos, Mitos",
       subtitle: "Onde a sabedoria ancestral encontra a ciência moderna",
+      weeklyTitle: "🌟 Destaque da Semana",
+      weeklySubtitle: `Semana ${babyWeeks} — Entendendo o Bebê`,
+      essentialTitle: "📚 Conteúdos Essenciais",
       sections: [
         {
           title: "O Choro Tem Voz",
@@ -96,12 +187,17 @@ Sua intuição materna não é imaginação - é uma ferramenta evolutiva real. 
         notesPlaceholder: "Escreva suas reflexões e observações sobre este tópico...",
         shareDoubt: "Compartilhar dúvida no Entre Mães",
         showMore: "Ver mais",
-        showLess: "Ver menos"
+        showLess: "Ver menos",
+        weeklyListen: "Ouça a dica da semana em áudio",
+        weeklyShare: "Quer compartilhar como foi essa semana? Escreva na aba Entre Mães"
       }
     },
     en: {
       title: "Understanding Baby — Crying, Milestones, Myths",
       subtitle: "Where ancestral wisdom meets modern science",
+      weeklyTitle: "🌟 Weekly Highlight",
+      weeklySubtitle: `Week ${babyWeeks} — Understanding Baby`,
+      essentialTitle: "📚 Essential Content",
       sections: [
         {
           title: "Crying Has a Voice",
@@ -178,7 +274,9 @@ Your maternal intuition isn't imagination - it's a real evolutionary tool. Scien
         notesPlaceholder: "Write your reflections and observations about this topic...",
         shareDoubt: "Share doubt in Between Mothers",
         showMore: "Show more",
-        showLess: "Show less"
+        showLess: "Show less",
+        weeklyListen: "Listen to this week's tip in audio",
+        weeklyShare: "Want to share how this week went? Write in Between Mothers"
       }
     }
   };
@@ -243,6 +341,82 @@ Your maternal intuition isn't imagination - it's a real evolutionary tool. Scien
           </p>
         </div>
 
+        {/* Weekly Highlight Section */}
+        <div className="mb-8">
+          <Card className="border-primary/20 bg-gradient-to-br from-primary/5 via-background to-sage/5 shadow-lg">
+            <CardHeader>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                  <Star className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-foreground">
+                    {currentContent.weeklyTitle}
+                  </h2>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">
+                      {currentContent.weeklySubtitle}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <Badge variant="secondary" className="w-fit">
+                {weeklyInsight?.title}
+              </Badge>
+            </CardHeader>
+            
+            <CardContent className="pt-0">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+                {weeklyInsight?.content}
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setWeeklyAudioPlaying(!weeklyAudioPlaying)}
+                  className="border-primary/30 text-primary hover:bg-primary/10"
+                >
+                  {weeklyAudioPlaying ? (
+                    <Pause className="w-4 h-4 mr-2" />
+                  ) : (
+                    <Play className="w-4 h-4 mr-2" />
+                  )}
+                  {currentContent.buttons.weeklyListen}
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-sage hover:bg-sage/10"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  {currentContent.buttons.weeklyShare}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Essential Content Section */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <BookOpen className="w-5 h-5 text-sage" />
+            <h2 className="text-xl font-semibold text-foreground">
+              {currentContent.essentialTitle}
+            </h2>
+          </div>
+          
+          <p className="text-muted-foreground text-sm mb-6">
+            {language === 'en' 
+              ? 'Timeless content you can explore anytime'
+              : 'Conteúdos atemporais que você pode explorar a qualquer momento'
+            }
+          </p>
+        </div>
+
         {/* Content Sections */}
         <div className="space-y-6">
           {currentContent.sections.map((section, index) => (
@@ -302,7 +476,7 @@ Your maternal intuition isn't imagination - it's a real evolutionary tool. Scien
                     {/* Tips */}
                     <div className="bg-rose-50 dark:bg-gray-800 rounded-lg p-4 mb-6">
                       <h4 className="font-semibold text-rose-800 dark:text-rose-300 mb-3">
-                        💡 Dicas práticas:
+                        💡 {language === 'en' ? 'Practical tips:' : 'Dicas práticas:'}
                       </h4>
                       <ul className="space-y-2">
                         {section.tips.map((tip, tipIndex) => (
