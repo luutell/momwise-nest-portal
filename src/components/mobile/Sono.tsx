@@ -199,35 +199,98 @@ export const Sono = () => {
           </CardContent>
         </Card>
 
-        {/* 2. Specialist Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Video className="w-5 h-5 text-primary" />
-              {currentContent.specialistCard.title}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <h4 className="font-medium text-foreground mb-2">
-                {currentContent.specialistCard.videoTitle}
-              </h4>
-              <p className="text-sm text-muted-foreground">
-                {currentContent.specialistCard.nextLive}
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="flex-1">
-                <MessageCircle className="w-4 h-4 mr-2" />
-                {currentContent.specialistCard.sendQuestion}
-              </Button>
-              <Button variant="outline" size="sm" className="flex-1">
-                <Play className="w-4 h-4 mr-2" />
-                {currentContent.specialistCard.viewReplays}
-              </Button>
+        {/* Featured Article */}
+        <Card className="border border-muted/30">
+          <CardContent className="p-4">
+            <div className="space-y-3">
+              <h3 className="font-medium text-foreground text-base">
+                "Como criar rotinas de sono que respeitam o ritmo natural do bebê"
+              </h3>
+              <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <span>Por Luiza Telles</span>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleAudio('featured-article')}
+                    className="h-6 px-2 text-primary"
+                  >
+                    {audioPlaying === 'featured-article' ? (
+                      <Pause className="w-4 h-4 mr-1" />
+                    ) : (
+                      <Play className="w-4 h-4 mr-1" />
+                    )}
+                    Áudio
+                  </Button>
+                  <Clock className="w-4 h-4" />
+                  <span>6 min</span>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* 2. Specialist Card */}
+        <div className="space-y-4">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-foreground mb-1">
+              {currentContent.specialistCard.title}
+            </h2>
+            <p className="text-muted-foreground text-sm">
+              Converse ao vivo com nossa especialista
+            </p>
+          </div>
+
+          <Card className="bg-gradient-to-br from-primary/10 to-purple-50 border border-primary/20">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm">
+                  <span className="text-2xl">👩‍⚕️</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-foreground text-lg mb-1">
+                    Dra. Ana Silva
+                  </h3>
+                  <p className="text-primary font-medium">
+                    Especialista em Sono Infantil
+                  </p>
+                </div>
+              </div>
+
+              <Card className="bg-white/80 border-none mb-4">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Video className="w-4 h-4 text-primary" />
+                    <span className="font-medium text-foreground">Vídeo introdutório</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    "{currentContent.specialistCard.videoTitle}"
+                  </p>
+                </CardContent>
+              </Card>
+
+              <div className="bg-white/60 rounded-lg p-3 mb-4">
+                <div className="flex items-center gap-2 text-primary">
+                  <Calendar className="w-4 h-4" />
+                  <span className="font-medium text-sm">
+                    {currentContent.specialistCard.nextLive}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <Button className="flex-1">
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  {currentContent.specialistCard.sendQuestion}
+                </Button>
+                <Button variant="outline" className="flex-1">
+                  <Play className="w-4 h-4 mr-2" />
+                  {currentContent.specialistCard.viewReplays}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* 3. Sleep Tools */}
         <Card>
