@@ -5,6 +5,7 @@ import CategoryDetail from './CategoryDetail';
 import Breastfeeding from './Breastfeeding';
 import PrimeirasMordidas from './PrimeirasMordidas';
 import EntendendoBebe from './EntendendoBebe';
+import { Sono } from './Sono';
 import DayContent from './DayContent';
 import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
 import { useProfile } from '@/hooks/useProfile';
@@ -269,6 +270,13 @@ const Home = () => {
     if (selectedCategory === 'entendendo-bebe') {
       return (
         <EntendendoBebe onBack={() => setSelectedCategory(null)} />
+      );
+    }
+    
+    // Componente especial para Sono do Bebê
+    if (selectedCategory === 'sono-do-bebe') {
+      return (
+        <Sono />
       );
     }
     
