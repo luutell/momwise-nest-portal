@@ -179,26 +179,6 @@ export const Sono = () => {
           </h1>
         </div>
 
-        {/* 1. Personalized Message */}
-        <Card className="border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              {getTimeIcon()}
-              <div className="flex-1">
-                <h3 className="font-semibold text-foreground mb-2">
-                  {currentContent.personalizedMessage.greeting}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-2">
-                  {currentContent.personalizedMessage.content}
-                </p>
-                <p className="text-sm font-medium text-primary">
-                  {currentContent.personalizedMessage.tip}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Featured Article */}
         <Card className="border border-muted/30">
           <CardContent className="p-4">
