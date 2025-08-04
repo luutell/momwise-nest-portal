@@ -189,7 +189,7 @@ Sua intuição materna não é imaginação - é uma ferramenta evolutiva real. 
         showMore: "Ver mais",
         showLess: "Ver menos",
         weeklyListen: "Ouça a dica da semana em áudio",
-        weeklyShare: "Quer compartilhar como foi essa semana? Escreva na aba Entre Mães"
+        weeklyShare: "Compartilhe sua semana na aba Entre Mães"
       }
     },
     en: {
@@ -276,7 +276,7 @@ Your maternal intuition isn't imagination - it's a real evolutionary tool. Scien
         showMore: "Show more",
         showLess: "Show less",
         weeklyListen: "Listen to this week's tip in audio",
-        weeklyShare: "Want to share how this week went? Write in Between Mothers"
+        weeklyShare: "Share your week in Between Mothers"
       }
     }
   };
