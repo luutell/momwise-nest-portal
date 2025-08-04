@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import CategoryDetail from './CategoryDetail';
 import Breastfeeding from './Breastfeeding';
 import PrimeirasMordidas from './PrimeirasMordidas';
+import EntendendoBebe from './EntendendoBebe';
 import DayContent from './DayContent';
 import { usePersonalizedCalendar } from '@/hooks/usePersonalizedCalendar';
 import { useProfile } from '@/hooks/useProfile';
@@ -261,6 +262,13 @@ const Home = () => {
     if (selectedCategory === 'primeiras-mordidas') {
       return (
         <PrimeirasMordidas onBack={() => setSelectedCategory(null)} />
+      );
+    }
+    
+    // Componente especial para Entendendo o Bebê
+    if (selectedCategory === 'entendendo-bebe') {
+      return (
+        <EntendendoBebe onBack={() => setSelectedCategory(null)} />
       );
     }
     
