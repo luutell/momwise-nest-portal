@@ -18,11 +18,11 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <LanguageProvider>
-        <Toaster />
-        <Sonner />
-        
-        <BrowserRouter>
+      <Toaster />
+      <Sonner />
+      
+      <BrowserRouter>
+        <LanguageProvider>
           <Routes>
             {/* Portuguese routes (default) */}
             <Route path="/" element={<Index />} />
@@ -57,8 +57,8 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
-      </LanguageProvider>
+        </LanguageProvider>
+      </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
