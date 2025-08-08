@@ -20,6 +20,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface BreastfeedingProps {
   onBack: () => void;
@@ -31,10 +33,19 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
   const [selectedSide, setSelectedSide] = useState<'left' | 'right' | 'both'>('left');
   const [notes, setNotes] = useState('');
   const [showNotes, setShowNotes] = useState(false);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [nursingHistory, setNursingHistory] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
   const { t } = useLanguage();
+  const { toast } = useToast();
   
   // Mock user data
   const babyAge = 3; // meses
+  
+  // Load nursing history on component mount
+  useEffect(() => {
+    loadNursingHistory();
+  }, []);
   
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -55,6 +66,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
   const startNursing = () => {
     setIsNursing(true);
     setNursingTimer(0);
+    setStartTime(new Date());
   };
 
   const stopNursing = () => {
@@ -62,19 +74,89 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
     setShowNotes(true);
   };
 
-  const saveNursing = () => {
-    // Aqui salvaria no banco de dados
-    console.log('Salvando mamada:', {
-      duration: nursingTimer,
-      side: selectedSide,
-      notes,
-      timestamp: new Date()
-    });
+  const loadNursingHistory = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('breastfeeding_sessions')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.error('Error loading nursing history:', error);
+        return;
+      }
+
+      setNursingHistory(data || []);
+    } catch (error) {
+      console.error('Error loading nursing history:', error);
+    }
+  };
+
+  const saveNursing = async () => {
+    if (!startTime) return;
     
-    // Reset
-    setNursingTimer(0);
-    setNotes('');
-    setShowNotes(false);
+    setLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({
+          title: "Erro",
+          description: "Você precisa estar logado para salvar mamadas",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      const endTime = new Date();
+      
+      const { error } = await supabase
+        .from('breastfeeding_sessions')
+        .insert({
+          user_id: user.id,
+          start_time: startTime.toISOString(),
+          end_time: endTime.toISOString(),
+          duration_seconds: nursingTimer,
+          side: selectedSide,
+          notes: notes || null
+        });
+
+      if (error) {
+        console.error('Error saving nursing session:', error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível salvar a mamada. Tente novamente.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Sucesso",
+        description: "Mamada salva com sucesso!"
+      });
+
+      // Reset form and reload history
+      setNursingTimer(0);
+      setNotes('');
+      setShowNotes(false);
+      setStartTime(null);
+      await loadNursingHistory();
+      
+    } catch (error) {
+      console.error('Error saving nursing session:', error);
+      toast({
+        title: "Erro",
+        description: "Erro inesperado. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Conteúdo recomendado baseado na idade
@@ -113,12 +195,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
     "Como saber se está mamando o suficiente?"
   ];
 
-  // Histórico de mamadas (mock)
-  const nursingHistory = [
-    { time: "14:30", duration: "15 min", side: "Esquerda", notes: "Bebê estava calmo" },
-    { time: "11:45", duration: "12 min", side: "Direita", notes: "" },
-    { time: "08:20", duration: "18 min", side: "Ambos", notes: "Acordou chorando" }
-  ];
+  // Histórico de mamadas (real data from database)
 
   // Comunidade - posts das mães
   const communityPosts = [
@@ -276,10 +353,10 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
                     rows={2}
                   />
                   <div className="flex space-x-2">
-                    <Button onClick={saveNursing} className="flex-1">
-                      Salvar Mamada
+                    <Button onClick={saveNursing} className="flex-1" disabled={loading}>
+                      {loading ? "Salvando..." : "Salvar Mamada"}
                     </Button>
-                    <Button variant="outline" onClick={() => setShowNotes(false)}>
+                    <Button variant="outline" onClick={() => setShowNotes(false)} disabled={loading}>
                       Cancelar
                     </Button>
                   </div>
@@ -291,25 +368,38 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
           {/* Histórico */}
           <div className="space-y-3">
             <h3 className="font-medium text-sm text-foreground">Hoje</h3>
-            {nursingHistory.map((record, index) => (
-              <Card key={index} className="bg-background/50 border-border/50">
-                <CardContent className="p-3 flex items-center justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Clock className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-medium">{record.time}</span>
-                      <span className="text-muted-foreground">•</span>
-                      <span>{record.duration}</span>
-                      <span className="text-muted-foreground">•</span>
-                      <span>{record.side}</span>
-                    </div>
-                    {record.notes && (
-                      <p className="text-xs text-muted-foreground">{record.notes}</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            {nursingHistory.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Nenhuma mamada registrada hoje</p>
+            ) : (
+              nursingHistory.map((record, index) => {
+                const startTime = new Date(record.start_time);
+                const durationMinutes = Math.floor(record.duration_seconds / 60);
+                const sideDisplay = record.side === 'left' ? 'Esquerda' : 
+                                   record.side === 'right' ? 'Direita' : 'Ambos';
+                
+                return (
+                  <Card key={index} className="bg-background/50 border-border/50">
+                    <CardContent className="p-3 flex items-center justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-2 text-sm">
+                          <Clock className="w-4 h-4 text-muted-foreground" />
+                          <span className="font-medium">
+                            {startTime.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                          <span className="text-muted-foreground">•</span>
+                          <span>{durationMinutes} min</span>
+                          <span className="text-muted-foreground">•</span>
+                          <span>{sideDisplay}</span>
+                        </div>
+                        {record.notes && (
+                          <p className="text-xs text-muted-foreground">{record.notes}</p>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })
+            )}
           </div>
         </div>
 

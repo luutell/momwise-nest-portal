@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      breastfeeding_sessions: {
+        Row: {
+          created_at: string
+          duration_seconds: number
+          end_time: string | null
+          id: string
+          notes: string | null
+          side: string
+          start_time: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds: number
+          end_time?: string | null
+          id?: string
+          notes?: string | null
+          side: string
+          start_time?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number
+          end_time?: string | null
+          id?: string
+          notes?: string | null
+          side?: string
+          start_time?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       calendar_contents: {
         Row: {
           baby_age_max_days: number | null
