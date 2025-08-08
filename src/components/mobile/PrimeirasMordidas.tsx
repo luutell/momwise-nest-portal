@@ -11,7 +11,7 @@ interface PrimeirasMordidasProps {
 const PrimeirasMordidas = ({ onBack }: PrimeirasMordidasProps) => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [savedFoods, setSavedFoods] = useState<string[]>([]);
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
@@ -25,7 +25,7 @@ const PrimeirasMordidas = ({ onBack }: PrimeirasMordidasProps) => {
     );
   };
 
-  const isEnglish = t('language') === 'en';
+  const isEnglish = language === 'en';
 
   // Content in both languages
   const content = {

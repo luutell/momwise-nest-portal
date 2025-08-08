@@ -12,7 +12,7 @@ const WeeklyCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [currentWeek, setCurrentWeek] = useState(0);
   const { profile } = useProfile();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   
   // Get baby birth date from profile or localStorage
   const getBabyBirthDate = () => {
@@ -77,7 +77,7 @@ const WeeklyCalendar = () => {
 
   const getPhaseMessage = () => {
     if (!babyBirthDate) {
-      return t('language') === 'en' 
+      return language === 'en' 
         ? "Set your baby's birth date for personalized content"
         : "Configure a data de nascimento do seu bebê para conteúdos personalizados";
     }
@@ -85,21 +85,21 @@ const WeeklyCalendar = () => {
     const daysDiff = Math.floor((new Date().getTime() - babyBirthDate.getTime()) / (1000 * 60 * 60 * 24));
     
     if (daysDiff < 0) {
-      return t('language') === 'en' 
+      return language === 'en' 
         ? "Preparing for baby's arrival"
         : "Preparando-se para a chegada do bebê";
     } else if (daysDiff <= 28) {
-      return t('language') === 'en' 
+      return language === 'en' 
         ? `Newborn: ${daysDiff} days old`
         : `Recém-nascido: ${daysDiff} dias de vida`;
     } else if (daysDiff <= 365) {
       const months = Math.floor(daysDiff / 30);
-      return t('language') === 'en' 
+      return language === 'en' 
         ? `Infant phase: ${months} month${months === 1 ? '' : 's'}`
         : `Fase infantil: ${months} ${months === 1 ? 'mês' : 'meses'}`;
     } else {
       const years = Math.floor(daysDiff / 365);
-      return t('language') === 'en' 
+      return language === 'en' 
         ? `${years} year${years === 1 ? '' : 's'} old`
         : `${years} ${years === 1 ? 'ano' : 'anos'} de idade`;
     }
@@ -129,7 +129,7 @@ const WeeklyCalendar = () => {
       <div className="text-center">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-playfair text-2xl font-semibold">
-            {t('language') === 'en' ? 'Your Week' : 'Sua Semana'}
+            {language === 'en' ? 'Your Week' : 'Sua Semana'}
           </h2>
           <div className="flex items-center space-x-2">
             <Button 
@@ -141,8 +141,8 @@ const WeeklyCalendar = () => {
             </Button>
             <span className="text-sm font-medium px-2">
               {currentWeek === 0 
-                ? (t('language') === 'en' ? 'This week' : 'Esta semana')
-                : (t('language') === 'en' 
+                ? (language === 'en' ? 'This week' : 'Esta semana')
+                : (language === 'en' 
                   ? `${currentWeek > 0 ? '+' : ''}${currentWeek} week${Math.abs(currentWeek) !== 1 ? 's' : ''}`
                   : `${currentWeek > 0 ? '+' : ''}${currentWeek} semana${Math.abs(currentWeek) !== 1 ? 's' : ''}`)}
             </span>
@@ -161,7 +161,7 @@ const WeeklyCalendar = () => {
             {getPhaseMessage()}
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            {t('language') === 'en' 
+            {language === 'en' 
               ? 'Each day brings new personalized content for your phase'
               : 'Cada dia traz um novo conteúdo personalizado para sua fase'}
           </p>
@@ -233,7 +233,7 @@ const WeeklyCalendar = () => {
               <div className="pt-2">
                 <Button size="sm" className="w-full">
                   {React.createElement(getContentTypeIcon(todaysContent.content_type), { className: "w-4 h-4 mr-2" })}
-                  {t('language') === 'en' 
+                  {language === 'en' 
                     ? (todaysContent.content_type === 'video' ? 'Watch' : 
                        todaysContent.content_type === 'audio' ? 'Listen' : 
                        todaysContent.content_type === 'article' ? 'Read' : 'View content')
@@ -250,13 +250,13 @@ const WeeklyCalendar = () => {
       {/* Visão Semanal */}
       <div>
         <h3 className="font-playfair text-lg font-medium mb-4">
-          {t('language') === 'en' ? 'Weekly Content' : 'Conteúdos da Semana'}
+          {language === 'en' ? 'Weekly Content' : 'Conteúdos da Semana'}
         </h3>
         
         {loading ? (
           <div className="text-center py-8">
             <p className="text-muted-foreground">
-              {t('language') === 'en' ? 'Loading personalized content...' : 'Carregando conteúdos personalizados...'}
+              {language === 'en' ? 'Loading personalized content...' : 'Carregando conteúdos personalizados...'}
             </p>
           </div>
         ) : (
@@ -293,7 +293,7 @@ const WeeklyCalendar = () => {
                             </>
                           ) : (
                             <p className="text-xs text-muted-foreground italic">
-                              {t('language') === 'en' ? 'No content available' : 'Nenhum conteúdo disponível'}
+                              {language === 'en' ? 'No content available' : 'Nenhum conteúdo disponível'}
                             </p>
                           )}
                         </div>

@@ -63,16 +63,16 @@ const insights = {
 const DailyInsight = () => {
   const [currentInsight, setCurrentInsight] = useState(0);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     // Rotate through insights daily
     const today = new Date().getDay();
-    const currentInsights = insights[t('language') === 'en' ? 'en' : 'pt'];
+    const currentInsights = insights[language];
     setCurrentInsight(today % currentInsights.length);
-  }, [t]);
+  }, [language]);
 
-  const currentInsights = insights[t('language') === 'en' ? 'en' : 'pt'];
+  const currentInsights = insights[language];
   const insight = currentInsights[currentInsight];
 
   const handleAudioToggle = () => {
@@ -94,7 +94,7 @@ const DailyInsight = () => {
           <div className="flex items-center space-x-2 mb-2">
             <Sparkles className="w-4 h-4 text-primary-foreground/80" />
             <span className="text-xs text-primary-foreground/80 uppercase tracking-wide font-medium">
-              {t('language') === 'en' ? "Today's Gentle Guidance" : 'Orientação Suave de Hoje'}
+              {language === 'en' ? "Today's Gentle Guidance" : 'Orientação Suave de Hoje'}
             </span>
           </div>
           
