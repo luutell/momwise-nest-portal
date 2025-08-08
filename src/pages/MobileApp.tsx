@@ -5,6 +5,7 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Home as HomeIcon, Calendar, Heart, User, BookOpen, MessageCircle, Menu, Video } from 'lucide-react';
 import { AppSidebar } from '@/components/AppSidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useLanguage } from '@/contexts/LanguageContext';
 import AuthWrapper from '@/components/auth/AuthWrapper';
 
 import { useProfile } from '@/hooks/useProfile';
@@ -25,6 +26,7 @@ const MobileApp = () => {
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const isMobile = useIsMobile();
   const { profile, loading } = useProfile();
+  const { language } = useLanguage();
   
   // Simple check for onboarding completion
   const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
@@ -34,7 +36,7 @@ const MobileApp = () => {
 
   // Set active tab based on route
   useEffect(() => {
-    if (location.pathname === '/app/biblioteca') {
+    if (location.pathname.endsWith('/app/biblioteca')) {
       setActiveTab('biblioteca');
     }
   }, [location.pathname]);
@@ -154,7 +156,10 @@ const MobileApp = () => {
                   <TabsTrigger 
                     value="biblioteca" 
                     className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
-                    onClick={() => window.history.pushState({}, '', '/app/biblioteca')}
+                    onClick={() => {
+                      const prefix = language === 'en' ? '/en' : '';
+                      window.history.pushState({}, '', `${prefix}/app/biblioteca`);
+                    }}
                   >
                     <BookOpen className="w-5 h-5 mb-1" />
                     <span className="text-xs">Biblioteca</span>

@@ -26,20 +26,14 @@ interface LanguageProviderProps {
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const location = useLocation();
   
-  // Auto-detect language from URL path with real-time updates
+  // Auto-detect language from localStorage first, then URL path
   const [language, setLanguageState] = useState<Language>(() => {
-    // Safe fallback para inicialização
     try {
-      const path = location?.pathname || window.location.pathname;
-      console.log('🌍 Initial path:', path);
-      if (path.startsWith('/en')) {
-        console.log('✅ Detected English from path');
-        return 'en';
-      }
-      console.log('✅ Defaulting to Portuguese');
-      return 'pt';
-    } catch (error) {
-      console.log('❌ Error detecting language, defaulting to Portuguese:', error);
+      const stored = localStorage.getItem('preferred_language');
+      if (stored === 'en' || stored === 'pt') return stored as Language;
+      const path = window.location.pathname;
+      return path.startsWith('/en') ? 'en' : 'pt';
+    } catch {
       return 'pt';
     }
   });
@@ -48,10 +42,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   useEffect(() => {
     if (location?.pathname) {
       const path = location.pathname;
-      console.log('🔄 React Router path changed to:', path);
-      const newLang = path.startsWith('/en') ? 'en' : 'pt';
-      console.log('🌍 Setting language to:', newLang);
+      const newLang: Language = path.startsWith('/en') ? 'en' : 'pt';
       setLanguageState(newLang);
+      try { localStorage.setItem('preferred_language', newLang); } catch {}
     }
   }, [location?.pathname]);
 

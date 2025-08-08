@@ -87,6 +87,8 @@ const Hero = () => {
             onClick={() => {
               // Reset onboarding to ensure it shows when coming from site
               localStorage.removeItem('onboarding_completed');
+              // Persist preferred language for reliability inside the app
+              try { localStorage.setItem('preferred_language', language); } catch {}
               // Navigate to app using current language from context (more reliable than pathname)
               const target = language === 'en' ? '/en/app' : '/app';
               window.location.href = target;
