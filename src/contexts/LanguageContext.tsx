@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export type Language = 'en' | 'pt';
 
@@ -23,9 +24,11 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
+  const location = useLocation();
+  
   // Auto-detect language from URL path with real-time updates
   const [language, setLanguageState] = useState<Language>(() => {
-    const path = window.location.pathname;
+    const path = location.pathname;
     console.log('🌍 Initial path:', path);
     if (path.startsWith('/en')) {
       console.log('✅ Detected English from path');
@@ -35,23 +38,14 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     return 'pt';
   });
 
-  // Listen for route changes
-  React.useEffect(() => {
-    const handleLocationChange = () => {
-      const path = window.location.pathname;
-      console.log('🔄 Path changed to:', path);
-      const newLang = path.startsWith('/en') ? 'en' : 'pt';
-      console.log('🌍 Setting language to:', newLang);
-      setLanguageState(newLang);
-    };
-
-    // Listen for popstate events (back/forward navigation)
-    window.addEventListener('popstate', handleLocationChange);
-    
-    return () => {
-      window.removeEventListener('popstate', handleLocationChange);
-    };
-  }, []);
+  // Listen for route changes through React Router
+  useEffect(() => {
+    const path = location.pathname;
+    console.log('🔄 React Router path changed to:', path);
+    const newLang = path.startsWith('/en') ? 'en' : 'pt';
+    console.log('🌍 Setting language to:', newLang);
+    setLanguageState(newLang);
+  }, [location.pathname]);
 
   const setLanguage = () => {}; // Disabled manual language switching
 
