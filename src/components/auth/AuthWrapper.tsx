@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 import spiralLogo from '/lovable-uploads/c0c3ac5d-4ca0-4dc0-adbc-c73c918e741c.png';
 
 interface AuthWrapperProps {
@@ -19,6 +20,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const [email, setEmail] = useState('');
   const [isSigningIn, setIsSigningIn] = useState(false);
   const { toast } = useToast();
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     // Get initial session
@@ -43,8 +45,8 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
     
     if (!email) {
       toast({
-        title: "Email obrigatório",
-        description: "Por favor, insira seu email.",
+        title: language === 'en' ? "Email required" : "Email obrigatório",
+        description: language === 'en' ? "Please enter your email." : "Por favor, insira seu email.",
         variant: "destructive",
       });
       return;
@@ -56,20 +58,20 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/app`,
+          emailRedirectTo: `${window.location.origin}${language === 'en' ? '/en' : ''}/app`,
         },
       });
 
       if (error) throw error;
 
       toast({
-        title: "Link enviado!",
-        description: "Verifique seu email para acessar o MomWise.",
+        title: language === 'en' ? "Link sent!" : "Link enviado!",
+        description: language === 'en' ? "Check your email to access MomWise." : "Verifique seu email para acessar o MomWise.",
       });
     } catch (error: any) {
       toast({
-        title: "Erro no login",
-        description: error.message || "Não foi possível enviar o link de acesso.",
+        title: language === 'en' ? "Login error" : "Erro no login",
+        description: error.message || (language === 'en' ? "Could not send access link." : "Não foi possível enviar o link de acesso."),
         variant: "destructive",
       });
     } finally {
@@ -82,7 +84,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-sage/10">
         <div className="flex items-center space-x-2">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <span className="text-foreground">Carregando...</span>
+          <span className="text-foreground">{language === 'en' ? 'Loading...' : 'Carregando...'}</span>
         </div>
       </div>
     );
@@ -110,20 +112,22 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
                   alt="MomWise Spiral Logo" 
                   className="h-16 w-16 object-contain"
                 />
-               <CardTitle className="text-2xl font-playfair">Bem-vinda ao MomWise</CardTitle>
-             </div>
-             <p className="text-muted-foreground">
-               Acesse sua conta para continuar sua jornada maternal
-             </p>
+                <CardTitle className="text-2xl font-playfair">
+                  {language === 'en' ? 'Welcome to MomWise' : 'Bem-vinda ao MomWise'}
+                </CardTitle>
+              </div>
+              <p className="text-muted-foreground">
+                {language === 'en' ? 'Access your account to continue your maternal journey' : 'Acesse sua conta para continuar sua jornada maternal'}
+              </p>
            </CardHeader>
           <CardContent>
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{language === 'en' ? 'Email' : 'Email'}</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="seu@email.com"
+                  placeholder={language === 'en' ? 'your@email.com' : 'seu@email.com'}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -137,18 +141,18 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
                 {isSigningIn ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Enviando...
+                    {language === 'en' ? 'Sending...' : 'Enviando...'}
                   </>
                 ) : (
                   <>
                     <Mail className="mr-2 h-4 w-4" />
-                    Enviar link de acesso
+                    {language === 'en' ? 'Send access link' : 'Enviar link de acesso'}
                   </>
                 )}
               </Button>
             </form>
             <p className="text-xs text-muted-foreground mt-4 text-center">
-              Você receberá um link seguro por email para acessar sua conta.
+              {language === 'en' ? 'You will receive a secure link by email to access your account.' : 'Você receberá um link seguro por email para acessar sua conta.'}
             </p>
           </CardContent>
         </Card>
