@@ -4,46 +4,47 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ChevronRight, Sparkles, MessageCircle, Calendar, Users, Baby } from 'lucide-react';
 import { useProfile } from '@/hooks/useProfile';
 import watercolorBg from '@/assets/watercolor-hero-bg.jpg';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-const onboardingSteps = [
+const getOnboardingSteps = (language: 'en' | 'pt') => [
   {
     id: 1,
     icon: Sparkles,
-    title: 'Bem-vinda ao MomWise.',
-    subtitle: 'Aqui, maternidade é vivida com leveza, informação e apoio real.',
-    buttonText: 'Começar',
+    title: language === 'en' ? 'Welcome to MomWise.' : 'Bem-vinda ao MomWise.',
+    subtitle: language === 'en' ? 'Here, motherhood is lived with lightness, information and real support.' : 'Aqui, maternidade é vivida com leveza, informação e apoio real.',
+    buttonText: language === 'en' ? 'Start' : 'Começar',
     gradient: 'from-primary/20 to-sage/20'
   },
   {
     id: 2,
     icon: MessageCircle,
-    title: '💬 Tire dúvidas com especialistas.',
-    subtitle: 'Consultas em vídeo, conteúdos práticos e apoio emocional, sempre que você precisar.',
-    buttonText: 'Quero saber mais',
+    title: language === 'en' ? '💬 Ask experts your questions.' : '💬 Tire dúvidas com especialistas.',
+    subtitle: language === 'en' ? 'Video consultations, practical content and emotional support—whenever you need.' : 'Consultas em vídeo, conteúdos práticos e apoio emocional, sempre que você precisar.',
+    buttonText: language === 'en' ? 'Tell me more' : 'Quero saber mais',
     gradient: 'from-sage/20 to-terracotta/20'
   },
   {
     id: 3,
     icon: Calendar,
-    title: '🗓 Atualizações toda semana.',
-    subtitle: 'Receba orientações práticas, a cada semana, com dicas sobre o desenvolvimento do seu bebê e temas como sono, choro, alimentação e mais.',
-    buttonText: 'Me mantenha atualizada',
+    title: language === 'en' ? '🗓 New guidance every week.' : '🗓 Atualizações toda semana.',
+    subtitle: language === 'en' ? "Receive practical guidance each week, with tips about your baby's development and topics like sleep, crying, feeding and more." : 'Receba orientações práticas, a cada semana, com dicas sobre o desenvolvimento do seu bebê e temas como sono, choro, alimentação e mais.',
+    buttonText: language === 'en' ? 'Keep me updated' : 'Me mantenha atualizada',
     gradient: 'from-terracotta/20 to-secondary/20'
   },
   {
     id: 4,
     icon: Users,
-    title: '🤱🏽 Você não está sozinha.',
-    subtitle: 'Converse com outras mães, troque vivências e participe de decisões coletivas.',
-    buttonText: 'Quero participar',
+    title: language === 'en' ? "🤱🏽 You're not alone." : '🤱🏽 Você não está sozinha.',
+    subtitle: language === 'en' ? 'Talk to other mothers, share experiences, and join collective decisions.' : 'Converse com outras mães, troque vivências e participe de decisões coletivas.',
+    buttonText: language === 'en' ? 'I want to join' : 'Quero participar',
     gradient: 'from-secondary/20 to-primary/20'
   },
   {
     id: 5,
     icon: Baby,
-    title: '👶 Vamos personalizar sua jornada?',
-    subtitle: 'Conte mais sobre você e seu bebê para adaptar o conteúdo à sua fase.',
-    buttonText: 'Começar personalização',
+    title: language === 'en' ? "👶 Shall we personalize your journey?" : '👶 Vamos personalizar sua jornada?',
+    subtitle: language === 'en' ? 'Tell us about you and your baby to tailor the content to your phase.' : 'Conte mais sobre você e seu bebê para adaptar o conteúdo à sua fase.',
+    buttonText: language === 'en' ? 'Start personalization' : 'Começar personalização',
     gradient: 'from-primary/20 to-sage/20'
   }
 ];
@@ -57,9 +58,11 @@ interface OnboardingProps {
 const Onboarding = ({ onComplete, onSkip, onStartPersonalization }: OnboardingProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const { completeOnboarding } = useProfile();
+  const { language } = useLanguage();
+  const steps = getOnboardingSteps(language);
 
   const handleNext = () => {
-    if (currentStep < onboardingSteps.length - 1) {
+    if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       // Last step - start personalization instead of completing
@@ -76,7 +79,7 @@ const Onboarding = ({ onComplete, onSkip, onStartPersonalization }: OnboardingPr
       // Mark onboarding as completed locally
       localStorage.setItem('onboarding_completed', 'true');
       localStorage.setItem('profile_data', JSON.stringify({
-        name: 'Usuário',
+        name: language === 'en' ? 'User' : 'Usuário',
         onboarding_completed: true
       }));
       
@@ -96,7 +99,7 @@ const Onboarding = ({ onComplete, onSkip, onStartPersonalization }: OnboardingPr
     }
   };
 
-  const currentStepData = onboardingSteps[currentStep];
+  const currentStepData = steps[currentStep];
 
   return (
     <div className="relative min-h-screen flex flex-col justify-center items-center p-6 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-sage/10">
@@ -105,7 +108,7 @@ const Onboarding = ({ onComplete, onSkip, onStartPersonalization }: OnboardingPr
       <div className="relative z-10 w-full max-w-md space-y-8">
         {/* Progress indicators */}
         <div className="flex justify-center space-x-2">
-          {onboardingSteps.map((_, index) => (
+          {steps.map((_, index) => (
             <div
               key={index}
               className={`h-2 w-8 rounded-full transition-all duration-300 ${
@@ -171,7 +174,7 @@ const Onboarding = ({ onComplete, onSkip, onStartPersonalization }: OnboardingPr
             onClick={handleSkip}
             className="text-foreground bg-white/80 hover:bg-white/90 transition-all duration-200 text-sm px-4 py-2 rounded-lg font-medium shadow-md"
           >
-            Pular apresentação
+            {language === 'en' ? 'Skip intro' : 'Pular apresentação'}
           </button>
           {onSkip && (
             <div>
@@ -179,7 +182,7 @@ const Onboarding = ({ onComplete, onSkip, onStartPersonalization }: OnboardingPr
                 onClick={handleSkip}
                 className="text-foreground bg-terracotta/20 hover:bg-terracotta/30 transition-all duration-200 text-sm px-4 py-2 rounded-lg font-medium"
               >
-                Pular personalização completa
+                {language === 'en' ? 'Skip full personalization' : 'Pular personalização completa'}
               </button>
             </div>
           )}
