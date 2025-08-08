@@ -21,6 +21,10 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const { toast } = useToast();
   const { language, t } = useLanguage();
+  
+  // Debug: log do idioma atual
+  console.log('🔍 AuthWrapper - Current language:', language);
+  console.log('🔍 AuthWrapper - Current URL:', window.location.pathname);
 
   useEffect(() => {
     // Get initial session
