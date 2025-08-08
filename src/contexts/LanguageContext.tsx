@@ -28,24 +28,32 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   
   // Auto-detect language from URL path with real-time updates
   const [language, setLanguageState] = useState<Language>(() => {
-    const path = location.pathname;
-    console.log('🌍 Initial path:', path);
-    if (path.startsWith('/en')) {
-      console.log('✅ Detected English from path');
-      return 'en';
+    // Safe fallback para inicialização
+    try {
+      const path = location?.pathname || window.location.pathname;
+      console.log('🌍 Initial path:', path);
+      if (path.startsWith('/en')) {
+        console.log('✅ Detected English from path');
+        return 'en';
+      }
+      console.log('✅ Defaulting to Portuguese');
+      return 'pt';
+    } catch (error) {
+      console.log('❌ Error detecting language, defaulting to Portuguese:', error);
+      return 'pt';
     }
-    console.log('✅ Defaulting to Portuguese');
-    return 'pt';
   });
 
   // Listen for route changes through React Router
   useEffect(() => {
-    const path = location.pathname;
-    console.log('🔄 React Router path changed to:', path);
-    const newLang = path.startsWith('/en') ? 'en' : 'pt';
-    console.log('🌍 Setting language to:', newLang);
-    setLanguageState(newLang);
-  }, [location.pathname]);
+    if (location?.pathname) {
+      const path = location.pathname;
+      console.log('🔄 React Router path changed to:', path);
+      const newLang = path.startsWith('/en') ? 'en' : 'pt';
+      console.log('🌍 Setting language to:', newLang);
+      setLanguageState(newLang);
+    }
+  }, [location?.pathname]);
 
   const setLanguage = () => {}; // Disabled manual language switching
 
