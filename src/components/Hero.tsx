@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Hero = () => {
   const [email, setEmail] = useState('');
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,9 +87,9 @@ const Hero = () => {
             onClick={() => {
               // Reset onboarding to ensure it shows when coming from site
               localStorage.removeItem('onboarding_completed');
-              // Navigate to app with correct language prefix
-              const isEnglish = window.location.pathname.startsWith('/en');
-              window.location.href = isEnglish ? '/en/app' : '/app';
+              // Navigate to app using current language from context (more reliable than pathname)
+              const target = language === 'en' ? '/en/app' : '/app';
+              window.location.href = target;
             }}
           >
             <Smartphone className="mr-2 h-4 w-4" />
