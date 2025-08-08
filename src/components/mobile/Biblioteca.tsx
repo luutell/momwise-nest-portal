@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { BookOpen, Clock, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { SearchBar } from './SearchBar';
+import { SearchResults } from './SearchResults';
+import { usePostSearch } from '@/hooks/usePostSearch';
 
 interface Post {
   id: string;
@@ -64,6 +67,9 @@ export default function Biblioteca() {
     }
   });
 
+  // Search functionality
+  const { searchTerm, setSearchTerm, searchResults, hasResults, isSearching } = usePostSearch(posts);
+
   // Filter posts by selected category
   const filteredPosts = selectedCategory 
     ? posts?.filter(post => post.category === selectedCategory)
@@ -111,18 +117,32 @@ export default function Biblioteca() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="font-playfair text-2xl text-foreground">{t('app.biblioteca.title')}</h1>
-          {selectedCategory && (
+          {(selectedCategory || isSearching) && (
             <Button 
               variant="outline" 
               size="sm"
-              onClick={() => setSelectedCategory(null)}
+              onClick={() => {
+                setSelectedCategory(null);
+                setSearchTerm('');
+              }}
             >
               {t('app.biblioteca.view.all')}
             </Button>
           )}
         </div>
 
-        {!selectedCategory ? (
+        {/* Search Bar */}
+        <SearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="Buscar artigos, palavras-chave..."
+          className="w-full"
+        />
+
+        {isSearching ? (
+          // Search results
+          <SearchResults results={searchResults} searchTerm={searchTerm} />
+        ) : !selectedCategory ? (
           // Category overview
           <div className="space-y-4">
             <p className="text-muted-foreground">
