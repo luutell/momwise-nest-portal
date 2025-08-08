@@ -157,12 +157,12 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
           </Button>
           <div className="text-2xl">🍼</div>
           <h1 className="font-playfair text-2xl font-semibold text-foreground">
-            {t('app.breastfeeding.title')}
+            Amamentação
           </h1>
         </div>
         
         <p className="text-muted-foreground ml-11">
-          {t('app.breastfeeding.baby.age.months').replace('{months}', babyAge.toString())}
+          Seu bebê tem {babyAge} meses – aqui estão recomendações e ferramentas pensadas para esta fase.
         </p>
       </div>
 
@@ -172,10 +172,10 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-playfair text-lg font-semibold text-foreground">
-              🔹 {t('app.breastfeeding.recommended')}
+              Recomendado para você
             </h2>
             <Button variant="ghost" size="sm" className="text-primary">
-              {t('app.breastfeeding.view.all')} <ChevronRight className="w-4 h-4 ml-1" />
+              Ver todos <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
           
@@ -212,7 +212,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         {/* Bloco 2: Registrar mamadas */}
         <div className="space-y-4">
           <h2 className="font-playfair text-lg font-semibold text-foreground">
-            🔹 {t('app.breastfeeding.register')}
+            Registrar mamadas
           </h2>
           
           <Card className="bg-gradient-to-br from-terracotta/10 to-primary/10 border-none shadow-soft">
@@ -230,7 +230,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
                       className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
                     >
                       <Play className="w-4 h-4 mr-2" />
-                      {t('app.breastfeeding.start.feeding')}
+                      Iniciar Amamentação
                     </Button>
                   ) : (
                     <Button 
@@ -239,7 +239,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
                       className="px-8"
                     >
                       <Pause className="w-4 h-4 mr-2" />
-                      {t('app.breastfeeding.stop.feeding')}
+                      Parar Amamentação
                     </Button>
                   )}
                 </div>
@@ -247,7 +247,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
 
               {/* Seleção do lado */}
               <div className="space-y-2">
-                <p className="text-sm font-medium text-foreground">{t('app.breastfeeding.choose.side')}</p>
+                <p className="text-sm font-medium text-foreground">Escolha o lado</p>
                 <div className="flex space-x-2">
                   {(['left', 'right', 'both'] as const).map((side) => (
                     <Button
@@ -257,8 +257,8 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
                       onClick={() => setSelectedSide(side)}
                       className="flex-1"
                     >
-                      {side === 'left' ? t('app.breastfeeding.left.breast.selector') : 
-                       side === 'right' ? t('app.breastfeeding.right.breast.selector') : t('app.breastfeeding.both')}
+                      {side === 'left' ? 'Mama Esquerda' : 
+                       side === 'right' ? 'Mama Direita' : 'Ambos'}
                     </Button>
                   ))}
                 </div>
@@ -267,20 +267,20 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
               {/* Notas */}
               {showNotes && (
                 <div className="space-y-2 animate-fade-in">
-                  <p className="text-sm font-medium text-foreground">{t('app.breastfeeding.optional.notes')}</p>
+                  <p className="text-sm font-medium text-foreground">Observações (opcional)</p>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder={t('app.breastfeeding.notes.placeholder')}
+                    placeholder="Como foi a mamada? Bebê estava calmo, agitado..."
                     className="w-full p-3 rounded-lg border border-border bg-background text-sm resize-none"
                     rows={2}
                   />
                   <div className="flex space-x-2">
                     <Button onClick={saveNursing} className="flex-1">
-                      {t('app.breastfeeding.save.feeding')}
+                      Salvar Mamada
                     </Button>
                     <Button variant="outline" onClick={() => setShowNotes(false)}>
-                      {t('app.breastfeeding.cancel')}
+                      Cancelar
                     </Button>
                   </div>
                 </div>
@@ -290,7 +290,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
 
           {/* Histórico */}
           <div className="space-y-3">
-            <h3 className="font-medium text-sm text-foreground">{t('app.breastfeeding.today')}</h3>
+            <h3 className="font-medium text-sm text-foreground">Hoje</h3>
             {nursingHistory.map((record, index) => (
               <Card key={index} className="bg-background/50 border-border/50">
                 <CardContent className="p-3 flex items-center justify-between">
@@ -317,10 +317,10 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-playfair text-lg font-semibold text-foreground">
-              🔹 {t('app.breastfeeding.frequent.questions')}
+              Dúvidas Frequentes
             </h2>
             <Button variant="ghost" size="sm" className="text-primary">
-              {t('app.breastfeeding.see.more')} <BookOpen className="w-4 h-4 ml-1" />
+              Ver mais <BookOpen className="w-4 h-4 ml-1" />
             </Button>
           </div>
           
@@ -340,16 +340,16 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-playfair text-lg font-semibold text-foreground">
-              🔹 {t('app.breastfeeding.between.mothers')}
+              Entre Mães - Amamentação
             </h2>
             <Button variant="ghost" size="sm" className="text-primary">
               <Users className="w-4 h-4 mr-1" />
-              {t('app.breastfeeding.view.all')}
+              Ver todos
             </Button>
           </div>
           
           <p className="text-sm text-muted-foreground">
-            {t('app.breastfeeding.community.focused')}
+            Experiências e dicas de outras mães sobre amamentação
           </p>
 
           <div className="space-y-3">
@@ -406,7 +406,7 @@ const Breastfeeding = ({ onBack }: BreastfeedingProps) => {
         {/* Bloco 5: Fale com uma especialista */}
         <div className="space-y-4">
           <h2 className="font-playfair text-lg font-semibold text-foreground">
-            🔹 {t('app.breastfeeding.talk.specialist')}
+            Fale com uma especialista
           </h2>
           
           <Card className="bg-gradient-to-r from-terracotta/20 to-primary/20 border-none shadow-soft">
