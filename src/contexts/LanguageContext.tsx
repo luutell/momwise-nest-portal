@@ -45,10 +45,15 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       const newLang: Language = path.startsWith('/en') ? 'en' : 'pt';
       setLanguageState(newLang);
       try { localStorage.setItem('preferred_language', newLang); } catch {}
+      try { document.documentElement.lang = newLang === 'en' ? 'en' : 'pt'; } catch {}
     }
   }, [location?.pathname]);
 
-  const setLanguage = () => {}; // Disabled manual language switching
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    try { localStorage.setItem('preferred_language', lang); } catch {}
+    try { document.documentElement.lang = lang === 'en' ? 'en' : 'pt'; } catch {}
+  };
 
   const translations = {
     en: {

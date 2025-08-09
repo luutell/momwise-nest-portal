@@ -26,7 +26,7 @@ const MobileApp = () => {
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const isMobile = useIsMobile();
   const { profile, loading } = useProfile();
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   
   // Simple check for onboarding completion
   const localOnboardingCompleted = localStorage.getItem('onboarding_completed') === 'true';
@@ -36,10 +36,14 @@ const MobileApp = () => {
 
   // Set active tab based on route
   useEffect(() => {
+    // Ensure language follows URL prefix
+    const newLang = location.pathname.startsWith('/en') ? 'en' : 'pt';
+    setLanguage(newLang);
+
     if (location.pathname.endsWith('/app/biblioteca')) {
       setActiveTab('biblioteca');
     }
-  }, [location.pathname]);
+  }, [location.pathname, setLanguage]);
 
   const handleOnboardingComplete = async () => {
     // Mark onboarding as completed and force state update
