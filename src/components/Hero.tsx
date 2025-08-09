@@ -87,10 +87,11 @@ const Hero = () => {
             onClick={() => {
               // Reset onboarding to ensure it shows when coming from site
               localStorage.removeItem('onboarding_completed');
-              // Persist preferred language for reliability inside the app
-              try { localStorage.setItem('preferred_language', language); } catch {}
-              // Navigate to app using current language from context (more reliable than pathname)
-              const target = language === 'en' ? '/en/app' : '/app';
+              // Determine target language from current path or context and persist for reliability
+              const isEnglishTarget = window.location.pathname.startsWith('/en') || language === 'en';
+              try { localStorage.setItem('preferred_language', isEnglishTarget ? 'en' : 'pt'); } catch {}
+              // Navigate to app using the resolved language
+              const target = isEnglishTarget ? '/en/app' : '/app';
               window.location.href = target;
             }}
           >
