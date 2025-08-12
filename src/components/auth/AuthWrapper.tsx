@@ -25,8 +25,15 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
   // Debug: log do idioma atual
   console.log('🔍 AuthWrapper - Current language:', language);
   console.log('🔍 AuthWrapper - Current URL:', window.location.pathname);
+  const isPreview = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('preview') === '1';
 
   useEffect(() => {
+    if (isPreview) {
+      // In preview mode, skip auth checks
+      setLoading(false);
+      return;
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -42,7 +49,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [isPreview]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,6 +89,10 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
       setIsSigningIn(false);
     }
   };
+
+  if (isPreview) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (

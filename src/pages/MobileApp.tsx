@@ -162,7 +162,8 @@ const MobileApp = () => {
                     className="flex-1 flex-col h-full data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
                     onClick={() => {
                       const prefix = language === 'en' ? '/en' : '';
-                      window.history.pushState({}, '', `${prefix}/app/biblioteca`);
+                      const search = window.location.search;
+                      window.history.pushState({}, '', `${prefix}/app/biblioteca${search}`);
                     }}
                   >
                     <BookOpen className="w-5 h-5 mb-1" />

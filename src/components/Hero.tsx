@@ -90,9 +90,10 @@ const Hero = () => {
               // Determine target language from current path or context and persist for reliability
               const isEnglishTarget = window.location.pathname.startsWith('/en') || language === 'en';
               try { localStorage.setItem('preferred_language', isEnglishTarget ? 'en' : 'pt'); } catch {}
-              // Navigate to app using the resolved language
+              // Navigate to app using the resolved language and enable preview mode
               const target = isEnglishTarget ? '/en/app' : '/app';
-              window.location.href = target;
+              const query = '?preview=1';
+              window.location.href = `${target}${query}`;
             }}
           >
             <Smartphone className="mr-2 h-4 w-4" />
