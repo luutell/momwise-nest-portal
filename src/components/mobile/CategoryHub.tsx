@@ -1,7 +1,7 @@
 import { 
   Baby, Moon, Heart, Lightbulb, Users, ShoppingCart, 
   Flower, Baby as BabyCry, RotateCcw, Utensils, 
-  Sparkles, Bed, Search
+  Sparkles, Bed, Search, Droplets
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -117,6 +117,14 @@ const categories = [
     color: 'bg-primary/20 hover:bg-primary/30',
     iconColor: 'text-primary',
     description: 'Curiosidades sobre o desenvolvimento do bebê'
+  },
+  {
+    id: 'natural-hygiene',
+    title: 'Higiene Natural',
+    icon: Droplets,
+    color: 'bg-secondary/20 hover:bg-secondary/30',
+    iconColor: 'text-secondary',
+    description: 'Apoio às famílias que desejam introduzir a Higiene Natural de forma leve e respeitosa'
   }
 ];
 
