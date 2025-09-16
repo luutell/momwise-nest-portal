@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -521,25 +521,25 @@ export type Database = {
         Returns: string
       }
       get_personalized_calendar_content: {
-        Args: { user_baby_birth_date: string; target_date: string }
+        Args: { target_date: string; user_baby_birth_date: string }
         Returns: {
-          id: string
-          title: string
-          description: string
+          category: string
+          content_data: Json
           content_type: string
           content_url: string
-          content_data: Json
-          thumbnail_url: string
+          description: string
           duration_minutes: number
-          category: string
+          id: string
           is_premium: boolean
+          thumbnail_url: string
+          title: string
         }[]
       }
       get_post_feedback_stats: {
         Args: { post_uuid: string }
         Returns: {
-          total_feedback: number
           helpful_percentage: number
+          total_feedback: number
         }[]
       }
     }
