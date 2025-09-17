@@ -5,6 +5,7 @@ import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, V
 import AudioPlayer from './AudioPlayer';
 import MicroddicasDiarias from './MicroddicasDiarias';
 import ChecklistSinais from './ChecklistSinais';
+import CardsVisuais from './CardsVisuais';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -696,15 +697,7 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
                       </CardContent>
                     </Card>
                   )}
-                  {selectedTool === 'cards-visuais' && (
-                    <Card className="bg-orange-50 border-orange-200">
-                      <CardContent className="p-6 text-center">
-                        <ImageIcon className="w-12 h-12 mx-auto text-orange-600 mb-4" />
-                        <h3 className="font-playfair text-lg font-bold text-slate-800 mb-2">Cards Visuais</h3>
-                        <p className="text-slate-600">Em breve! Infográficos educativos estão sendo criados.</p>
-                      </CardContent>
-                    </Card>
-                  )}
+                  {selectedTool === 'cards-visuais' && <CardsVisuais />}
                 </div>
               </div>
             ) : (
