@@ -150,8 +150,59 @@ export default function PostDetail() {
           )}
 
           <div className="prose prose-lg max-w-none">
-            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-              {post.content}
+            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed space-y-6">
+              {post.content.split('\n').map((line, index) => {
+                // Handle H1 headings (# Title)
+                if (line.trim().startsWith('# ') && !line.trim().startsWith('## ')) {
+                  const title = line.replace('# ', '').trim();
+                  return (
+                    <div key={index} className="my-8 first:mt-0">
+                      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 pb-2 relative">
+                        {title}
+                        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-terracotta via-terracotta/80 to-terracotta/60 rounded-full"></div>
+                      </h1>
+                    </div>
+                  );
+                }
+                
+                // Handle H2 headings (## Title)
+                if (line.trim().startsWith('## ')) {
+                  const title = line.replace('## ', '').trim();
+                  return (
+                    <div key={index} className="my-6 first:mt-0">
+                      <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2 pb-2 relative">
+                        {title}
+                        <div className="absolute bottom-0 left-0 w-3/4 h-0.5 bg-gradient-to-r from-sage via-sage/80 to-sage/40 rounded-full"></div>
+                      </h2>
+                    </div>
+                  );
+                }
+                
+                // Handle H3 headings (### Title)
+                if (line.trim().startsWith('### ')) {
+                  const title = line.replace('### ', '').trim();
+                  return (
+                    <div key={index} className="my-4 first:mt-0">
+                      <h3 className="text-lg md:text-xl font-medium text-gray-900 mb-2 pb-1 relative">
+                        {title}
+                        <div className="absolute bottom-0 left-0 w-1/2 h-0.5 bg-terracotta/60 rounded-full"></div>
+                      </h3>
+                    </div>
+                  );
+                }
+                
+                // Regular content lines
+                if (line.trim()) {
+                  return (
+                    <p key={index} className="text-gray-700 leading-relaxed">
+                      {line}
+                    </p>
+                  );
+                }
+                
+                // Empty lines for spacing
+                return <div key={index} className="h-2"></div>;
+              })}
             </div>
           </div>
 
