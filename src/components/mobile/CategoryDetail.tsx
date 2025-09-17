@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, Video, MessageCircle, CheckCircle, Bookmark, User, Clock8, Baby, Moon, Sparkles, Wind, TreePine, Sun, CheckSquare, Image as ImageIcon, Users, ChevronRight, Star, Target, Lightbulb, Timer, BarChart3, TrendingUp, Share2 } from 'lucide-react';
 import AudioPlayer from './AudioPlayer';
+import MicroddicasDiarias from './MicroddicasDiarias';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -232,74 +233,151 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
       </div>
 
       <div className="relative z-10 p-4 space-y-8">
-        {/* Posts da categoria */}
-        <div className="space-y-6">
-          <div className="text-center space-y-2">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800">Artigos</h2>
-            <p className="text-slate-600">Conteúdos selecionados para você</p>
-          </div>
-          
-          {posts?.length === 0 ? (
-            <Card className="border-none shadow-lg">
-              <CardContent className="p-8 text-center">
-                <BookOpen className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="font-medium text-foreground mb-2">
-                  Nenhum artigo encontrado
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Ainda não temos conteúdo publicado nesta categoria
-                </p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="space-y-4">
-              {posts?.map((post) => (
-                <Card 
-                  key={post.id} 
-                  className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group"
-                  onClick={() => handlePostClick(post.id)}
-                >
-                  <CardContent className="p-6">
-                    <div className="flex space-x-4">
-                      {post.image_url && (
-                        <img 
-                          src={post.image_url} 
-                          alt={post.title}
-                          className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
-                        />
-                      )}
-                      <div className="flex-1 space-y-2">
-                        <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2">
-                          {post.title}
-                        </h3>
-                        <p className="text-sm text-slate-600 line-clamp-2">
-                          {post.introduction || post.content.substring(0, 150) + '...'}
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-slate-500">
-                            Por {post.author}
-                          </span>
-                          <div className="flex items-center space-x-2">
-                            {post.audio_url && (
-                              <div className="flex items-center space-x-1">
-                                <Play className="w-3 h-3 text-primary" />
-                                <span className="text-xs text-primary">Áudio</span>
+        {/* Separar microdicas dos artigos para Higiene Natural */}
+        {categoryId === 'higiene-natural' ? (
+          <>
+            {/* Seção de Microdicas com navegação de 3 dias */}
+            <MicroddicasDiarias posts={posts?.filter(post => post.title.includes('Microdica')) || []} />
+            
+            {/* Artigos principais (não microdicas) */}
+            <div className="space-y-6">
+              <div className="text-center space-y-2">
+                <h2 className="font-playfair text-2xl font-bold text-slate-800">Artigos Pilar</h2>
+                <p className="text-slate-600">Guias completos por faixa etária</p>
+              </div>
+              
+              {posts?.filter(post => !post.title.includes('Microdica')).length === 0 ? (
+                <Card className="border-none shadow-lg">
+                  <CardContent className="p-8 text-center">
+                    <BookOpen className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                    <h3 className="font-medium text-foreground mb-2">
+                      Nenhum artigo encontrado
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Ainda não temos conteúdo publicado nesta categoria
+                    </p>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="space-y-4">
+                  {posts?.filter(post => !post.title.includes('Microdica')).map((post) => (
+                    <Card 
+                      key={post.id} 
+                      className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group"
+                      onClick={() => handlePostClick(post.id)}
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex space-x-4">
+                          {post.image_url && (
+                            <img 
+                              src={post.image_url} 
+                              alt={post.title}
+                              className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                            />
+                          )}
+                          <div className="flex-1 space-y-2">
+                            <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2">
+                              {post.title}
+                            </h3>
+                            <p className="text-sm text-slate-600 line-clamp-2">
+                              {post.introduction || post.content.substring(0, 150) + '...'}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-slate-500">
+                                Por {post.author}
+                              </span>
+                              <div className="flex items-center space-x-2">
+                                {post.audio_url && (
+                                  <div className="flex items-center space-x-1">
+                                    <Play className="w-3 h-3 text-primary" />
+                                    <span className="text-xs text-primary">Áudio</span>
+                                  </div>
+                                )}
+                                <Clock className="w-3 h-3 text-slate-500" />
+                                <span className="text-xs text-slate-500">
+                                  {Math.ceil(post.content.length / 200)} min
+                                </span>
                               </div>
-                            )}
-                            <Clock className="w-3 h-3 text-slate-500" />
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          /* Layout original para outras categorias */
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <h2 className="font-playfair text-2xl font-bold text-slate-800">Artigos</h2>
+              <p className="text-slate-600">Conteúdos selecionados para você</p>
+            </div>
+            
+            {posts?.length === 0 ? (
+              <Card className="border-none shadow-lg">
+                <CardContent className="p-8 text-center">
+                  <BookOpen className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="font-medium text-foreground mb-2">
+                    Nenhum artigo encontrado
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Ainda não temos conteúdo publicado nesta categoria
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-4">
+                {posts?.map((post) => (
+                  <Card 
+                    key={post.id} 
+                    className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group"
+                    onClick={() => handlePostClick(post.id)}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex space-x-4">
+                        {post.image_url && (
+                          <img 
+                            src={post.image_url} 
+                            alt={post.title}
+                            className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                          />
+                        )}
+                        <div className="flex-1 space-y-2">
+                          <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-sm text-slate-600 line-clamp-2">
+                            {post.introduction || post.content.substring(0, 150) + '...'}
+                          </p>
+                          <div className="flex items-center justify-between">
                             <span className="text-xs text-slate-500">
-                              {Math.ceil(post.content.length / 200)} min
+                              Por {post.author}
                             </span>
+                            <div className="flex items-center space-x-2">
+                              {post.audio_url && (
+                                <div className="flex items-center space-x-1">
+                                  <Play className="w-3 h-3 text-primary" />
+                                  <span className="text-xs text-primary">Áudio</span>
+                                </div>
+                              )}
+                              <Clock className="w-3 h-3 text-slate-500" />
+                              <span className="text-xs text-slate-500">
+                                {Math.ceil(post.content.length / 200)} min
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 🟤 4. ESPECIALISTA DA SEMANA - Específico para Higiene Natural */}
         {categoryId === 'higiene-natural' ? (
