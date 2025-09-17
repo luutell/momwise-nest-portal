@@ -106,52 +106,118 @@ export default function CategoryPosts() {
             </p>
           </div>
         ) : (
-          posts?.map((post) => (
-            <Card key={post.id} className="border border-border hover:shadow-md transition-shadow">
-              <Link to={`/app/post/${post.id}`}>
-                {post.image_url && (
-                  <div className="relative h-48 w-full">
-                    <img 
-                      src={post.image_url} 
-                      alt={post.title}
-                      className="w-full h-full object-cover rounded-t-lg"
-                    />
+          posts?.map((post) => {
+            // Check if this is the first Natural Hygiene guide
+            const isFirstGuide = post.id === '0f437dda-d7ea-4509-a21f-5ecd9f2bf052';
+            
+            if (isFirstGuide) {
+              return (
+                <Card key={post.id} className="relative border-2 border-terracotta/30 bg-gradient-to-br from-white via-cream/30 to-sage/5 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-gradient-to-r from-terracotta to-terracotta/80 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      🌱 Guia Inicial
+                    </span>
                   </div>
-                )}
-                
-                <CardContent className="p-4">
-                  <h3 className="font-playfair text-lg font-semibold text-foreground mb-2 line-clamp-2">
-                    {post.title}
-                  </h3>
                   
-                  <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
-                    {post.content.substring(0, 150)}...
-                  </p>
-                  
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <div className="flex items-center space-x-3">
-                      <span className="flex items-center">
-                        <User className="w-3 h-3 mr-1" />
-                        {post.author}
-                      </span>
-                      <span className="flex items-center">
-                        <Calendar className="w-3 h-3 mr-1" />
-                        {new Date(post.created_at).toLocaleDateString('pt-BR')}
-                      </span>
-                    </div>
+                  <Link to={`/app/post/${post.id}`}>
+                    {post.image_url && (
+                      <div className="relative h-48 w-full">
+                        <img 
+                          src={post.image_url} 
+                          alt={post.title}
+                          className="w-full h-full object-cover rounded-t-lg"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-terracotta/20 to-transparent rounded-t-lg"></div>
+                      </div>
+                    )}
                     
-                    <Button 
-                      variant="link" 
-                      size="sm"
-                      className="p-0 h-auto text-primary hover:text-primary/80 text-xs"
-                    >
-                      Ler mais →
-                    </Button>
-                  </div>
-                </CardContent>
-              </Link>
-            </Card>
-          ))
+                    <CardContent className="p-6">
+                      <div className="mb-3">
+                        <span className="text-xs font-medium text-terracotta bg-terracotta/10 px-2 py-1 rounded">
+                          COMECE AQUI
+                        </span>
+                      </div>
+                      
+                      <h3 className="font-playfair text-xl font-bold text-gray-800 mb-3 line-clamp-2">
+                        {post.title}
+                      </h3>
+                      
+                      <p className="text-sm text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+                        {post.content.substring(0, 150)}...
+                      </p>
+                      
+                      <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                        <div className="flex items-center space-x-3">
+                          <span className="flex items-center">
+                            <User className="w-3 h-3 mr-1" />
+                            {post.author}
+                          </span>
+                          <span className="flex items-center">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {new Date(post.created_at).toLocaleDateString('pt-BR')}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <Button 
+                        className="w-full bg-gradient-to-r from-terracotta to-terracotta/90 hover:from-terracotta/90 hover:to-terracotta text-white font-medium"
+                        size="sm"
+                      >
+                        Começar jornada →
+                      </Button>
+                    </CardContent>
+                  </Link>
+                </Card>
+              );
+            }
+            
+            return (
+              <Card key={post.id} className="border border-border hover:shadow-md transition-shadow">
+                <Link to={`/app/post/${post.id}`}>
+                  {post.image_url && (
+                    <div className="relative h-48 w-full">
+                      <img 
+                        src={post.image_url} 
+                        alt={post.title}
+                        className="w-full h-full object-cover rounded-t-lg"
+                      />
+                    </div>
+                  )}
+                  
+                  <CardContent className="p-4">
+                    <h3 className="font-playfair text-lg font-semibold text-foreground mb-2 line-clamp-2">
+                      {post.title}
+                    </h3>
+                    
+                    <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
+                      {post.content.substring(0, 150)}...
+                    </p>
+                    
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <div className="flex items-center space-x-3">
+                        <span className="flex items-center">
+                          <User className="w-3 h-3 mr-1" />
+                          {post.author}
+                        </span>
+                        <span className="flex items-center">
+                          <Calendar className="w-3 h-3 mr-1" />
+                          {new Date(post.created_at).toLocaleDateString('pt-BR')}
+                        </span>
+                      </div>
+                      
+                      <Button 
+                        variant="link" 
+                        size="sm"
+                        className="p-0 h-auto text-primary hover:text-primary/80 text-xs"
+                      >
+                        Ler mais →
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+            );
+          })
         )}
       </div>
 

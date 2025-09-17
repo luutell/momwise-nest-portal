@@ -61,6 +61,9 @@ export default function PostDetail() {
     );
   }
 
+  // Check if this is the first Natural Hygiene guide
+  const isFirstGuide = post.id === '0f437dda-d7ea-4509-a21f-5ecd9f2bf052';
+
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-6">
@@ -74,7 +77,24 @@ export default function PostDetail() {
         </Button>
       </div>
 
-      <article className="bg-white rounded-lg shadow-sm">
+      {isFirstGuide && (
+        <div className="mb-6 bg-gradient-to-r from-terracotta/20 to-sage/20 rounded-xl p-6 border-2 border-terracotta/30">
+          <div className="flex items-center space-x-3 mb-3">
+            <span className="bg-gradient-to-r from-terracotta to-terracotta/80 text-white px-3 py-1 rounded-full text-sm font-semibold">
+              🌱 Guia Inicial
+            </span>
+            <span className="text-terracotta font-medium text-sm">Higiene Natural</span>
+          </div>
+          <h2 className="text-xl font-playfair text-gray-800 mb-2">
+            Comece sua jornada aqui
+          </h2>
+          <p className="text-gray-600 text-sm">
+            Este é o primeiro guia da série Higiene Natural. Ideal para quem está começando a descobrir essa prática amorosa.
+          </p>
+        </div>
+      )}
+
+      <article className={`rounded-lg shadow-sm ${isFirstGuide ? 'bg-gradient-to-br from-white via-cream/30 to-sage/5 border-2 border-terracotta/20' : 'bg-white'}`}>
         {post.image_url && (
           <div className="mb-6">
             <img 
