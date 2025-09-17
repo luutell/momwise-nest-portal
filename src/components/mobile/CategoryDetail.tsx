@@ -1,12 +1,14 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, Video, MessageCircle, CheckCircle, Bookmark, User, Clock8, Baby, Moon, Sparkles, Wind, TreePine, Sun, CheckSquare, Image as ImageIcon, Users, ChevronRight, Star, Target, Lightbulb, Timer, BarChart3, TrendingUp, Share2 } from 'lucide-react';
+import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, Video, MessageCircle, CheckCircle, Bookmark, User, Clock8, Baby, Moon, Sparkles, Wind, TreePine, Sun, CheckSquare, Image as ImageIcon, Users, ChevronRight, Star, Target, Lightbulb, Timer, BarChart3, TrendingUp, Share2, X } from 'lucide-react';
 import AudioPlayer from './AudioPlayer';
 import MicroddicasDiarias from './MicroddicasDiarias';
+import ChecklistSinais from './ChecklistSinais';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface Post {
   id: string;
@@ -125,6 +127,7 @@ const interactiveTools = [
 
 const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDetailProps) => {
   const navigate = useNavigate();
+  const [selectedTool, setSelectedTool] = useState<string | null>(null);
   
   // Função para extrair e destacar faixas etárias dos títulos
   const parseTitle = (title: string) => {
@@ -557,91 +560,253 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
               <h3 className="font-playfair text-2xl font-bold text-slate-800">Ferramentas Interativas</h3>
               <p className="text-slate-600">Recursos práticos para higiene natural</p>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              {/* Checklist de Sinais */}
-              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
-                <div className="bg-gradient-to-br from-emerald-500/20 via-teal-400/15 to-green-500/20 h-full">
-                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
-                        <CheckSquare className="w-6 h-6 text-emerald-600" />
+            
+            {selectedTool ? (
+              /* Layout quando uma ferramenta está selecionada */
+              <div className="space-y-6">
+                {/* Header da ferramenta selecionada */}
+                <Card className="bg-gradient-to-r from-emerald-100 to-teal-100 border-emerald-200 shadow-lg">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-16 h-16 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-md">
+                          {selectedTool === 'checklist-sinais' && <CheckSquare className="w-8 h-8 text-emerald-600" />}
+                          {selectedTool === 'diario-eliminacao' && <Calendar className="w-8 h-8 text-cyan-600" />}
+                          {selectedTool === 'videos-praticos' && <Play className="w-8 h-8 text-purple-600" />}
+                          {selectedTool === 'cards-visuais' && <ImageIcon className="w-8 h-8 text-orange-600" />}
+                        </div>
+                        <div>
+                          <h4 className="font-playfair text-lg font-bold text-slate-800">
+                            {selectedTool === 'checklist-sinais' && 'Checklist de Sinais'}
+                            {selectedTool === 'diario-eliminacao' && 'Diário de Eliminação'}
+                            {selectedTool === 'videos-praticos' && 'Vídeos Práticos'}
+                            {selectedTool === 'cards-visuais' && 'Cards Visuais'}
+                          </h4>
+                          <p className="text-sm text-slate-600">
+                            {selectedTool === 'checklist-sinais' && 'Registre e acompanhe padrões'}
+                            {selectedTool === 'diario-eliminacao' && 'Identifique horários e rotinas'}
+                            {selectedTool === 'videos-praticos' && 'Técnicas demonstradas'}
+                            {selectedTool === 'cards-visuais' && 'Guias visuais por idade'}
+                          </p>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
-                          Checklist de Sinais
-                        </h5>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                          Quais sinais você percebeu hoje? Registre e acompanhe padrões
-                        </p>
-                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setSelectedTool(null)}
+                        className="text-slate-500 hover:text-slate-700"
+                      >
+                        <X className="w-5 h-5" />
+                      </Button>
                     </div>
                   </CardContent>
-                </div>
-              </Card>
+                </Card>
+                
+                {/* Outras ferramentas minimizadas */}
+                <div className="flex justify-center">
+                  <div className="flex space-x-3 max-w-sm">
+                    {/* Checklist de Sinais */}
+                    {selectedTool !== 'checklist-sinais' && (
+                      <Card 
+                        className="w-20 border-none shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 group"
+                        onClick={() => setSelectedTool('checklist-sinais')}
+                      >
+                        <div className="bg-gradient-to-br from-emerald-500/20 via-teal-400/15 to-green-500/20 h-full">
+                          <CardContent className="p-3 text-center">
+                            <div className="w-8 h-8 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                              <CheckSquare className="w-4 h-4 text-emerald-600" />
+                            </div>
+                            <p className="text-xs font-semibold text-slate-800 leading-tight">Checklist</p>
+                          </CardContent>
+                        </div>
+                      </Card>
+                    )}
 
-              {/* Diário de Eliminação */}
-              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
-                <div className="bg-gradient-to-br from-cyan-500/20 via-blue-400/15 to-teal-500/20 h-full">
-                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
-                        <Calendar className="w-6 h-6 text-cyan-600" />
-                      </div>
-                      <div className="space-y-2">
-                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
-                          Diário de Eliminação
-                        </h5>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                          Registre horários e padrões para identificar rotinas
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </div>
-              </Card>
+                    {/* Diário de Eliminação */}
+                    {selectedTool !== 'diario-eliminacao' && (
+                      <Card 
+                        className="w-20 border-none shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 group"
+                        onClick={() => setSelectedTool('diario-eliminacao')}
+                      >
+                        <div className="bg-gradient-to-br from-cyan-500/20 via-blue-400/15 to-teal-500/20 h-full">
+                          <CardContent className="p-3 text-center">
+                            <div className="w-8 h-8 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                              <Calendar className="w-4 h-4 text-cyan-600" />
+                            </div>
+                            <p className="text-xs font-semibold text-slate-800 leading-tight">Diário</p>
+                          </CardContent>
+                        </div>
+                      </Card>
+                    )}
 
-              {/* Vídeos Práticos */}
-              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
-                <div className="bg-gradient-to-br from-purple-500/20 via-violet-400/15 to-indigo-500/20 h-full">
-                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
-                        <Play className="w-6 h-6 text-purple-600" />
-                      </div>
-                      <div className="space-y-2">
-                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
-                          Vídeos Práticos
-                        </h5>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                          Demonstrações de posições e técnicas suaves
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </div>
-              </Card>
+                    {/* Vídeos Práticos */}
+                    {selectedTool !== 'videos-praticos' && (
+                      <Card 
+                        className="w-20 border-none shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 group"
+                        onClick={() => setSelectedTool('videos-praticos')}
+                      >
+                        <div className="bg-gradient-to-br from-purple-500/20 via-violet-400/15 to-indigo-500/20 h-full">
+                          <CardContent className="p-3 text-center">
+                            <div className="w-8 h-8 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                              <Play className="w-4 h-4 text-purple-600" />
+                            </div>
+                            <p className="text-xs font-semibold text-slate-800 leading-tight">Vídeos</p>
+                          </CardContent>
+                        </div>
+                      </Card>
+                    )}
 
-              {/* Cards Visuais */}
-              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
-                <div className="bg-gradient-to-br from-orange-500/20 via-amber-400/15 to-yellow-500/20 h-full">
-                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
-                        <ImageIcon className="w-6 h-6 text-orange-600" />
-                      </div>
-                      <div className="space-y-2">
-                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
-                          Cards Visuais
-                        </h5>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                          Infográficos sobre sinais por faixa etária
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
+                    {/* Cards Visuais */}
+                    {selectedTool !== 'cards-visuais' && (
+                      <Card 
+                        className="w-20 border-none shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 group"
+                        onClick={() => setSelectedTool('cards-visuais')}
+                      >
+                        <div className="bg-gradient-to-br from-orange-500/20 via-amber-400/15 to-yellow-500/20 h-full">
+                          <CardContent className="p-3 text-center">
+                            <div className="w-8 h-8 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                              <ImageIcon className="w-4 h-4 text-orange-600" />
+                            </div>
+                            <p className="text-xs font-semibold text-slate-800 leading-tight">Cards</p>
+                          </CardContent>
+                        </div>
+                      </Card>
+                    )}
+                  </div>
                 </div>
-              </Card>
-            </div>
+
+                {/* Conteúdo da ferramenta selecionada */}
+                <div>
+                  {selectedTool === 'checklist-sinais' && <ChecklistSinais />}
+                  {selectedTool === 'diario-eliminacao' && (
+                    <Card className="bg-cyan-50 border-cyan-200">
+                      <CardContent className="p-6 text-center">
+                        <Calendar className="w-12 h-12 mx-auto text-cyan-600 mb-4" />
+                        <h3 className="font-playfair text-lg font-bold text-slate-800 mb-2">Diário de Eliminação</h3>
+                        <p className="text-slate-600">Em breve! Esta ferramenta está sendo desenvolvida.</p>
+                      </CardContent>
+                    </Card>
+                  )}
+                  {selectedTool === 'videos-praticos' && (
+                    <Card className="bg-purple-50 border-purple-200">
+                      <CardContent className="p-6 text-center">
+                        <Play className="w-12 h-12 mx-auto text-purple-600 mb-4" />
+                        <h3 className="font-playfair text-lg font-bold text-slate-800 mb-2">Vídeos Práticos</h3>
+                        <p className="text-slate-600">Em breve! Vídeos demonstrativos estão sendo preparados.</p>
+                      </CardContent>
+                    </Card>
+                  )}
+                  {selectedTool === 'cards-visuais' && (
+                    <Card className="bg-orange-50 border-orange-200">
+                      <CardContent className="p-6 text-center">
+                        <ImageIcon className="w-12 h-12 mx-auto text-orange-600 mb-4" />
+                        <h3 className="font-playfair text-lg font-bold text-slate-800 mb-2">Cards Visuais</h3>
+                        <p className="text-slate-600">Em breve! Infográficos educativos estão sendo criados.</p>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              </div>
+            ) : (
+              /* Layout padrão das ferramentas */
+              <div className="grid grid-cols-2 gap-4">
+                {/* Checklist de Sinais */}
+                <Card 
+                  className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden"
+                  onClick={() => setSelectedTool('checklist-sinais')}
+                >
+                  <div className="bg-gradient-to-br from-emerald-500/20 via-teal-400/15 to-green-500/20 h-full">
+                    <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                          <CheckSquare className="w-6 h-6 text-emerald-600" />
+                        </div>
+                        <div className="space-y-2">
+                          <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                            Checklist de Sinais
+                          </h5>
+                          <p className="text-xs text-slate-600 leading-relaxed">
+                            Quais sinais você percebeu hoje? Registre e acompanhe padrões
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </div>
+                </Card>
+
+                {/* Diário de Eliminação */}
+                <Card 
+                  className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden"
+                  onClick={() => setSelectedTool('diario-eliminacao')}
+                >
+                  <div className="bg-gradient-to-br from-cyan-500/20 via-blue-400/15 to-teal-500/20 h-full">
+                    <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                          <Calendar className="w-6 h-6 text-cyan-600" />
+                        </div>
+                        <div className="space-y-2">
+                          <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                            Diário de Eliminação
+                          </h5>
+                          <p className="text-xs text-slate-600 leading-relaxed">
+                            Registre horários e padrões para identificar rotinas
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </div>
+                </Card>
+
+                {/* Vídeos Práticos */}
+                <Card 
+                  className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden"
+                  onClick={() => setSelectedTool('videos-praticos')}
+                >
+                  <div className="bg-gradient-to-br from-purple-500/20 via-violet-400/15 to-indigo-500/20 h-full">
+                    <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                          <Play className="w-6 h-6 text-purple-600" />
+                        </div>
+                        <div className="space-y-2">
+                          <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                            Vídeos Práticos
+                          </h5>
+                          <p className="text-xs text-slate-600 leading-relaxed">
+                            Demonstrações de posições e técnicas suaves
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </div>
+                </Card>
+
+                {/* Cards Visuais */}
+                <Card 
+                  className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden"
+                  onClick={() => setSelectedTool('cards-visuais')}
+                >
+                  <div className="bg-gradient-to-br from-orange-500/20 via-amber-400/15 to-yellow-500/20 h-full">
+                    <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                          <ImageIcon className="w-6 h-6 text-orange-600" />
+                        </div>
+                        <div className="space-y-2">
+                          <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                            Cards Visuais
+                          </h5>
+                          <p className="text-xs text-slate-600 leading-relaxed">
+                            Infográficos sobre sinais por faixa etária
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </div>
+                </Card>
+              </div>
+            )}
             
             {/* Seção de EC Parcial vs Full-time */}
             <Card className="bg-gradient-to-br from-emerald-100/50 to-teal-100/50 border-emerald-200/50 shadow-lg">
