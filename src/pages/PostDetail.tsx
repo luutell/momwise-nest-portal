@@ -156,7 +156,7 @@ export default function PostDetail() {
           </div>
 
           {/* Special highlight card for Natural Hygiene introduction */}
-          {(post.category === 'Higiene Natural' && post.title.includes('Introdução')) && (
+          {(post.category === 'Higiene Natural' && (post.title.includes('Introdução') || post.id === '9a1ffb18-1bbb-4d5b-b24e-87e060c72a51')) && (
             <SpecialHighlightCard
               title="EC Parcial vs Full-time"
               subtitle="Escolha o que funciona para sua família - sem julgamentos"
