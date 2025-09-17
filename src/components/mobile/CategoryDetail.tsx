@@ -6,7 +6,7 @@ import AudioPlayer from './AudioPlayer';
 import MicroddicasDiarias from './MicroddicasDiarias';
 import ChecklistSinais from './ChecklistSinais';
 import CardsVisuais from './CardsVisuais';
-import DiarioEliminacao from './DiarioEliminacao';
+
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -680,7 +680,7 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
                 {/* Conteúdo da ferramenta selecionada */}
                 <div>
                   {selectedTool === 'checklist-sinais' && <ChecklistSinais />}
-                  {selectedTool === 'diario-eliminacao' && <DiarioEliminacao />}
+                  
                   {selectedTool === 'videos-praticos' && (
                     <Card className="bg-purple-50 border-purple-200">
                       <CardContent className="p-6 text-center">
