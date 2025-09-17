@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, Video, MessageCircle, CheckCircle, Bookmark, User, Clock8, Baby, Moon, Sparkles, Wind, TreePine, Sun } from 'lucide-react';
+import { ArrowLeft, BookOpen, Play, Heart, Clock, Calendar, PenTool, FileText, Video, MessageCircle, CheckCircle, Bookmark, User, Clock8, Baby, Moon, Sparkles, Wind, TreePine, Sun, CheckSquare, Image as ImageIcon, Users, ChevronRight, Star, Target, Lightbulb, Timer, BarChart3, TrendingUp, Share2 } from 'lucide-react';
 import AudioPlayer from './AudioPlayer';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -301,92 +301,270 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
           )}
         </div>
 
-        {/* 🟤 4. ESPECIALISTA DA SEMANA - Redesenhado */}
-        <div className="space-y-6">
-          <div className="text-center space-y-2">
-            <h3 className="font-playfair text-2xl font-bold text-slate-800">Especialista da Semana</h3>
-            <p className="text-slate-600">Converse ao vivo com nossa especialista</p>
-          </div>
-          
-          <Card className="bg-gradient-to-br from-violet-400/20 via-purple-300/15 to-indigo-400/20 border-none shadow-xl overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-violet-200/30 rounded-full blur-2xl"></div>
-            <CardContent className="relative p-6 space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-20 h-20 bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-3xl flex-shrink-0 shadow-lg">
-                  👩‍⚕️
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-playfair text-xl font-bold text-slate-800">Dra. Ana Silva</h4>
-                  <p className="text-violet-700 font-semibold">Especialista em Sono Infantil</p>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Video className="w-5 h-5 text-violet-600" />
-                    <span className="text-sm font-bold text-slate-800">Vídeo introdutório</span>
+        {/* 🟤 4. ESPECIALISTA DA SEMANA - Específico para Higiene Natural */}
+        {categoryId === 'higiene-natural' ? (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <h3 className="font-playfair text-2xl font-bold text-slate-800">Especialista da Semana</h3>
+              <p className="text-slate-600">Consultora especializada em Higiene Natural</p>
+            </div>
+            
+            <Card className="bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-cyan-400/20 border-none shadow-xl overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-200/30 rounded-full blur-2xl"></div>
+              <CardContent className="relative p-6 space-y-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-20 h-20 bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-3xl flex-shrink-0 shadow-lg">
+                    💚
                   </div>
-                  <p className="text-sm text-slate-700">
-                    "Como criar uma rotina flexível que funciona para toda família"
-                  </p>
-                </div>
-
-                <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                  <div className="flex items-center space-x-2 text-sm text-violet-600 font-semibold">
-                    <Calendar className="w-4 h-4" />
-                    <span>Próxima live: Sexta, 19/07 às 10h</span>
+                  <div className="space-y-2">
+                    <h4 className="font-playfair text-xl font-bold text-slate-800">Dra. Marina Santos</h4>
+                    <p className="text-emerald-700 font-semibold">Consultora em Higiene Natural</p>
                   </div>
                 </div>
                 
-                <div className="flex space-x-3">
-                  <Button className="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-semibold shadow-lg">
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    Enviar Pergunta
-                  </Button>
-                  <Button variant="outline" className="flex-1 bg-white/40 border-violet-200 text-violet-700 font-semibold hover:bg-white/60">
-                    <Video className="w-4 h-4 mr-2" />
-                    Ver Replays
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* 🟤 5. FERRAMENTAS INTERATIVAS - Redesenhado */}
-        <div className="space-y-6">
-          <div className="text-center space-y-2">
-            <h3 className="font-playfair text-2xl font-bold text-slate-800">Ferramentas Interativas</h3>
-            <p className="text-slate-600">Recursos práticos para o seu dia a dia</p>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {interactiveTools.map((tool) => {
-              const Icon = tool.icon;
-              return (
-                <Card key={tool.id} className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
-                  <div className={`bg-gradient-to-br ${tool.gradient} h-full`}>
-                    <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
-                      <div className="space-y-3">
-                        <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
-                          <Icon className={`w-6 h-6 ${tool.accent}`} />
-                        </div>
-                        <div className="space-y-2">
-                          <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
-                            {tool.title}
-                          </h5>
-                          <p className="text-xs text-slate-600 leading-relaxed">
-                            {tool.description}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
+                <div className="space-y-4">
+                  <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Video className="w-5 h-5 text-emerald-600" />
+                      <span className="text-sm font-bold text-slate-800">Vídeo: Primeiros Sinais</span>
+                    </div>
+                    <p className="text-sm text-slate-700">
+                      "Como reconhecer e responder aos sinais do seu bebê com amor e flexibilidade"
+                    </p>
                   </div>
-                </Card>
-              );
-            })}
+
+                  <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                    <div className="flex items-center space-x-2 text-sm text-emerald-600 font-semibold">
+                      <Calendar className="w-4 h-4" />
+                      <span>Próxima live: Quinta, 21/11 às 14h</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-3">
+                    <Button className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-lg">
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Fazer Pergunta
+                    </Button>
+                    <Button variant="outline" className="flex-1 bg-white/40 border-emerald-200 text-emerald-700 font-semibold hover:bg-white/60">
+                      <Video className="w-4 h-4 mr-2" />
+                      Ver Replays
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <h3 className="font-playfair text-2xl font-bold text-slate-800">Especialista da Semana</h3>
+              <p className="text-slate-600">Converse ao vivo com nossa especialista</p>
+            </div>
+            
+            <Card className="bg-gradient-to-br from-violet-400/20 via-purple-300/15 to-indigo-400/20 border-none shadow-xl overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-violet-200/30 rounded-full blur-2xl"></div>
+              <CardContent className="relative p-6 space-y-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-20 h-20 bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center text-3xl flex-shrink-0 shadow-lg">
+                    👩‍⚕️
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-playfair text-xl font-bold text-slate-800">Dra. Ana Silva</h4>
+                    <p className="text-violet-700 font-semibold">Especialista em Sono Infantil</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Video className="w-5 h-5 text-violet-600" />
+                      <span className="text-sm font-bold text-slate-800">Vídeo introdutório</span>
+                    </div>
+                    <p className="text-sm text-slate-700">
+                      "Como criar uma rotina flexível que funciona para toda família"
+                    </p>
+                  </div>
+
+                  <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                    <div className="flex items-center space-x-2 text-sm text-violet-600 font-semibold">
+                      <Calendar className="w-4 h-4" />
+                      <span>Próxima live: Sexta, 19/07 às 10h</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-3">
+                    <Button className="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-semibold shadow-lg">
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Enviar Pergunta
+                    </Button>
+                    <Button variant="outline" className="flex-1 bg-white/40 border-violet-200 text-violet-700 font-semibold hover:bg-white/60">
+                      <Video className="w-4 h-4 mr-2" />
+                      Ver Replays
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* 🟤 5. FERRAMENTAS INTERATIVAS - Específico para Higiene Natural */}
+        {categoryId === 'higiene-natural' ? (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <h3 className="font-playfair text-2xl font-bold text-slate-800">Ferramentas Interativas</h3>
+              <p className="text-slate-600">Recursos práticos para higiene natural</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {/* Checklist de Sinais */}
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
+                <div className="bg-gradient-to-br from-emerald-500/20 via-teal-400/15 to-green-500/20 h-full">
+                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <CheckSquare className="w-6 h-6 text-emerald-600" />
+                      </div>
+                      <div className="space-y-2">
+                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                          Checklist de Sinais
+                        </h5>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          Quais sinais você percebeu hoje? Registre e acompanhe padrões
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </div>
+              </Card>
+
+              {/* Diário de Eliminação */}
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
+                <div className="bg-gradient-to-br from-cyan-500/20 via-blue-400/15 to-teal-500/20 h-full">
+                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <Calendar className="w-6 h-6 text-cyan-600" />
+                      </div>
+                      <div className="space-y-2">
+                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                          Diário de Eliminação
+                        </h5>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          Registre horários e padrões para identificar rotinas
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </div>
+              </Card>
+
+              {/* Vídeos Práticos */}
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
+                <div className="bg-gradient-to-br from-purple-500/20 via-violet-400/15 to-indigo-500/20 h-full">
+                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <Play className="w-6 h-6 text-purple-600" />
+                      </div>
+                      <div className="space-y-2">
+                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                          Vídeos Práticos
+                        </h5>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          Demonstrações de posições e técnicas suaves
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </div>
+              </Card>
+
+              {/* Cards Visuais */}
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
+                <div className="bg-gradient-to-br from-orange-500/20 via-amber-400/15 to-yellow-500/20 h-full">
+                  <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <ImageIcon className="w-6 h-6 text-orange-600" />
+                      </div>
+                      <div className="space-y-2">
+                        <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                          Cards Visuais
+                        </h5>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          Infográficos sobre sinais por faixa etária
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </div>
+              </Card>
+            </div>
+            
+            {/* Seção de EC Parcial vs Full-time */}
+            <Card className="bg-gradient-to-br from-emerald-100/50 to-teal-100/50 border-emerald-200/50 shadow-lg">
+              <CardContent className="p-6">
+                <div className="text-center mb-4">
+                  <h4 className="font-playfair text-lg font-bold text-slate-800">💚 EC Parcial vs Full-time</h4>
+                  <p className="text-sm text-slate-600">Escolha o que funciona para sua família - sem julgamentos</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/60 p-4 rounded-lg">
+                    <h5 className="font-semibold text-emerald-700 mb-2">EC Parcial</h5>
+                    <ul className="text-xs text-slate-600 space-y-1">
+                      <li>• Apenas em casa</li>
+                      <li>• Horários específicos</li>
+                      <li>• Combine com fraldas</li>
+                      <li>• Sem pressão</li>
+                    </ul>
+                  </div>
+                  <div className="bg-white/60 p-4 rounded-lg">
+                    <h5 className="font-semibold text-teal-700 mb-2">EC Full-time</h5>
+                    <ul className="text-xs text-slate-600 space-y-1">
+                      <li>• Todos os momentos</li>
+                      <li>• Saídas também</li>
+                      <li>• Maior dedicação</li>
+                      <li>• Flexível sempre</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <h3 className="font-playfair text-2xl font-bold text-slate-800">Ferramentas Interativas</h3>
+              <p className="text-slate-600">Recursos práticos para o seu dia a dia</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {interactiveTools.map((tool) => {
+                const Icon = tool.icon;
+                return (
+                  <Card key={tool.id} className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 group overflow-hidden">
+                    <div className={`bg-gradient-to-br ${tool.gradient} h-full`}>
+                      <CardContent className="p-5 text-center space-y-4 h-full flex flex-col justify-between">
+                        <div className="space-y-3">
+                          <div className="w-12 h-12 bg-white/50 backdrop-blur-sm rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform duration-300">
+                            <Icon className={`w-6 h-6 ${tool.accent}`} />
+                          </div>
+                          <div className="space-y-2">
+                            <h5 className="font-playfair text-sm font-bold text-slate-800 leading-tight">
+                              {tool.title}
+                            </h5>
+                            <p className="text-xs text-slate-600 leading-relaxed">
+                              {tool.description}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* 🟤 6. COMUNIDADE - Redesenhado */}
         <div className="space-y-6">
