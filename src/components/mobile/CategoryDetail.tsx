@@ -126,6 +126,38 @@ const interactiveTools = [
 const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDetailProps) => {
   const navigate = useNavigate();
   
+  // Função para extrair e destacar faixas etárias dos títulos
+  const parseTitle = (title: string) => {
+    // Regex para encontrar faixas etárias como (0-3 meses), (4-6 meses), etc.
+    const ageRangeRegex = /\((\d+-\d+\s*(?:meses?|anos?|semanas?))\)/i;
+    const match = title.match(ageRangeRegex);
+    
+    if (match) {
+      const ageRange = match[1];
+      const titleWithoutAge = title.replace(match[0], '').trim();
+      return { titleWithoutAge, ageRange };
+    }
+    
+    return { titleWithoutAge: title, ageRange: null };
+  };
+  
+  // Função para definir cores das badges baseado na faixa etária
+  const getAgeRangeColor = (ageRange: string | null) => {
+    if (!ageRange) return 'bg-slate-100 text-slate-700';
+    
+    if (ageRange.includes('0-3')) {
+      return 'bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg border-0';
+    } else if (ageRange.includes('4-6')) {
+      return 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg border-0';
+    } else if (ageRange.includes('7-12')) {
+      return 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg border-0';
+    } else if (ageRange.includes('1-2') || ageRange.includes('12-24')) {
+      return 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg border-0';
+    }
+    
+    return 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg border-0';
+  };
+  
   // Mapear categoryId para nome da categoria no banco de dados
   const categoryMap: { [key: string]: string } = {
     'sono-do-bebe': 'Sono do Bebê',
@@ -276,9 +308,25 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
                             />
                           )}
                           <div className="flex-1 space-y-2">
-                            <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2">
-                              {post.title}
-                            </h3>
+                            {(() => {
+                              const { titleWithoutAge, ageRange } = parseTitle(post.title);
+                              return (
+                                <div className="space-y-2">
+                                  <div className="flex flex-wrap items-start gap-2">
+                                    <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2 flex-1 min-w-0">
+                                      {titleWithoutAge}
+                                    </h3>
+                                    {ageRange && (
+                                      <Badge 
+                                        className={`text-xs font-bold px-3 py-1 flex-shrink-0 ${getAgeRangeColor(ageRange)}`}
+                                      >
+                                        {ageRange}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })()}
                             <p className="text-sm text-slate-600 line-clamp-2">
                               {post.introduction || post.content.substring(0, 150) + '...'}
                             </p>
@@ -346,9 +394,25 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
                           />
                         )}
                         <div className="flex-1 space-y-2">
-                          <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2">
-                            {post.title}
-                          </h3>
+                          {(() => {
+                            const { titleWithoutAge, ageRange } = parseTitle(post.title);
+                            return (
+                              <div className="space-y-2">
+                                <div className="flex flex-wrap items-start gap-2">
+                                  <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2 flex-1 min-w-0">
+                                    {titleWithoutAge}
+                                  </h3>
+                                  {ageRange && (
+                                    <Badge 
+                                      className={`text-xs font-bold px-3 py-1 flex-shrink-0 ${getAgeRangeColor(ageRange)}`}
+                                    >
+                                      {ageRange}
+                                    </Badge>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })()}
                           <p className="text-sm text-slate-600 line-clamp-2">
                             {post.introduction || post.content.substring(0, 150) + '...'}
                           </p>
