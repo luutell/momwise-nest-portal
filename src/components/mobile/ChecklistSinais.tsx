@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, Circle, Calendar, TrendingUp, BookOpen } from 'lucide-react';
+import { CheckCircle, Circle, Calendar, TrendingUp, BookOpen, Download } from 'lucide-react';
+import jsPDF from 'jspdf';
 
 interface Signal {
   id: string;
@@ -110,6 +111,51 @@ const ChecklistSinais = () => {
     return summary;
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    const summary = getWeeklySummary();
+    
+    // Configurar fonte e título
+    doc.setFontSize(20);
+    doc.text('Resumo dos últimos 7 dias', 20, 30);
+    
+    // Subtítulo
+    doc.setFontSize(12);
+    doc.text('Checklist de Sinais - Higiene Natural', 20, 45);
+    
+    // Data de geração
+    const today = new Date().toLocaleDateString('pt-BR');
+    doc.text(`Gerado em: ${today}`, 20, 55);
+    
+    // Linha separadora
+    doc.line(20, 65, 190, 65);
+    
+    // Cabeçalho da tabela
+    doc.setFontSize(14);
+    doc.text('Sinais Observados', 20, 80);
+    
+    // Dados do resumo
+    let yPosition = 95;
+    doc.setFontSize(11);
+    
+    Object.entries(summary).forEach(([signal, count]) => {
+      // Remove emojis para o PDF
+      const cleanSignal = signal.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
+      doc.text(`${cleanSignal}:`, 25, yPosition);
+      doc.text(`${count}x esta semana`, 140, yPosition);
+      yPosition += 15;
+    });
+    
+    // Mensagem motivacional
+    yPosition += 20;
+    doc.setFontSize(10);
+    doc.text('Padrões são naturais! Use essas informações como um guia gentil,', 20, yPosition);
+    doc.text('não como regras rígidas. Você conhece seu bebê melhor que ninguém.', 20, yPosition + 10);
+    
+    // Salvar PDF
+    doc.save(`resumo-sinais-${today.replace(/\//g, '-')}.pdf`);
+  };
+
   const currentEntry = getCurrentEntry();
   const weeklySummary = getWeeklySummary();
   const observedToday = currentEntry.signals.filter(s => s.observed).length;
@@ -202,9 +248,20 @@ const ChecklistSinais = () => {
       {/* Resumo semanal */}
       <Card className="bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200">
         <CardContent className="p-4 space-y-4">
-          <div className="flex items-center space-x-2">
-            <TrendingUp className="w-4 h-4 text-purple-600" />
-            <h3 className="font-semibold text-slate-700">Resumo dos últimos 7 dias</h3>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <TrendingUp className="w-4 h-4 text-purple-600" />
+              <h3 className="font-semibold text-slate-700">Resumo dos últimos 7 dias</h3>
+            </div>
+            <Button
+              onClick={exportToPDF}
+              size="sm"
+              variant="outline"
+              className="text-purple-600 border-purple-300 hover:bg-purple-100"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Exportar PDF
+            </Button>
           </div>
           
           <div className="space-y-2">
