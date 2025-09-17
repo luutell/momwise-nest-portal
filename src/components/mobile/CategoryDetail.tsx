@@ -297,66 +297,144 @@ const CategoryDetail = ({ categoryId, title, description, onBack }: CategoryDeta
                 </Card>
               ) : (
                 <div className="space-y-4">
-                  {posts?.filter(post => !post.title.includes('Microdica')).map((post) => (
-                    <Card 
-                      key={post.id} 
-                      className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group"
-                      onClick={() => handlePostClick(post.id)}
-                    >
-                      <CardContent className="p-6">
-                        <div className="flex space-x-4">
-                          {post.image_url && (
-                            <img 
-                              src={post.image_url} 
-                              alt={post.title}
-                              className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
-                            />
-                          )}
-                          <div className="flex-1 space-y-2">
-                            {(() => {
-                              const { titleWithoutAge, ageRange } = parseTitle(post.title);
-                              return (
-                                <div className="space-y-2">
-                                  <div className="flex flex-wrap items-start gap-2">
-                                    <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2 flex-1 min-w-0">
-                                      {titleWithoutAge}
-                                    </h3>
-                                    {ageRange && (
-                                      <Badge 
-                                        className={`text-xs font-bold px-3 py-1 flex-shrink-0 ${getAgeRangeColor(ageRange)}`}
-                                      >
-                                        {ageRange}
-                                      </Badge>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })()}
-                            <p className="text-sm text-slate-600 line-clamp-2">
-                              {post.introduction || post.content.substring(0, 150) + '...'}
-                            </p>
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs text-slate-500">
-                                Por {post.author}
-                              </span>
-                              <div className="flex items-center space-x-2">
-                                {post.audio_url && (
-                                  <div className="flex items-center space-x-1">
-                                    <Play className="w-3 h-3 text-primary" />
-                                    <span className="text-xs text-primary">Áudio</span>
-                                  </div>
-                                )}
-                                <Clock className="w-3 h-3 text-slate-500" />
-                                <span className="text-xs text-slate-500">
-                                  {Math.ceil(post.content.length / 200)} min
+                  {posts?.filter(post => !post.title.includes('Microdica')).map((post) => {
+                    // Verificar se é o artigo "Introdução à Higiene Natural"
+                    const isIntroductionArticle = post.title.includes('Introdução à Higiene Natural') || post.id === '9a1ffb18-1bbb-4d5b-b24e-87e060c72a51';
+                    
+                    if (isIntroductionArticle) {
+                      return (
+                        <Card 
+                          key={post.id} 
+                          className="relative border-4 border-gradient-to-r from-terracotta to-sage shadow-2xl hover:shadow-3xl transition-all duration-500 cursor-pointer hover:scale-[1.04] overflow-hidden group bg-gradient-to-br from-white via-cream/40 to-sage/10"
+                          onClick={() => handlePostClick(post.id)}
+                        >
+                          {/* Badge de destaque */}
+                          <div className="absolute top-4 right-4 z-20">
+                            <div className="bg-gradient-to-r from-terracotta to-terracotta/80 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg flex items-center space-x-2">
+                              <Star className="w-4 h-4 fill-white" />
+                              <span>ARTIGO ESSENCIAL</span>
+                            </div>
+                          </div>
+                          
+                          {/* Borda decorativa animada */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-terracotta/20 via-transparent to-sage/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          
+                          <CardContent className="p-8">
+                            <div className="space-y-4">
+                              <div className="text-center mb-4">
+                                <div className="text-3xl mb-2">🌱</div>
+                                <span className="bg-terracotta/10 text-terracotta font-semibold px-3 py-1 rounded-full text-sm">
+                                  COMECE AQUI
                                 </span>
+                              </div>
+                              
+                              <div className="text-center space-y-3">
+                                <h3 className="font-playfair text-2xl font-bold text-gray-800 leading-tight">
+                                  {post.title}
+                                </h3>
+                                
+                                <p className="text-gray-600 text-base leading-relaxed px-2">
+                                  {post.introduction || post.content.substring(0, 180) + '...'}
+                                </p>
+                                
+                                <div className="flex justify-center items-center space-x-4 text-sm text-gray-500 mt-4">
+                                  <span className="flex items-center space-x-1">
+                                    <User className="w-4 h-4" />
+                                    <span>{post.author}</span>
+                                  </span>
+                                  <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                                  <span className="flex items-center space-x-1">
+                                    <Clock className="w-4 h-4" />
+                                    <span>{Math.ceil(post.content.length / 200)} min</span>
+                                  </span>
+                                  {post.audio_url && (
+                                    <>
+                                      <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                                      <span className="flex items-center space-x-1 text-terracotta">
+                                        <Play className="w-4 h-4" />
+                                        <span>Áudio</span>
+                                      </span>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <div className="text-center mt-6">
+                                <Button 
+                                  className="bg-gradient-to-r from-terracotta to-terracotta/90 hover:from-terracotta/90 hover:to-terracotta text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                                >
+                                  Começar jornada
+                                  <ChevronRight className="w-4 h-4 ml-2" />
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    }
+                    
+                    // Renderização normal para outros artigos
+                    return (
+                      <Card 
+                        key={post.id} 
+                        className="border-none shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02] overflow-hidden group"
+                        onClick={() => handlePostClick(post.id)}
+                      >
+                        <CardContent className="p-6">
+                          <div className="flex space-x-4">
+                            {post.image_url && (
+                              <img 
+                                src={post.image_url} 
+                                alt={post.title}
+                                className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                              />
+                            )}
+                            <div className="flex-1 space-y-2">
+                              {(() => {
+                                const { titleWithoutAge, ageRange } = parseTitle(post.title);
+                                return (
+                                  <div className="space-y-2">
+                                    <div className="flex flex-wrap items-start gap-2">
+                                      <h3 className="font-playfair text-lg font-bold text-slate-800 line-clamp-2 flex-1 min-w-0">
+                                        {titleWithoutAge}
+                                      </h3>
+                                      {ageRange && (
+                                        <Badge 
+                                          className={`text-xs font-bold px-3 py-1 flex-shrink-0 ${getAgeRangeColor(ageRange)}`}
+                                        >
+                                          {ageRange}
+                                        </Badge>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              })()}
+                              <p className="text-sm text-slate-600 line-clamp-2">
+                                {post.introduction || post.content.substring(0, 150) + '...'}
+                              </p>
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-slate-500">
+                                  Por {post.author}
+                                </span>
+                                <div className="flex items-center space-x-2">
+                                  {post.audio_url && (
+                                    <div className="flex items-center space-x-1">
+                                      <Play className="w-3 h-3 text-primary" />
+                                      <span className="text-xs text-primary">Áudio</span>
+                                    </div>
+                                  )}
+                                  <Clock className="w-3 h-3 text-slate-500" />
+                                  <span className="text-xs text-slate-500">
+                                    {Math.ceil(post.content.length / 200)} min
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               )}
             </div>
