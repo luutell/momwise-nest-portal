@@ -248,20 +248,9 @@ const ChecklistSinais = () => {
       {/* Resumo semanal */}
       <Card className="bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200">
         <CardContent className="p-4 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-4 h-4 text-purple-600" />
-              <h3 className="font-semibold text-slate-700">Resumo dos últimos 7 dias</h3>
-            </div>
-            <Button
-              onClick={exportToPDF}
-              size="sm"
-              variant="outline"
-              className="text-purple-600 border-purple-300 hover:bg-purple-100"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Exportar PDF
-            </Button>
+          <div className="flex items-center space-x-2">
+            <TrendingUp className="w-4 h-4 text-purple-600" />
+            <h3 className="font-semibold text-slate-700">Resumo dos últimos 7 dias</h3>
           </div>
           
           <div className="space-y-2">
@@ -276,10 +265,21 @@ const ChecklistSinais = () => {
           </div>
           
           <div className="bg-purple-100/50 p-3 rounded-lg">
-            <p className="text-xs text-purple-700 text-center leading-relaxed">
+            <p className="text-xs text-purple-700 text-center leading-relaxed mb-3">
               💜 <strong>Padrões são naturais!</strong> Use essas informações como um guia gentil, 
               não como regras rígidas. Você conhece seu bebê melhor que ninguém.
             </p>
+            <div className="flex justify-center">
+              <Button
+                onClick={exportToPDF}
+                size="sm"
+                variant="outline"
+                className="text-purple-600 border-purple-300 hover:bg-purple-100"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Exportar PDF
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
