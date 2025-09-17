@@ -213,6 +213,51 @@ export type Database = {
           },
         ]
       }
+      elimination_entries: {
+        Row: {
+          activity_before: string | null
+          baby_mood: string | null
+          created_at: string
+          elimination_type: string
+          id: string
+          location: string
+          notes: string | null
+          signals_observed: string[] | null
+          status: string
+          timestamp: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activity_before?: string | null
+          baby_mood?: string | null
+          created_at?: string
+          elimination_type: string
+          id?: string
+          location: string
+          notes?: string | null
+          signals_observed?: string[] | null
+          status?: string
+          timestamp?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activity_before?: string | null
+          baby_mood?: string | null
+          created_at?: string
+          elimination_type?: string
+          id?: string
+          location?: string
+          notes?: string | null
+          signals_observed?: string[] | null
+          status?: string
+          timestamp?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       post_feedback: {
         Row: {
           created_at: string
