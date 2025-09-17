@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User, Tag, Volume2 } from 'lucide-react';
 import AudioPlayer from '@/components/mobile/AudioPlayer';
 import PostFeedback from '@/components/mobile/PostFeedback';
+import SpecialHighlightCard from '@/components/mobile/SpecialHighlightCard';
 
 interface Post {
   id: string;
@@ -153,6 +154,32 @@ export default function PostDetail() {
               {post.content}
             </div>
           </div>
+
+          {/* Special highlight card for Natural Hygiene introduction */}
+          {(post.category === 'Higiene Natural' && post.title.includes('Introdução')) && (
+            <SpecialHighlightCard
+              title="EC Parcial vs Full-time"
+              subtitle="Escolha o que funciona para sua família - sem julgamentos"
+              leftColumn={{
+                title: "EC Parcial",
+                items: [
+                  "Apenas em casa",
+                  "Horários específicos",
+                  "Combine com fraldas",
+                  "Sem pressão"
+                ]
+              }}
+              rightColumn={{
+                title: "EC Full-time",
+                items: [
+                  "Todos os momentos",
+                  "Saídas também",
+                  "Maior dedicação",
+                  "Flexível sempre"
+                ]
+              }}
+            />
+          )}
 
           {post.practical_tip && (
             <div className="bg-sage/5 rounded-lg p-4 border-l-4 border-sage">
